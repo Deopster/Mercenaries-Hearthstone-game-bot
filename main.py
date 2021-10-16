@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 from ahk import AHK
 from mss import mss
 import mss
+from ahk.window import Window
 ahk = AHK()
 
 def screen():
@@ -14,8 +15,39 @@ def screen():
     filename = sct.shot(mon=1, output='files/screen.png')
 def findgame():
      global win
-     win = ahk.find_window(title=b'Hearthstone')
-     print(win.rect)
+     win = ahk.win_get(title='Hearthstone')
+     if win.exist:
+         print("Игра найдена")
+         return True
+     else:
+         print("Игра не найдена")
+         return False
+
+def where():
+    find_ellement('join_button.png')
+    time.sleep(2)
+    find_ellement('group.png')
+    time.sleep(1)
+    find_ellement('back.png')
+    return True
+def group_create():
+    if find_ellement('group_find.png') ==6:
+        time.sleep(1)
+        find_ellement('create.png')
+        time.sleep(2)
+        find_ellement('rename.png')
+        time.sleep(1)
+        ahk.send_input('Botwork')
+        time.sleep(1)
+        find_ellement('ready.png')
+        time.sleep(1)
+        find_ellement('continue.png')
+        time.sleep(1)
+        group_create()
+    else:
+
+
+    return True
 def find_ellement(file):
     screen()
     img = cv2.imread('files/screen.png')  # картинка, на которой ищем объект
@@ -31,18 +63,30 @@ def find_ellement(file):
             cv2.rectangle(img, pt, (pt[0] + w, pt[1] + h), (0, 1, 0), 3)
         x=(pt[0]*2+w)/2
         y=(pt[1]*2+h)/2
+        ahk.show_info_traytip("Успех", "It's also info", slient=True, blocking=False)
+        time.sleep(1)
         print("Обнаружен "+file,x,y)
+        ahk.mouse_move(x, y, speed=10)  # Moves the mouse instantly to absolute screen position
+        ahk.click()  # Click the primary mouse button
+        if file == 'group.png':
+            group_create()
     else:
         print("объект не обнаружен")
-    #plt.plot(122), plt.imshow(img, cmap='gist_ncar'),
-    #plt.title('Results'), plt.axis('off')
-    plt.show()
+        if file == 'group_find.png':
+            return 6
+
+
 def main():
     findgame()
-    #while True:
-        #time.sleep(3)
-    find_ellement('join_button.png')
-    #find_ellement('green.png')
+    win.show()
+    win.restore()
+    win.maximize()
+    win.to_top()
+    win.maximize()
+    while True:
+        group_create()
+        #if findgame():
+            #where()
 
 if __name__ == '__main__':
     main()
