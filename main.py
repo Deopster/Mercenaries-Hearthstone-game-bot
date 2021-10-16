@@ -5,11 +5,20 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 from ahk import AHK
+from mss import mss
+import mss
 ahk = AHK()
-def find_mana():
-    img = cv2.imread("first.png")  # картинка, на которой ищем объект
+def screen_record_efficient():
+    sct = mss.mss()
+    filename = sct.shot(mon=1, output='files/screen.png')
+    print(filename)
+def findgame():
+    win = ahk.find_window(title=b'Hearthstone')
+    win.maximize()
+def find_ellement():
+    img = cv2.imread("files/screen.png")  # картинка, на которой ищем объект
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
-    template = cv2.imread("second.png",
+    template = cv2.imread("files/join_button.png",
                           cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)
 
@@ -24,21 +33,20 @@ def find_mana():
 
     #cv2.imshow("img", img)  # выводит на экран результат
 
-    plt.subplot(122), plt.imshow(img,cmap='gist_ncar'),
-    plt.title('Detected Point'), plt.axis('off')
-
-    plt.show()
 
 def main():
 
     # делает скриншот игры, закоментируйте, если понадобится, так как скриншот я выложил снизу, как и сам объект
-    gameWindow = (0, 31, 1280, 747)
-    im = ImageGrab.grab(gameWindow)
-    output = im.save(os.getcwd() + '\\screenshot' + '.png', 'PNG')
-    print('\nСкриншот сделан и сохранён\n')
+    #gameWindow = (10, 10, 2420, 1320)
+    print("MSS:", screen_record_efficient())
 
-    find_mana()
+    print('\nСкриншот сделан и сохранён\n')
+    find_ellement()
+
 
 
 if __name__ == '__main__':
     main()
+
+
+
