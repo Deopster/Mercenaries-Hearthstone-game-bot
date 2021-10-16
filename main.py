@@ -4,15 +4,8 @@ import time
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-import win32gui
-
-hwnd = win32gui.FindWindow("notepad", None)
-rect = win32gui.GetWindowRect(hwnd)
-w = rect[2] - rect[0]
-h = rect[3] - rect[1]
-print("Window %s:" % win32gui.GetWindowText(hwnd))
-print("\t    Size: (%d, %d)" % (w, h))
-
+from ahk import AHK
+ahk = AHK()
 def find_mana():
     img = cv2.imread("first.png")  # картинка, на которой ищем объект
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
@@ -37,6 +30,7 @@ def find_mana():
     plt.show()
 
 def main():
+
     # делает скриншот игры, закоментируйте, если понадобится, так как скриншот я выложил снизу, как и сам объект
     gameWindow = (0, 31, 1280, 747)
     im = ImageGrab.grab(gameWindow)
