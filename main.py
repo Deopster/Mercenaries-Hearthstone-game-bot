@@ -39,18 +39,23 @@ def set():
 
 def battlego():
     print("Битва")
-    time.sleep(1)
+    time.sleep(2)
+    if find_ellement('play.png'):
+        set()
     find_ellement('battle.png')
-    find_ellement('start.png')
+    time.sleep(0.5)
+    find_ellement('sta.png')
     time.sleep(0.5)
     find_ellement('sec.png')
     time.sleep(0.5)
     find_ellement('level.png')
+    time.sleep(0.5)
     find_ellement('start.png')
     time.sleep(0.5)
-    find_ellement('goto.png')
-    find_ellement('start.png')
-    time.sleep(3)
+    find_ellement('find.png')
+    time.sleep(0.5)
+    find_ellement('start1.png')
+    time.sleep(5)
     find_ellement('play.png')
     set()
 
@@ -96,6 +101,7 @@ def group_create():
             else:
                 find_ellement('ready.png')
                 find_ellement('ready.png')
+                time.sleep(0.5)
                 find_ellement('back.png')
                 battlego()
 
@@ -152,6 +158,8 @@ def find_ellement(file):
             return True
         ahk.mouse_move(x, y, speed=5)  # Moves the mouse instantly to absolute screen position
         ahk.click()  # Click the primary mouse button
+        if file =='play.png':
+            return True
         if file == 'group.png':
             group_create()
     else:
@@ -171,6 +179,8 @@ def find_ellement(file):
             return False
         if file == 'shab.png':
             return False
+        if file =='play.png':
+            return False
         if (file !='join_button.png' and file !='back.png' and file !='group.png'):
             where()
 
@@ -182,7 +192,9 @@ def main():
     win.maximize()
     win.to_top()
     win.maximize()
-    set()
+    battlego()
+    while True:
+        where()
 
 if __name__ == '__main__':
     main()
