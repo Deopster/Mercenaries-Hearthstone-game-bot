@@ -9,7 +9,8 @@ from mss import mss
 import mss
 from ahk.window import Window
 ahk = AHK()
-
+global xm
+global ym
 def screen():
     sct = mss.mss()
     filename = sct.shot(mon=1, output='files/screen.png')
@@ -25,30 +26,42 @@ def findgame():
 
 def where():
     find_ellement('join_button.png')
-    time.sleep(2)
-    find_ellement('group.png')
     time.sleep(1)
+    find_ellement('group.png')
     find_ellement('back.png')
     return True
 def group_create():
     if find_ellement('group_find.png') ==6:
-        time.sleep(1)
         find_ellement('create.png')
-        time.sleep(2)
+        time.sleep(1)
         find_ellement('rename.png')
-        time.sleep(1)
         ahk.send_input('Botwork')
-        time.sleep(1)
+        if find_ellement('deff.png'):
+            find_ellement('drop.png')
+        find_ellement('page_2.png')
+        find_ellement('next.png')
+        if find_ellement('tiranda.png'):
+            find_ellement('drop.png')
+        find_ellement('page_3.png')
+        if find_ellement('milhaus.png'):
+            find_ellement('drop.png')
         find_ellement('ready.png')
-        time.sleep(1)
         find_ellement('continue.png')
-        time.sleep(1)
+        find_ellement('page_1.png')
         group_create()
     else:
+        i=0
+        while i<3:
+            if find_ellement('one.png') !=5:
+                find_ellement('drop.png')
+                i+=1
+            else:
+                find_ellement('next.png')
 
+        find_ellement('ready.png')
 
-    return True
 def find_ellement(file):
+    time.sleep(0.5)
     screen()
     img = cv2.imread('files/screen.png')  # картинка, на которой ищем объект
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
@@ -63,17 +76,30 @@ def find_ellement(file):
             cv2.rectangle(img, pt, (pt[0] + w, pt[1] + h), (0, 1, 0), 3)
         x=(pt[0]*2+w)/2
         y=(pt[1]*2+h)/2
-        ahk.show_info_traytip("Успех", "It's also info", slient=True, blocking=False)
-        time.sleep(1)
         print("Обнаружен "+file,x,y)
+        if (file == "deff.png" or file == 'tiranda.png' or file == 'milhaus.png' or file == 'one.png'):
+            global xm
+            global ym
+            xm=x
+            ym=y
+            return True
+        if file == "drop.png":
+            ahk.mouse_move(xm, ym, speed=10)
+            time.sleep(1)
+            ahk.mouse_drag(x, y, relative=False)
+            return True
         ahk.mouse_move(x, y, speed=10)  # Moves the mouse instantly to absolute screen position
         ahk.click()  # Click the primary mouse button
+        if file == 'group_find.png':
+            return True
         if file == 'group.png':
             group_create()
     else:
-        print("объект не обнаружен")
+        print("объект не обнаружен"+file)
         if file == 'group_find.png':
             return 6
+        if file == 'one.png':
+            return 5
 
 
 def main():
@@ -84,9 +110,8 @@ def main():
     win.to_top()
     win.maximize()
     while True:
-        group_create()
-        #if findgame():
-            #where()
+        if findgame():
+            where()
 
 if __name__ == '__main__':
     main()
