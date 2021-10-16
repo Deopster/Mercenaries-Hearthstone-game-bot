@@ -8,17 +8,17 @@ from ahk import AHK
 from mss import mss
 import mss
 ahk = AHK()
-def screen_record_efficient():
+def screen():
     sct = mss.mss()
     filename = sct.shot(mon=1, output='files/screen.png')
-    print(filename)
 def findgame():
     win = ahk.find_window(title=b'Hearthstone')
-    win.maximize()
-def find_ellement():
+    print(win)
+def find_ellement(file):
+    screen()
     img = cv2.imread("files/screen.png")  # картинка, на которой ищем объект
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
-    template = cv2.imread("files/join_button.png",
+    template = cv2.imread("files/"+file,
                           cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)
 
@@ -35,13 +35,8 @@ def find_ellement():
 
 
 def main():
-
-    # делает скриншот игры, закоментируйте, если понадобится, так как скриншот я выложил снизу, как и сам объект
-    #gameWindow = (10, 10, 2420, 1320)
-    print("MSS:", screen_record_efficient())
-
-    print('\nСкриншот сделан и сохранён\n')
-    find_ellement()
+    findgame()
+    find_ellement('join_button.png')
 
 
 
