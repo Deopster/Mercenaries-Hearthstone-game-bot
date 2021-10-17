@@ -30,12 +30,15 @@ def set():
     print(win.rect)
     x = win.rect[2]/2.85
     y = win.rect[3]-win.rect[3]/10
-    while True:
+    i=0
+    while i<3:
         ahk.mouse_position = (x, y)
-        time.sleep(0.5)
         if find_ellement('shab.png'):
             ahk.mouse_drag(x, y-500, relative=False)
+            i+=1
         x += win.rect[2] / 23
+        if x>1700:
+            x=1031
 
 def battlego():
     print("Битва")
@@ -192,9 +195,9 @@ def main():
     win.maximize()
     win.to_top()
     win.maximize()
-    battlego()
-    while True:
-        where()
+    set()
+    #while True:
+        #where()
 
 if __name__ == '__main__':
     main()
