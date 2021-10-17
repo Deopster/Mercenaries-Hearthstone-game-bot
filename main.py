@@ -27,8 +27,9 @@ chekers=['30lvl','empty_check','find','goto','group_find','level_check','rename'
 levels=['level15']
 #heroes
 hero=['','','']
-
-
+hero_colour=['','','']
+pages=['','','']
+heroNUM=['','','']
 def configread():
     global speed
     global monik
@@ -36,9 +37,21 @@ def configread():
     config.read("settings.ini")
     monik = int((config["BotSettings"]["monitor"]).split("#")[0])
     speed = float((config["BotSettings"]["bot_speed"]).split("#")[0])
-    hero[0] = (config["Heroes"]["first"]).split("#")[0]
-    hero[1] = (config["Heroes"]["second"]).split("#")[0]
-    hero[2] = (config["Heroes"]["third"]).split("#")[0]
+    hero[0] = (config["Hero1"]["number"]).split("#")[0]
+    hero_colour[0] = (config["Hero1"]["colour"]).split("#")[0]
+
+    hero[1] = (config["Hero2"]["number"]).split("#")[0]
+    hero_colour[1] = (config["Hero2"]["colour"]).split("#")[0]
+
+    hero[2] = (config["Hero3"]["number"]).split("#")[0]
+    hero_colour[2] = (config["Hero3"]["colour"]).split("#")[0]
+
+    pages[0] = int((config["NumberOfPages"]["Red"]).split("#")[0])
+    pages[1] = int((config["NumberOfPages"]["Green"]).split("#")[0])
+    pages[2] = int((config["NumberOfPages"]["Blue"]).split("#")[0])
+    print(pages[0],pages[1],pages[2])
+
+
     print(monik,speed,hero)
 def parslist():
     i=0
@@ -86,6 +99,7 @@ def findgame():
          print("Игра не найдена")
          return False
 def set():
+    global speed
     while True:
         if find_ellement(buttons[5],1):
             break
@@ -93,14 +107,23 @@ def set():
     x = win.rect[2]/2.85
     y = win.rect[3]-win.rect[3]/10
     i=0
+    beg = 0
+    end = 3
+    temp = speed
+    speed = 0
     while i<3:
         ahk.mouse_position = (x, y)
-        if find_ellement(chekers[7],1):
-            ahk.mouse_drag(x, y-500, relative=False)
-            i+=1
+        for n in range (beg,end):
+            if find_ellement(hero[n] + '/1.png', 6) or find_ellement(hero[n] + '/2.png', 6) or find_ellement(hero[n] + '/3.png', 6) or find_ellement(hero[n] + '/4.png', 6):
+                ahk.mouse_drag(x, y-500, relative=False)
+                if n==0:
+                    beg=1
+                if n == 3:
+                    end=2
         x += win.rect[2] / 23
         if x>1700:
             x=1031
+    speed = temp
 
 def battlego():
     print("Битва")
@@ -132,39 +155,72 @@ def where():
     find_ellement(Ui_Ellements[3],0)
     find_ellement(buttons[0],0)
     return True
+def pagech(page,coll):
+    if int(pages[coll]) > 1:
+        if page != pages[coll]:
+            find_ellement(Ui_Ellements[4], 0)
+            time.sleep(1)
+            page += 1
+        else:
+            while page != 1:
+                find_ellement(Ui_Ellements[10], 0)
+                page -= 1
+                time.sleep(1)
+    return page
+def find(n):
+    change(n)
+    page = 1
+    while True:
+        num = 0
+        for num in range(2):
+            if find_ellement(hero[n] + '/1.png', 6):
+                find_ellement(chekers[8], 0)
+                heroNUM[n]='/1.png'
+                return True
+            if find_ellement(hero[n] + '/2.png', 6):
+                find_ellement(chekers[8], 0)
+                heroNUM[n] = '/2.png'
+                return True
+            if find_ellement(hero[n] + '/3.png', 6):
+                find_ellement(chekers[8], 0)
+                heroNUM[n] = '/3.png'
+                return True
+            if find_ellement(hero[n] + '/4.png', 6):
+                find_ellement(chekers[8], 0)
+                heroNUM[n] = '/4.png'
+                return True
+        page =pagech(page,n)
+
+
+
+def change(index):
+    if hero_colour[index] == 'Red':
+        find_ellement(Ui_Ellements[6], 9)
+    if hero_colour[index] =='Green':
+        find_ellement(Ui_Ellements[7], 9)
+    if hero_colour[index] =='Blue':
+        find_ellement(Ui_Ellements[8], 9)
+    time.sleep(1)
+
 def group_create():
+    global speed
+    global left
+    global top
     time.sleep(1)
     if find_ellement(chekers[4],3) ==6:
         find_ellement(buttons[2],0)
         time.sleep(1)
         find_ellement(chekers[6],0)
+        temp = speed
+        speed = 0
         ahk.send_input('Botwork',0)
         find_ellement(Ui_Ellements[10], 0)
-        i=0
-        while i!=3:
-            if find_ellement(hero[i]+'/1.png',6):
-                find_ellement(chekers[8],0)
-                i +=1
-            if find_ellement(hero[i]+'/2.png',6):
-                find_ellement(chekers[8],0)
-                i += 1
-            if find_ellement(hero[i]+'/3.png',6):
-                find_ellement(chekers[8],0)
-                i+=1
-            if find_ellement(hero[i]+'/1.png',6):
-                find_ellement(chekers[8],0)
-                i +=1
-            if find_ellement(hero[i]+'/2.png',6):
-                find_ellement(chekers[8],0)
-                i += 1
-            if find_ellement(hero[i]+'/4.png',6):
-                find_ellement(chekers[8],0)
-                i+=1
-            find_ellement(Ui_Ellements[4], 0)
-
+        find(0)
+        find(1)
+        find(2)
+        speed=temp
         find_ellement(buttons[8],0)
         find_ellement(buttons[1],0)
-        find_ellement(Ui_Ellements[6],0)
         group_create()
     else:
         time.sleep(1)
@@ -190,16 +246,16 @@ def group_create():
 
         else:
             i=0
-            print(xm,ym)
+            temp = speed
+            speed = 0.3
             while i<3:
-                global top
-                global left
                 x = int(win.rect[2] / 7.5)
                 y = int(win.rect[3] / 3.5)
                 top =int(win.rect[3] / 5.76)
                 left = int(win.rect[2] / 5.2)
                 h = 0
                 while h < 2:
+                    left = int(win.rect[2] / 5.2)
                     j=0
                     while j<3:
                         partscreen(x,y,top,left)
@@ -212,11 +268,11 @@ def group_create():
                                     find_ellement(chekers[8], 7)
                                     i+=1
                         j+=1
-                        left+=160
-                    top+=550
+                        left+=365
+                    top+=480
                     h+=1
                 find_ellement(Ui_Ellements[4], 0)
-
+        speed = temp
         find_ellement(buttons[8],0)
         time.sleep(1)
         find_ellement(buttons[0], 0)
@@ -304,7 +360,8 @@ def main():
     findgame()
     parslist()
     ahk.show_info_traytip("started", "all files loaded sucsessfuly", slient=False, blocking=True)
-
+    set()
+'''''
     win.show()
     win.restore()
     win.maximize()
@@ -313,7 +370,7 @@ def main():
     while True:
         if findgame():
             where()
-
+'''
 if __name__ == '__main__':
     main()
 
