@@ -13,13 +13,14 @@ In plans
 4. It is possible to expand the functionality originally conceived.
 
 <h1 align="center">Specification, Settings.ini file:</h1>
-<img align="right" src="https://user-images.githubusercontent.com/68296704/137645142-8bc3bbf2-ee4c-44ce-adde-414c7bc65fbe.png"></img>
+<img align="right" src="https://user-images.githubusercontent.com/68296704/137646221-10164e4f-d2b6-428d-b854-7ffeb715ef2e.png"></img>
+
 
 ```diff
 [BotSettings]
 monitor=1 
 bot_speed=0.5 
-+0.1 -fastest ,5-lowest (not recomend less tnen 0.5)
++0.1-the fastest mode , 5-the slowest (not recomending do faster then 0.5) 
 [Hero1]
 number = 1
 colour = Red
@@ -29,7 +30,7 @@ colour = Green
 [Hero3]
 number = 3
 colour = Blue
-
++3 main heroes that you will use for pumping other ones.List of heroes by numbers you can see in in HeroesList.txt
 
 [NumberOfPages]
 Red = 1
