@@ -1,32 +1,32 @@
+
 import time
 import cv2
 import numpy as np
 from ahk import AHK
 from mss import mss
 import mss
-import pytesseract
-from ahk.window import Window
 import configparser
-import os
 
 
 
 ahk = AHK()
 global xm
+xm=0
 global ym
+ym=0
 global monik
 global speed
 #for_future=['','','','','','','','','','','','','','','','','','','',]
 #Ui-ellements
-Ui_Ellements=['battle','blue','green','group','next','one','page_1','page_2','page_3','red']
+Ui_Ellements=['battle','blue','green','group','next','one','page_1','page_2','page_3','red','prev']
 #buttons
 buttons=['back','continue','create','del','join_button','num','ok','play','ready','sec','sta','start','start1','submit']
 #chekers
-chekers=['30lvl','empty_check','find','goto','group_find','level_check','rename','shab','drop']
+chekers=['30lvl','empty_check','find','goto','group_find','level_check','rename','shab','drop','301','302','taken','text']
 #levels
 levels=['level15']
 #heroes
-hero=['deff','milhaus','tiranda']
+hero=['','','']
 
 
 def configread():
@@ -36,7 +36,10 @@ def configread():
     config.read("settings.ini")
     monik = int((config["BotSettings"]["monitor"]).split("#")[0])
     speed = float((config["BotSettings"]["bot_speed"]).split("#")[0])
-    print(monik,speed)
+    hero[0] = (config["Heroes"]["first"]).split("#")[0]
+    hero[1] = (config["Heroes"]["second"]).split("#")[0]
+    hero[2] = (config["Heroes"]["third"]).split("#")[0]
+    print(monik,speed,hero)
 def parslist():
     i=0
     while i<len(Ui_Ellements):
@@ -60,12 +63,19 @@ def parslist():
     i = 0
     print("4 блок")
     while i<len(hero):
-        hero[i]="heroes/"+hero[i]+".png"
+        hero[i]="heroes/"+hero[i]
         i += 1
     return 0
 def screen():
     sct = mss.mss()
     filename = sct.shot(mon=monik, output='files/screen.png')
+def partscreen(x,y,top,left):
+    import mss.tools
+    with mss.mss() as sct:
+        monitor = {"top": top, "left": left, "width": x, "height": y}
+        output = "sct-{top}x{left}_{width}x{height}.png".format(**monitor)
+        sct_img = sct.grab(monitor)
+        mss.tools.to_png(sct_img.rgb, sct_img.size, output='files/part.png')
 def findgame():
      global win
      win = ahk.win_get(title='Hearthstone')
@@ -96,10 +106,9 @@ def battlego():
     print("Битва")
     time.sleep(1)
     find_ellement(Ui_Ellements[0],0)
-    time.sleep(0.5)
-    if find_ellement(buttons[7],1):
+    time.sleep(2.5)
+    if find_ellement(buttons[7],0):
         set()
-    time.sleep(0.5)
     find_ellement(buttons[10],0)
     time.sleep(1)
     find_ellement(buttons[9],2)
@@ -112,8 +121,7 @@ def battlego():
     time.sleep(0.5)
     find_ellement(buttons[12],0)
     time.sleep(0.5)
-    if find_ellement(buttons[13],1)!=False:
-        time.sleep(0.5)
+    find_ellement(buttons[13],9)
     time.sleep(5)
     find_ellement(buttons[7],0)
     set()
@@ -131,15 +139,29 @@ def group_create():
         time.sleep(1)
         find_ellement(chekers[6],0)
         ahk.send_input('Botwork',0)
-        if find_ellement(hero[0],0):
-            find_ellement(chekers[8],0)
-        find_ellement(Ui_Ellements[7],0)
-        find_ellement(Ui_Ellements[4],0)
-        if find_ellement(hero[2],0):
-            find_ellement(chekers[8],0)
-        find_ellement(Ui_Ellements[8],0)
-        if find_ellement(hero[1],0):
-            find_ellement(chekers[8],0)
+        find_ellement(Ui_Ellements[10], 0)
+        i=0
+        while i!=3:
+            if find_ellement(hero[i]+'/1.png',6):
+                find_ellement(chekers[8],0)
+                i +=1
+            if find_ellement(hero[i]+'/2.png',6):
+                find_ellement(chekers[8],0)
+                i += 1
+            if find_ellement(hero[i]+'/3.png',6):
+                find_ellement(chekers[8],0)
+                i+=1
+            if find_ellement(hero[i]+'/1.png',6):
+                find_ellement(chekers[8],0)
+                i +=1
+            if find_ellement(hero[i]+'/2.png',6):
+                find_ellement(chekers[8],0)
+                i += 1
+            if find_ellement(hero[i]+'/4.png',6):
+                find_ellement(chekers[8],0)
+                i+=1
+            find_ellement(Ui_Ellements[4], 0)
+
         find_ellement(buttons[8],0)
         find_ellement(buttons[1],0)
         find_ellement(Ui_Ellements[6],0)
@@ -168,32 +190,50 @@ def group_create():
 
         else:
             i=0
+            print(xm,ym)
             while i<3:
-                if find_ellement(Ui_Ellements[5],3) !=6:
-                    find_ellement(chekers[8],0)
-                    i+=1
-                else:
-                    find_ellement(Ui_Ellements[4],0)
+                global top
+                global left
+                x = int(win.rect[2] / 7.5)
+                y = int(win.rect[3] / 3.5)
+                top =int(win.rect[3] / 5.76)
+                left = int(win.rect[2] / 5.2)
+                h = 0
+                while h < 2:
+                    j=0
+                    while j<3:
+                        partscreen(x,y,top,left)
+                        if find_ellement(chekers[12],7):
+                            print(xm,ym)
+                            a=find_ellement(chekers[9], 7)
+                            b=find_ellement(chekers[10], 7)
+                            if a is False and b is False:
+                                if not find_ellement(chekers[11],7):
+                                    find_ellement(chekers[8], 7)
+                                    i+=1
+                        j+=1
+                        left+=160
+                    top+=550
+                    h+=1
+                find_ellement(Ui_Ellements[4], 0)
 
         find_ellement(buttons[8],0)
         time.sleep(1)
         find_ellement(buttons[0], 0)
         time.sleep(2)
         battlego()
-def text():
-    img = cv2.imread('files/screen.png')
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    # Будет выведен весь текст с картинки
-    config = r'--oem 3 --psm 6'
-    print(pytesseract.image_to_string(img, config=config))
+
 
 def find_ellement(file,index):
+    global top
+    global left
     time.sleep(speed)
-    screen()
-    if index=="text":
-        text()
-    img = cv2.imread('files/screen.png')  # картинка, на которой ищем объект
+    if index ==7 and file != chekers[8] :
+        img = cv2.imread('files/part.png')
+    else:
+        screen()
+        img = cv2.imread('files/screen.png')  # картинка, на которой ищем объект
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
     template = cv2.imread("files/"+file,cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)
@@ -207,15 +247,18 @@ def find_ellement(file,index):
         x=(pt[0]*2+w)/2
         y=(pt[1]*2+h)/2
         print("Обнаружен "+file,x,y)
-        if (file == hero[0] or file == hero[1] or file == hero[2] or file == Ui_Ellements[5] or file == chekers[7]):
+        if (index==6 or file == Ui_Ellements[5] or file == chekers[7]):
             global xm
             global ym
             xm=x
             ym=y
             return True
         if file == chekers[8]:
-            ahk.mouse_move(xm, ym, speed=5)
-            time.sleep(1)
+            if index ==7:
+                xm+=left
+                ym+=top
+            ahk.mouse_move(xm, ym, speed=2)
+            time.sleep(0.5)
             ahk.mouse_drag(x, y, relative=False)
             return True
         if file == chekers[5]:
@@ -227,6 +270,10 @@ def find_ellement(file,index):
             return True
         if index == 1:
             return True
+        if index == 7:
+            xm = x
+            ym = y
+            return True
         ahk.mouse_move(x, y, speed=5)  # Moves the mouse instantly to absolute screen position
         ahk.click()  # Click the primary mouse button
         if file ==buttons[7]:
@@ -235,11 +282,17 @@ def find_ellement(file,index):
             group_create()
     else:
         print("объект не обнаружен "+file)
+        if index ==6:
+            return False
+        if index ==7:
+            return False
         if index== 3:
             return 6
         if index==2:
             return True
-        if index ==1 :
+        if index ==1 or index ==9:
+            return False
+        if file ==buttons[7]:
             return False
         if (file !=buttons[4] and file !=Ui_Ellements[3] and file !=buttons[0]):
             where()
@@ -251,6 +304,7 @@ def main():
     findgame()
     parslist()
     ahk.show_info_traytip("started", "all files loaded sucsessfuly", slient=False, blocking=True)
+
     win.show()
     win.restore()
     win.maximize()
