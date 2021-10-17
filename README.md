@@ -12,6 +12,7 @@ In plans
 3. write a graphical interface for this whole case
 4. It is possible to expand the functionality originally conceived.
 
+For contacts andrey115516@gmail.com
 ============================================================
 
 Основная идея бота в том, чтобы автоматически проходить уровни и собирать компоненты, 
@@ -27,4 +28,5 @@ In plans
 3. написать графический интерфейс для всего этого дела
 4. Возможно расширить изначально задуманный  функционал.
 
+Для связи andrey115516@gmail.com
 ![Psl3Wv3IZgs](https://user-images.githubusercontent.com/68296704/137604260-9981e52b-0fd8-469c-8b36-d5f1dfa9e8a6.jpg)
