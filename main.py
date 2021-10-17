@@ -360,8 +360,8 @@ def main():
     findgame()
     parslist()
     ahk.show_info_traytip("started", "all files loaded sucsessfuly", slient=False, blocking=True)
-    set()
-'''''
+
+
     win.show()
     win.restore()
     win.maximize()
@@ -370,7 +370,7 @@ def main():
     while True:
         if findgame():
             where()
-'''
+
 if __name__ == '__main__':
     main()
 
