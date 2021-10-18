@@ -219,8 +219,9 @@ def group_create():
         find(2)
         speed=temp
         find_ellement(buttons[8],0)
+        ahk.mouse_move(100, 100, speed=3)
+        time.sleep(1)
         find_ellement(buttons[1],0)
-        group_create()
     else:
         time.sleep(1)
         if find_ellement(chekers[1],2) == True:
@@ -251,7 +252,7 @@ def group_create():
         else:
             i=0
             temp = speed
-            speed = 0.3
+            speed = 0.2
             while i<3:
                 x = int(win.rect[2] / 7.5)
                 y = int(win.rect[3] / 3.5)
