@@ -14,6 +14,8 @@ global ym
 ym=0
 global monik
 global speed
+global sens
+sens=0.75
 #for_future=['','','','','','','','','','','','','','','','','','','',]
 #Ui-ellements
 Ui_Ellements=['battle','blue','green','group','next','one','page_1','page_2','page_3','red','prev']
@@ -111,6 +113,7 @@ def findgame():
          return False
 def set():
     global speed
+    global sens
     while True:
         if find_ellement(buttons[5],1):
             break
@@ -122,16 +125,17 @@ def set():
     end = 3
     temp = speed
     speed = 0
+    sens=0.6
     while i<3:
         ahk.mouse_position = (x, y)
         for n in range(3):
-            for index in range(4):
-                 if find_ellement(hero[n] + picparser[index], 6):
-                     ahk.mouse_drag(x, y - 500, relative=False)
-        x += win.rect[2] / 23
+            if find_ellement(hero[n] + '/set.png', 6):
+                ahk.mouse_drag(x, y - 500, relative=False)
+            x += win.rect[2] / 57
         if x>1700:
-            x=1031
+            x= win.rect[2]/2.85
     speed = temp
+    sens = 0.75
 
 def battlego():
     print("Битва")
@@ -284,6 +288,7 @@ def group_create():
 
 
 def find_ellement(file,index):
+    global sens
     global top
     global left
     global Resolution
@@ -298,7 +303,7 @@ def find_ellement(file,index):
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)
 
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
-    loc = np.where(result >= 0.8)
+    loc = np.where(result >= sens)
     if len(loc[0]) !=0:
         for pt in zip(*loc[::-1]):
             cv2.rectangle(img, pt, (pt[0] + w, pt[1] + h), (0, 1, 0), 3)
@@ -362,8 +367,9 @@ def main():
     findgame()
     parslist()
     ahk.show_info_traytip("started", "all files loaded sucsessfuly", slient=False, blocking=True)
+    set()
 
-
+'''
     win.show()
     win.restore()
     win.maximize()
@@ -374,7 +380,7 @@ def main():
     while True:
         if findgame():
             where()
-
+'''
 if __name__ == '__main__':
     main()
 
