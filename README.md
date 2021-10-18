@@ -36,6 +36,11 @@ colour = Blue
 Red = 1
 Green = 2
 Blue = 2
+
+[Resolution]
+Monitor Resolution = 2560*1440
++could be 2560*1440 or 1920*1080
+
 ```
 
 <br>
