@@ -55,7 +55,3 @@ HeroList<br>
 
 For contacts andrey115516@gmail.com
 
-
-
-![Psl3Wv3IZgs](https://user-images.githubusercontent.com/68296704/137604260-9981e52b-0fd8-469c-8b36-d5f1dfa9e8a6.jpg)
-
