@@ -1,4 +1,3 @@
-
 import time
 import cv2
 import numpy as np
@@ -6,8 +5,7 @@ from ahk import AHK
 from mss import mss
 import mss
 import configparser
-
-
+from PIL import Image
 
 ahk = AHK()
 global xm
