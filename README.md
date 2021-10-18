@@ -1,6 +1,6 @@
 # Hearthstone-Mercenaries-game-bot
 ```diff
-- prevention: Bot is not ready and now on the development stage 
+- prevention: Bot is not ready and now on the development stage estimated release date - 21.10.21
 ```
 The main idea of  the bot is to automatically pass the levels and assemble components, 
 simultaneously pumping all your mercenaries level 1 to 30 (so far, then to add)
