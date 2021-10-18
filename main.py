@@ -30,7 +30,11 @@ hero=['','','']
 hero_colour=['','','']
 pages=['','','']
 heroNUM=['','','']
+#img list
+picparser=['/1.png','/2.png','/3.png','/4.png']
+
 def configread():
+    global Resolution
     global speed
     global monik
     config = configparser.ConfigParser()
@@ -49,6 +53,13 @@ def configread():
     pages[0] = int((config["NumberOfPages"]["Red"]).split("#")[0])
     pages[1] = int((config["NumberOfPages"]["Green"]).split("#")[0])
     pages[2] = int((config["NumberOfPages"]["Blue"]).split("#")[0])
+
+    Resolution = (config["Resolution"]["Monitor Resolution"]).split("#")[0]
+    if Resolution=='2560*1440':
+        Resolution='2560x1440'
+    if Resolution=='1920*1080':
+        Resolution='1920x1080'
+
     print(pages[0],pages[1],pages[2])
 
 
@@ -80,15 +91,17 @@ def parslist():
         i += 1
     return 0
 def screen():
+    global Resolution
     sct = mss.mss()
-    filename = sct.shot(mon=monik, output='files/screen.png')
+    filename = sct.shot(mon=monik, output='files/'+Resolution+'/screen.png')
 def partscreen(x,y,top,left):
+    global Resolution
     import mss.tools
     with mss.mss() as sct:
         monitor = {"top": top, "left": left, "width": x, "height": y}
         output = "sct-{top}x{left}_{width}x{height}.png".format(**monitor)
         sct_img = sct.grab(monitor)
-        mss.tools.to_png(sct_img.rgb, sct_img.size, output='files/part.png')
+        mss.tools.to_png(sct_img.rgb, sct_img.size, output='files/'+Resolution+'/part.png')
 def findgame():
      global win
      win = ahk.win_get(title='Hearthstone')
@@ -113,13 +126,10 @@ def set():
     speed = 0
     while i<3:
         ahk.mouse_position = (x, y)
-        for n in range (beg,end):
-            if find_ellement(hero[n] + '/1.png', 6) or find_ellement(hero[n] + '/2.png', 6) or find_ellement(hero[n] + '/3.png', 6) or find_ellement(hero[n] + '/4.png', 6):
-                ahk.mouse_drag(x, y-500, relative=False)
-                if n==0:
-                    beg=1
-                if n == 3:
-                    end=2
+        for n in range(3):
+            for index in range(4):
+                 if find_ellement(hero[n] + picparser[index], 6):
+                     ahk.mouse_drag(x, y - 500, relative=False)
         x += win.rect[2] / 23
         if x>1700:
             x=1031
@@ -171,24 +181,12 @@ def find(n):
     change(n)
     page = 1
     while True:
-        num = 0
         for num in range(2):
-            if find_ellement(hero[n] + '/1.png', 6):
-                find_ellement(chekers[8], 0)
-                heroNUM[n]='/1.png'
-                return True
-            if find_ellement(hero[n] + '/2.png', 6):
-                find_ellement(chekers[8], 0)
-                heroNUM[n] = '/2.png'
-                return True
-            if find_ellement(hero[n] + '/3.png', 6):
-                find_ellement(chekers[8], 0)
-                heroNUM[n] = '/3.png'
-                return True
-            if find_ellement(hero[n] + '/4.png', 6):
-                find_ellement(chekers[8], 0)
-                heroNUM[n] = '/4.png'
-                return True
+            for index in range(4):
+                if find_ellement(hero[n] + picparser[index], 6):
+                    find_ellement(chekers[8], 0)
+                    heroNUM[n]=picparser[index]
+                    return True
         page =pagech(page,n)
 
 
@@ -284,25 +282,25 @@ def group_create():
 def find_ellement(file,index):
     global top
     global left
+    global Resolution
     time.sleep(speed)
     if index ==7 and file != chekers[8] :
-        img = cv2.imread('files/part.png')
+        img = cv2.imread('files/'+Resolution+'/part.png')
     else:
         screen()
-        img = cv2.imread('files/screen.png')  # картинка, на которой ищем объект
+        img = cv2.imread('files/'+Resolution+'/screen.png')  # картинка, на которой ищем объект
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
-    template = cv2.imread("files/"+file,cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
+    template = cv2.imread('files/'+Resolution+'/'+file,cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)
 
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
     loc = np.where(result >= 0.8)
-    # рисует прямоугольник вокруг объекта
     if len(loc[0]) !=0:
         for pt in zip(*loc[::-1]):
             cv2.rectangle(img, pt, (pt[0] + w, pt[1] + h), (0, 1, 0), 3)
         x=(pt[0]*2+w)/2
         y=(pt[1]*2+h)/2
-        print("Обнаружен "+file,x,y)
+        print("Found "+file,x,y)
         if (index==6 or file == Ui_Ellements[5] or file == chekers[7]):
             global xm
             global ym
@@ -337,7 +335,7 @@ def find_ellement(file,index):
         if file == Ui_Ellements[3]:
             group_create()
     else:
-        print("объект не обнаружен "+file)
+        print("Not found  "+file)
         if index ==6:
             return False
         if index ==7:
