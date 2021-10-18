@@ -12,21 +12,44 @@ In plans
 3. write a graphical interface for this whole case
 4. It is possible to expand the functionality originally conceived.
 
+<h1 align="center">Specification, Settings.ini file:</h1>
+<img align="right" src="https://user-images.githubusercontent.com/68296704/137646221-10164e4f-d2b6-428d-b854-7ffeb715ef2e.png"></img>
+
+
+```diff
+[BotSettings]
+monitor=1 
+bot_speed=0.5 
++0.1-the fastest mode , 5-the slowest (not recomending do faster then 0.5) 
+[Hero1]
+number = 1
+colour = Red
+[Hero2]
+number = 2
+colour = Green
+[Hero3]
+number = 3
+colour = Blue
++3 main heroes that you will use for pumping other ones.List of heroes by numbers you can see in in HeroesList.txt
+
+[NumberOfPages]
+Red = 1
+Green = 2
+Blue = 2
+```
+
+<br>
+<br>
+<br>
+<div align="left">
+HeroList<br>
+1 - Cariel Roame /Кариэль Роум<br>
+2 -Tyrande / Тиранда<br>
+3 -Milhous Manostorm / Милхаус маношторм<br>
+</div>
+
 For contacts andrey115516@gmail.com
-============================================================
 
-Основная идея бота в том, чтобы автоматически проходить уровни и собирать компоненты, 
-попутно прокачивая всех ваших наёмников 1 уровня до 30 (пока только так, потом допилю) 
-Так как же это работает? 
-по сути всё строится на том, что бот собирает команду из 3 ваших героев 30 уровня, 
-а затем закидывает туда 1 уровней, а так как для прокачки юнит не обязательно должен участвовать в бою,
-бот просто раз за разом проходит локацию и качает остальных ваших наёмников до 30 уровня.
 
-В планах
-1. Закончить проект
-2. Добавить выбор режима - сбор осколков / прокачка героев 
-3. написать графический интерфейс для всего этого дела
-4. Возможно расширить изначально задуманный  функционал.
 
-Для связи andrey115516@gmail.com
 ![Psl3Wv3IZgs](https://user-images.githubusercontent.com/68296704/137604260-9981e52b-0fd8-469c-8b36-d5f1dfa9e8a6.jpg)
