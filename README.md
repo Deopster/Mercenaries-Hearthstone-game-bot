@@ -36,7 +36,7 @@ colour = Blue
 Red = 1
 Green = 2
 Blue = 2
-
++number of pages each colour(or type) in section Red - defenders , Green - warriors ,Blue - Wizards
 [Resolution]
 Monitor Resolution = 2560*1440
 +could be 2560*1440 or 1920*1080
