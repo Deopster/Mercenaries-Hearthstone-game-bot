@@ -164,6 +164,7 @@ def where():
     time.sleep(0.5)
     find_ellement(Ui_Ellements[3],0)
     find_ellement(buttons[0],0)
+
     return True
 def pagech(page,coll):
     if int(pages[coll]) > 1:
@@ -223,7 +224,11 @@ def group_create():
     else:
         time.sleep(1)
         if find_ellement(chekers[1],2) == True:
-            find_ellement(chekers[5],0)
+            x = win.rect[2] / 1.4
+            y = win.rect[3] /2.5
+            ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
+            ahk.click()
+            time.sleep(1)
             if find_ellement(chekers[0],1) == True:
                 find_ellement(buttons[8],0)
                 find_ellement(buttons[8],0)
@@ -237,6 +242,7 @@ def group_create():
                 find_ellement(buttons[8],0)
                 time.sleep(1)
                 find_ellement(buttons[8],0)
+                ahk.mouse_move(100, 100, speed=3)
                 time.sleep(1)
                 find_ellement(buttons[0],0)
                 battlego()
@@ -272,6 +278,7 @@ def group_create():
                 find_ellement(Ui_Ellements[4], 0)
         speed = temp
         find_ellement(buttons[8],0)
+        ahk.mouse_move(100, 100, speed=3)
         time.sleep(1)
         find_ellement(buttons[0], 0)
         time.sleep(2)
@@ -365,6 +372,8 @@ def main():
     win.maximize()
     win.to_top()
     win.maximize()
+    win.to_top()
+    win.activate()
     while True:
         if findgame():
             where()
