@@ -12,6 +12,32 @@ In plans
 3. write a graphical interface for this whole case
 4. It is possible to expand the functionality originally conceived.
 
+<h1 align="center">Installation</h1>
+
+<ul>
+  <li>Download the project</li>
+  <li>Install All Libraries</li>
+</ul>
+
+![image](https://user-images.githubusercontent.com/68296704/137736402-fb0e7fae-5f3d-4c8d-b56e-b50ff08db56f.png)
+
+<ul>
+  <li>then open Settings.ini and set yr settings</li>
+  <li>Start the game</li>
+</ul>
+<h1 align="center">Possible problem</h1>
+
+![image](https://user-images.githubusercontent.com/68296704/137735448-22d49878-07b5-4bf1-b48e-0baa995f17ac.png)
+<br>If this error occurs after all libraries have been installed and the interpreter has been configured, do this:
+<ul>
+  <li>pip install "ahk[binary]"</li>
+  <li>pip install "ahk-binary<2"</li>
+</ul>
+
+
+
+
+
 <h1 align="center">Specification, Settings.ini file:</h1>
 <img align="right" src="https://user-images.githubusercontent.com/68296704/137707877-189b3ca6-9981-4db8-b60d-42168c4cea7d.png"></img>
 
