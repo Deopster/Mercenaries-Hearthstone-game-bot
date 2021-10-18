@@ -1,4 +1,7 @@
 # Hearthstone-Mercenaries-game-bot
+```diff
+- prevention: Bot is not ready and now on the development stage 
+```
 The main idea of  the bot is to automatically pass the levels and assemble components, 
 simultaneously pumping all your mercenaries level 1 to 30 (so far, then to add)
 So how does it work?
@@ -72,12 +75,13 @@ Monitor Resolution = 2560*1440
 <br>
 <br>
 <br>
-<div align="left">
+    
+
 HeroList<br>
 1 - Cariel Roame /Кариэль Роум<br>
 2 -Tyrande / Тиранда<br>
 3 -Milhous Manostorm / Милхаус маношторм<br>
-</div>
+
 
 For contacts andrey115516@gmail.com
 
