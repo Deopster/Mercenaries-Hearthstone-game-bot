@@ -163,17 +163,24 @@ def move(index):
     if index!= (0, 0):
         ahk.mouse_drag(index[0]+60,index[1]-30, relative=False)
         ahk.click()
+        return False
     else:
         return True
-def rand():
+def rand(enemyred, enemygreen ,enemyblue ,enemynoclass):
     while True:
-        a = random.randint(0, 4)
+        a = random.randint(0, 3)
         if a == 0:
-            if a == 1:
-                if a == 2:
-                    return True
-                if a == 3:
-                    return enemywiz
+            if not move(enemygreen):
+                break
+        if a == 1:
+            if not move(enemyred):
+                break
+        if a == 2:
+            if not move(enemyblue):
+                break
+        if a == 3:
+            if not move(enemynoclass):
+                break
 
 def abilicks(index):
     for i in range(3):
@@ -189,7 +196,7 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
     if i[0]=='Red':
         ahk.mouse_move(x,y, speed=3)
         ahk.click()
-        time.sleep(0.15)
+        time.sleep(0.2)
         abilicks('Red')
         if move(enemygreen):
             if move(mol):
@@ -197,7 +204,7 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
     if i[0] == 'Green':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
-        time.sleep(0.15)
+        time.sleep(0.2)
         abilicks('Green')
         if move(enemyblue):
             if move(mol):
@@ -205,7 +212,7 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
     if i[0] == 'Blue':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
-        time.sleep(0.15)
+        time.sleep(0.2)
         abilicks('Blue')
         if move(enemyred):
             if move(mol):
@@ -242,7 +249,6 @@ def battle():
         atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol)
     sens = 0.75
     speed = temp
-    find_ellement(buttons[15], 12)
     find_ellement(buttons[14], 12)
 
 
@@ -270,8 +276,9 @@ def set():
             x= win.rect[2]/2.85
     speed = temp
     sens = 0.7
+    time.sleep(1)
     find_ellement(buttons[14], 9)
-    time.sleep(6)
+    time.sleep(5)
     battle()
 def battlego():
     print("Битва")
