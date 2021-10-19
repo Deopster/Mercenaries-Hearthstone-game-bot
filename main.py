@@ -236,6 +236,7 @@ def battle():
     global speed
     raund = 1
     while True:
+        speed = 0
         if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1) :
             herobattle.clear()
             ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
@@ -243,7 +244,7 @@ def battle():
             tmp=int(win.rect[3] / 2)
             partscreen(2560, tmp, 0, 0)
             temp = speed
-            speed = 0
+
             sens=0.75
             # поиск врага
             enemyred = find_ellement(Ui_Ellements[9], 12)
@@ -533,9 +534,9 @@ def main():
     findgame()
     parslist()
     ahk.show_info_traytip("started", "all files loaded sucsessfuly", slient=False, blocking=True)
-    battlego()
 
-'''''
+
+
     win.show()
     win.restore()
     win.maximize()
@@ -546,7 +547,7 @@ def main():
     while True:
         if findgame():
             where()
-'''''
+
 if __name__ == '__main__':
     main()
 
