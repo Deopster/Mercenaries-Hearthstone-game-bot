@@ -24,7 +24,7 @@ sens=0.75
 #Ui-ellements
 Ui_Ellements=['battle','blue','green','group','next','one','page_1','page_2','page_3','red','prev','sob','noclass']
 #buttons
-buttons=['back','continue','create','del','join_button','num','ok','play','ready','sec','sta','start','start1','submit','allready']
+buttons=['back','continue','create','del','join_button','num','ok','play','ready','sec','sta','start','start1','submit','allready','startbattle']
 #chekers
 chekers=['30lvl','empty_check','find','goto','group_find','level_check','rename','shab','drop','301','302','taken','text']
 #levels
@@ -161,7 +161,8 @@ def battlefind(file,coll):
 
 def move(index):
     if index!= (0, 0):
-        ahk.mouse_drag(index[0]+60,index[1], relative=False)
+        ahk.mouse_drag(index[0]+60,index[1]-30, relative=False)
+        ahk.click()
     else:
         return True
 def rand():
@@ -176,17 +177,19 @@ def rand():
 
 def abilicks(index):
     for i in range(3):
-        if hero_colour == index:
+        if hero_colour[i] == index:
             heroTEMP.append(hero[i])
+    print(index)
+    print( heroTEMP)
     for obj in heroTEMP:
         find_ellement(obj + '/abilics/1.png', 9)
 def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
-    heroTEMP=[]
     x=int(i[1])
     y=int(i[2])
     if i[0]=='Red':
         ahk.mouse_move(x,y, speed=3)
         ahk.click()
+        time.sleep(0.15)
         abilicks('Red')
         if move(enemygreen):
             if move(mol):
@@ -194,6 +197,7 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
     if i[0] == 'Green':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
+        time.sleep(0.15)
         abilicks('Green')
         if move(enemyblue):
             if move(mol):
@@ -201,12 +205,11 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
     if i[0] == 'Blue':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
+        time.sleep(0.15)
         abilicks('Blue')
         if move(enemyred):
             if move(mol):
                 rand()
-
-
 
 
 def battle():
@@ -214,6 +217,8 @@ def battle():
     global sens
     global zipchek
     global speed
+    ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
+    ahk.click()
     tmp=int(win.rect[3] / 2)
     partscreen(2560, tmp, 0, 0)
     temp = speed
@@ -233,11 +238,12 @@ def battle():
     if 'Blue' in hero_colour:
         battlefind(Ui_Ellements[1], 'Blue')
     for i in herobattle:
+        print(i)
         atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol)
     sens = 0.75
-    ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
-    ahk.click()
     speed = temp
+    find_ellement(buttons[15], 12)
+    find_ellement(buttons[14], 12)
 
 
 def set():
@@ -265,6 +271,7 @@ def set():
     speed = temp
     sens = 0.7
     find_ellement(buttons[14], 9)
+    time.sleep(6)
     battle()
 def battlego():
     print("Битва")
@@ -501,7 +508,7 @@ def main():
     findgame()
     parslist()
     ahk.show_info_traytip("started", "all files loaded sucsessfuly", slient=False, blocking=True)
-    battle()
+    battlego()
 
 '''''
     win.show()
