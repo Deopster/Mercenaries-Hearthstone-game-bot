@@ -455,7 +455,7 @@ def find_ellement(file,index):
     global left
     global Resolution
     time.sleep(speed)
-    if index ==7 or index ==12 and file != chekers[8] :
+    if (index ==7 or index ==12) and file != chekers[8] :
         img = cv2.imread('files/'+Resolution+'/part.png')
     else:
         screen()
