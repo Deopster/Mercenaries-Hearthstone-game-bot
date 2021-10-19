@@ -189,7 +189,12 @@ def abilicks(index):
     print(index)
     print( heroTEMP)
     for obj in heroTEMP:
-        find_ellement(obj + '/abilics/1.png', 9)
+        if obj=='heroes/1' and raund>1:
+                find_ellement(obj + '/abilics/2.png', 9)
+        if obj=='heroes/3':
+            find_ellement(obj + '/abilics/2.png', 9)
+        else:
+            find_ellement(obj + '/abilics/1.png', 9)
 def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
     x=int(i[1])
     y=int(i[2])
@@ -200,7 +205,7 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
         abilicks('Red')
         if move(enemygreen):
             if move(mol):
-                rand()
+                rand(enemyred, enemygreen ,enemyblue ,enemynoclass)
     if i[0] == 'Green':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
@@ -208,7 +213,7 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
         abilicks('Green')
         if move(enemyblue):
             if move(mol):
-                rand()
+                rand(enemyred, enemygreen ,enemyblue ,enemynoclass)
     if i[0] == 'Blue':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
@@ -216,41 +221,47 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
         abilicks('Blue')
         if move(enemyred):
             if move(mol):
-                rand()
+                rand(enemyred, enemygreen ,enemyblue ,enemynoclass)
 
 
 def battle():
-    global zipp
+    global raund
     global sens
     global zipchek
     global speed
-    ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
-    ahk.click()
-    tmp=int(win.rect[3] / 2)
-    partscreen(2560, tmp, 0, 0)
-    temp = speed
-    speed = 0
-    sens=0.75
-    # поиск врага
-    enemyred = find_ellement(Ui_Ellements[9], 12)
-    enemygreen =find_ellement(Ui_Ellements[2], 12)
-    enemyblue=find_ellement(Ui_Ellements[1], 12)
-    enemynoclass=find_ellement(Ui_Ellements[12], 12)
-    mol = find_ellement(Ui_Ellements[11], 12)
-    partscreen(2560, tmp, tmp, 0)
-    if 'Red' in hero_colour:
-        battlefind(Ui_Ellements[9], 'Red')
-    if 'Green' in hero_colour:
-        battlefind(Ui_Ellements[2], 'Green')
-    if 'Blue' in hero_colour:
-        battlefind(Ui_Ellements[1], 'Blue')
-    for i in herobattle:
-        print(i)
-        atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol)
-    sens = 0.75
-    speed = temp
-    find_ellement(buttons[14], 12)
+    raund = 1
+    while True:
+        if find_ellement(buttons[14], 1):
+            ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
+            ahk.click()
+            tmp=int(win.rect[3] / 2)
+            partscreen(2560, tmp, 0, 0)
+            temp = speed
+            speed = 0
+            sens=0.75
+            # поиск врага
+            enemyred = find_ellement(Ui_Ellements[9], 12)
+            enemygreen =find_ellement(Ui_Ellements[2], 12)
+            enemyblue=find_ellement(Ui_Ellements[1], 12)
+            enemynoclass=find_ellement(Ui_Ellements[12], 12)
+            mol = find_ellement(Ui_Ellements[11], 12)
+            partscreen(2560, tmp, tmp, 0)
+            if 'Red' in hero_colour:
+                battlefind(Ui_Ellements[9], 'Red')
+            if 'Green' in hero_colour:
+                battlefind(Ui_Ellements[2], 'Green')
+            if 'Blue' in hero_colour:
+                battlefind(Ui_Ellements[1], 'Blue')
+            for i in herobattle:
+                print(i)
+                atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol)
+            sens = 0.75
+            speed = temp
 
+            time.sleep(1)
+            find_ellement(buttons[14], 1)
+            time.sleep(5)
+            raund+=1
 
 def set():
     global speed
@@ -471,7 +482,7 @@ def find_ellement(file,index):
             ahk.mouse_drag(x, y, relative=False)
             return True
         if file == chekers[5]:
-            ahk.mouse_move(x, y+70, speed=3)  # Moves the mouse instantly to absolute screen position
+            ahk.mouse_move(x, y+70, speed=3)
             ahk.click()
             return True
         if file ==buttons[5]:
