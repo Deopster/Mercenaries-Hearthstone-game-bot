@@ -24,7 +24,7 @@ sens=0.75
 #Ui-ellements
 Ui_Ellements=['battle','blue','green','group','next','one','page_1','page_2','page_3','red','prev','sob','noclass']
 #buttons
-buttons=['back','continue','create','del','join_button','num','ok','play','ready','sec','sta','start','start1','submit','allready','startbattle']
+buttons=['back','continue','create','del','join_button','num','ok','play','ready','sec','sta','start','start1','submit','allready','startbattle','startbattle1']
 #chekers
 chekers=['30lvl','empty_check','find','goto','group_find','level_check','rename','shab','drop','301','302','taken','text']
 #levels
@@ -183,6 +183,7 @@ def rand(enemyred, enemygreen ,enemyblue ,enemynoclass):
                 break
 
 def abilicks(index):
+    heroTEMP.clear()
     for i in range(3):
         if hero_colour[i] == index:
             heroTEMP.append(hero[i])
@@ -191,16 +192,18 @@ def abilicks(index):
     for obj in heroTEMP:
         if obj=='heroes/1' and raund>1:
                 find_ellement(obj + '/abilics/2.png', 9)
-        if obj=='heroes/3':
+        elif obj=='heroes/3':
             find_ellement(obj + '/abilics/2.png', 9)
         else:
             find_ellement(obj + '/abilics/1.png', 9)
+
 def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
     x=int(i[1])
     y=int(i[2])
     if i[0]=='Red':
         ahk.mouse_move(x,y, speed=3)
         ahk.click()
+        ahk.mouse_move(x, y+300, speed=3)
         time.sleep(0.2)
         abilicks('Red')
         if move(enemygreen):
@@ -209,6 +212,7 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
     if i[0] == 'Green':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
+        ahk.mouse_move(x, y +300, speed=3)
         time.sleep(0.2)
         abilicks('Green')
         if move(enemyblue):
@@ -217,6 +221,7 @@ def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
     if i[0] == 'Blue':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
+        ahk.mouse_move(x, y +300, speed=3)
         time.sleep(0.2)
         abilicks('Blue')
         if move(enemyred):
@@ -231,7 +236,8 @@ def battle():
     global speed
     raund = 1
     while True:
-        if find_ellement(buttons[14], 1):
+        if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1) :
+            herobattle.clear()
             ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
             ahk.click()
             tmp=int(win.rect[3] / 2)
@@ -259,7 +265,7 @@ def battle():
             speed = temp
 
             time.sleep(1)
-            find_ellement(buttons[14], 1)
+            find_ellement(buttons[14], 9)
             time.sleep(5)
             raund+=1
 
@@ -287,6 +293,7 @@ def set():
             x= win.rect[2]/2.85
     speed = temp
     sens = 0.7
+    ahk.mouse_move(200, 200, speed=3)
     time.sleep(1)
     find_ellement(buttons[14], 9)
     time.sleep(5)
