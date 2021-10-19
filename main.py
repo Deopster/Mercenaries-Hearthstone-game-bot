@@ -35,8 +35,9 @@ hero_colour=['','','']
 pages=['','','']
 heroNUM=['','','']
 #for battle
-myhero=['','','']
-myherocol=['','','']
+myred=
+myblue=
+mygreen
 #челы с молниями
 enemywiz=[0,0,0]
 enemywizF=['','','']
@@ -122,43 +123,84 @@ def findgame():
          print("Игра не найдена")
          return False
 
+def move(index,num):
+    if index!=(0,0):
+        if num ==1:
+            ahk.mouse_move(index[0]+60,index[1]+win.rect[3]/2 , speed=3)
+        if num ==2:
+            ahk.mouse_move(index[0]+60,index[1] , speed=3)
+        ahk.click()
+def battlefind():
+    img = cv2.imread('files/' + Resolution + '/part.png')
+    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
+    template = cv2.imread('files/' + Resolution + '/' + file,
+                          cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
+    w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)`
+    result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
 
+    loc = np.where(result >= sens)
+    print(loc)
+    if len(loc[0]) != 0:
+        j = 0
+        for pt in zip(*loc[::-1]):
+            Flag = False
+            for num in range(3):
+                if pt[0] < enemywiz[num] + 10 and pt[0] > enemywiz[num] - 10:
+                    Flag = True
+                    pass
+            if not Flag:
+                for num in range(3):
+                    if enemywiz[num] == 0:
+                        enemywiz[num] = pt[0]
+                        x = (pt[0] * 2 + w) / 2
+                        y = (pt[1] * 2 + h) / 2
+                        enemywizF[j] = x, y
+                        j += 1
+                        break
+        for i in range(2):
+            enemywiz[i] = 0
+        return 0
 def battle():
     global zipp
     global sens
     global zipchek
     global speed
     zipp = False
-    ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
-    ahk.click()
     tmp=int(win.rect[3] / 2)
     partscreen(2560, tmp, 0, 0)
     temp = speed
     speed = 0
+    sens=0.75
+    # поиск врага
     enemyred = find_ellement(Ui_Ellements[9], 12)
     enemygreen =find_ellement(Ui_Ellements[2], 12)
     enemyblue=find_ellement(Ui_Ellements[1], 12)
     enemynoclass=find_ellement(Ui_Ellements[12], 12)
+    for i in range(2):
+        if hero_colour[i] == 'Red':
+            battlefind(Ui_Ellements[9], i,'Red')
+        if hero_colour[i] == 'Green':
+            battlefind(Ui_Ellements[2],i,'Green')
+        if hero_colour[i] == 'Blue':
+            battlefind(Ui_Ellements[1],i,'Blue')
     print(enemyred,enemyblue,enemygreen,enemynoclass)
-    if zipchek==False:
-        if find_ellement(Ui_Ellements[11], 'battletag'):
-            zipchek = True
-    speed = temp
+
+    find_ellement(Ui_Ellements[11], 'battletag')
+
     partscreen(2560, tmp, tmp, 0)
-    red = find_ellement(Ui_Ellements[9], 12)
-    green = find_ellement(Ui_Ellements[2], 12)
-    blue = find_ellement(Ui_Ellements[1], 12)
     print(blue,red,green)
-    ahk.mouse_move(red, speed=3)
-    time.sleep(2)
-    ahk.mouse_move(blue, speed=3)
-    time.sleep(2)
-    ahk.mouse_move(green, speed=3)
-    time.sleep(2)
-    ahk.mouse_move(enemygreen, speed=3)
-    time.sleep(2)
-    ahk.mouse_move(enemynoclass, speed=3)
-    time.sleep(2)
+    move(red, 1)
+    move(blue, 1)
+    move(green, 1)
+
+    move(enemyred, 2)
+    move(enemygreen, 2)
+    move(enemyblue, 2)
+    move(enemynoclass, 2)
+    sens = 0.75
+    ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
+    ahk.click()
+    speed = temp
 
 
 def set():
@@ -171,8 +213,6 @@ def set():
     x = win.rect[2]/2.85
     y = win.rect[3]-win.rect[3]/10
     i=0
-    beg = 0
-    end = 3
     temp = speed
     speed = 0
     sens=0.6
@@ -181,12 +221,13 @@ def set():
         for n in range(3):
             if find_ellement(hero[n] + '/set.png', 6):
                 ahk.mouse_drag(x, y - 500, relative=False)
+                i+=1
             x += win.rect[2] / 57
         if x>1700:
             x= win.rect[2]/2.85
     speed = temp
     sens = 0.7
-    find_ellement(buttons[14], 1)
+    find_ellement(buttons[14], 9)
     battle()
 def battlego():
     print("Битва")
@@ -355,37 +396,15 @@ def find_ellement(file,index):
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
 
     loc = np.where(result >= sens)
-    if index =='battletag':
-        print(loc)
-        if len(loc[0]) != 0:
-            j=0
-            for pt in zip(*loc[::-1]):
-                Flag=False
-                for num in range(3):
-                    if pt[0] < enemywiz[num] + 10 and pt[0] > enemywiz[num] - 10:
-                        Flag=True
-                        pass
-                if not Flag:
-                    for num in range(3):
-                        if enemywiz[num] == 0 :
-                            enemywiz[num]=pt[0]
-                            x = (pt[0] * 2 + w) / 2
-                            y = (pt[1] * 2 + h) / 2
-                            enemywizF[j]=x,y
-                            j+=1
-                            break
-            for i in range(2):
-                enemywiz[i]=0
-            return 0
     if len(loc[0]) !=0:
         for pt in zip(*loc[::-1]):
             pt[0] + w
             pt[1] + h
-        x=(pt[0]*2+w)/2
-        y=(pt[1]*2+h)/2
+        x=int((pt[0]*2+w)/2)
+        y=int((pt[1]*2+h)/2)
         print("Found "+file,x,y)
         if index==12:
-            return x,y
+            return (x,y)
         if (index==6 or file == Ui_Ellements[5] or file == chekers[7]):
             global xm
             global ym
@@ -422,16 +441,16 @@ def find_ellement(file,index):
     else:
         print("Not found  "+file)
         if index == 12:
-            return 0
+            return 0,0
         if index ==6:
             return False
         if index ==7:
             return False
         if index== 3:
             return 6
-        if index==2:
+        if index==2 or index=='battletag':
             return True
-        if index ==1 or index ==9:
+        if index ==1 or index ==9 or index==12 :
             return False
         if file ==buttons[7]:
             return False
@@ -440,13 +459,14 @@ def find_ellement(file,index):
 
 
 def main():
-    ahk.show_info_traytip("Started", "loading files", slient=False, blocking=True)
+    ahk.show_info_traytip("Starting", "loading files", slient=False, blocking=True)
     configread()
     findgame()
     parslist()
     ahk.show_info_traytip("started", "all files loaded sucsessfuly", slient=False, blocking=True)
     battle()
-'''
+
+'''''
     win.show()
     win.restore()
     win.maximize()
@@ -457,7 +477,7 @@ def main():
     while True:
         if findgame():
             where()
-'''
+'''''
 if __name__ == '__main__':
     main()
 
