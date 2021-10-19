@@ -5,7 +5,7 @@ from ahk import AHK
 from mss import mss
 import mss
 import configparser
-from PIL import Image
+import random
 
 ahk = AHK()
 global xm
@@ -35,12 +35,10 @@ hero_colour=['','','']
 pages=['','','']
 heroNUM=['','','']
 #for battle
-myred=
-myblue=
-mygreen
-#челы с молниями
+herobattle=[]
+#damp
 enemywiz=[0,0,0]
-enemywizF=['','','']
+heroTEMP=[]
 #img list
 picparser=['/1.png','/2.png','/3.png','/4.png']
 
@@ -123,14 +121,12 @@ def findgame():
          print("Игра не найдена")
          return False
 
-def move(index,num):
-    if index!=(0,0):
-        if num ==1:
-            ahk.mouse_move(index[0]+60,index[1]+win.rect[3]/2 , speed=3)
-        if num ==2:
-            ahk.mouse_move(index[0]+60,index[1] , speed=3)
-        ahk.click()
-def battlefind():
+
+def battlefind(file,coll):
+    global sens
+    global top
+    global left
+    global Resolution
     img = cv2.imread('files/' + Resolution + '/part.png')
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
     template = cv2.imread('files/' + Resolution + '/' + file,
@@ -139,7 +135,6 @@ def battlefind():
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
 
     loc = np.where(result >= sens)
-    print(loc)
     if len(loc[0]) != 0:
         j = 0
         for pt in zip(*loc[::-1]):
@@ -152,20 +147,73 @@ def battlefind():
                 for num in range(3):
                     if enemywiz[num] == 0:
                         enemywiz[num] = pt[0]
-                        x = (pt[0] * 2 + w) / 2
-                        y = (pt[1] * 2 + h) / 2
-                        enemywizF[j] = x, y
+                        x = ((pt[0] * 2 + w) / 2)+60
+                        y = (((pt[1] * 2 + h) / 2) + (win.rect[3]/2))
+                        herobattle.append([coll,x,y])
                         j += 1
                         break
         for i in range(2):
             enemywiz[i] = 0
         return 0
+
+
+
+
+def move(index):
+    if index!= (0, 0):
+        ahk.mouse_drag(index[0]+60,index[1], relative=False)
+    else:
+        return True
+def rand():
+    while True:
+        a = random.randint(0, 4)
+        if a == 0:
+            if a == 1:
+                if a == 2:
+                    return True
+                if a == 3:
+                    return enemywiz
+
+def abilicks(index):
+    for i in range(3):
+        if hero_colour == index:
+            heroTEMP.append(hero[i])
+    for obj in heroTEMP:
+        find_ellement(obj + '/abilics/1.png', 9)
+def atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol):
+    heroTEMP=[]
+    x=int(i[1])
+    y=int(i[2])
+    if i[0]=='Red':
+        ahk.mouse_move(x,y, speed=3)
+        ahk.click()
+        abilicks('Red')
+        if move(enemygreen):
+            if move(mol):
+                rand()
+    if i[0] == 'Green':
+        ahk.mouse_move(x, y, speed=3)
+        ahk.click()
+        abilicks('Green')
+        if move(enemyblue):
+            if move(mol):
+                rand()
+    if i[0] == 'Blue':
+        ahk.mouse_move(x, y, speed=3)
+        ahk.click()
+        abilicks('Blue')
+        if move(enemyred):
+            if move(mol):
+                rand()
+
+
+
+
 def battle():
     global zipp
     global sens
     global zipchek
     global speed
-    zipp = False
     tmp=int(win.rect[3] / 2)
     partscreen(2560, tmp, 0, 0)
     temp = speed
@@ -176,27 +224,16 @@ def battle():
     enemygreen =find_ellement(Ui_Ellements[2], 12)
     enemyblue=find_ellement(Ui_Ellements[1], 12)
     enemynoclass=find_ellement(Ui_Ellements[12], 12)
-    for i in range(2):
-        if hero_colour[i] == 'Red':
-            battlefind(Ui_Ellements[9], i,'Red')
-        if hero_colour[i] == 'Green':
-            battlefind(Ui_Ellements[2],i,'Green')
-        if hero_colour[i] == 'Blue':
-            battlefind(Ui_Ellements[1],i,'Blue')
-    print(enemyred,enemyblue,enemygreen,enemynoclass)
-
-    find_ellement(Ui_Ellements[11], 'battletag')
-
+    mol = find_ellement(Ui_Ellements[11], 12)
     partscreen(2560, tmp, tmp, 0)
-    print(blue,red,green)
-    move(red, 1)
-    move(blue, 1)
-    move(green, 1)
-
-    move(enemyred, 2)
-    move(enemygreen, 2)
-    move(enemyblue, 2)
-    move(enemynoclass, 2)
+    if 'Red' in hero_colour:
+        battlefind(Ui_Ellements[9], 'Red')
+    if 'Green' in hero_colour:
+        battlefind(Ui_Ellements[2], 'Green')
+    if 'Blue' in hero_colour:
+        battlefind(Ui_Ellements[1], 'Blue')
+    for i in herobattle:
+        atack(i,enemyred, enemygreen ,enemyblue ,enemynoclass,mol)
     sens = 0.75
     ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
     ahk.click()
