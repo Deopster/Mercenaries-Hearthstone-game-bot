@@ -2,6 +2,12 @@
 ```diff
 - prevention: Bot is not ready and now on the development stage estimated release date - 21.10.21
 ```
+
+<h3 align="center">PvP system work preview</h3>
+
+[![Watch the video](https://user-images.githubusercontent.com/68296704/137970053-fe49c896-d237-49f1-8658-46d1477340d7.png)](https://www.youtube.com/watch?v=znt1P3KkrNg&t)
+
+
 The main idea of  the bot is to automatically pass the levels and assemble components, 
 simultaneously pumping all your mercenaries level 1 to 30 (so far, then to add)
 So how does it work?
