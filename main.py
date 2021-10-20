@@ -23,10 +23,10 @@ sens = 0.75
 # for_future=['','','','','','','','','','','','','','','','','','','',]
 # Ui-ellements
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
-                'noclass']
+                'noclass','bat1','bat2','bat3','bat4','bat5']#noclass 12
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
-           'start1', 'submit', 'allready', 'startbattle', 'startbattle1']
+           'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take'] #last 17
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text','win']
@@ -119,7 +119,7 @@ def partscreen(x, y, top, left):
         monitor = {"top": top, "left": left, "width": x, "height": y}
         output = "sct-{top}x{left}_{width}x{height}.png".format(**monitor)
         sct_img = sct.grab(monitor)
-        mss.tools.to_png(sct_img.rgb, sct_img.size, output='files/' + Resolution + '/part.png')
+        mss.tools.to_png(sct_img.rgb, sct_img.size, output=r'files/' + Resolution + '/part.png')
 
 
 def findgame():
@@ -192,8 +192,33 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
         if a == 3:
             if not move(enemynoclass):
                 break
+def nextlvl():
+    tm = int(win.rect[3] / 3)
+    partscreen(2560, tm, tm, 0)
+    for i in range(4):
+        x,y = find_ellement(Ui_Ellements[13+i], 12)
+        if x!=0:
+            ahk.mouse_move(x, y+win.rect[3] / 2.5, speed=3)
+            ahk.click()
+            break
+    find_ellement(buttons[7], 2)
+    set()
 
-
+def Tres():
+    y = win.rect[3] / 2
+    temp = random.randint(0, 2)
+    if temp == 0:
+        x = win.rect[2] / 2.3
+        ahk.mouse_move(x, y, speed=3)
+    if temp == 1:
+        x = win.rect[2] / 1.7
+        ahk.mouse_move(x, y, speed=3)
+    if temp == 2:
+        x = win.rect[2] / 1.4
+        ahk.mouse_move(x, y, speed=3)
+    ahk.click()
+    find_ellement(buttons[17], 9)
+    nextlvl()
 def abilicks(index):
     heroTEMP.clear()
     for i in range(3):
@@ -255,6 +280,7 @@ def battle():
             for i in range(5):
                 ahk.click()
                 time.sleep(0.5)
+            Tres()
         if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1):
             print(win.rect)
             herobattle.clear()
@@ -583,9 +609,11 @@ def main():
     win.maximize()
     win.to_top()
     win.activate()
+    battle()
+    '''''
     while True:
         if findgame():
             where()
-
+    '''''
 if __name__ == '__main__':
     main()
