@@ -277,7 +277,7 @@ def battle():
         speed = 0
         if find_ellement(chekers[13],1):
             ahk.mouse_move(win.rect[2] / 2, win.rect[3]-300,speed=3)
-            for i in range(5):
+            for i in range(4):
                 ahk.click()
                 time.sleep(0.5)
             Tres()
@@ -338,7 +338,7 @@ def set():
                 ahk.mouse_drag(x, y - 700, relative=False)
                 i += 1
             x += win.rect[2] / 57
-        if x > win.rect[2] / 1.5:
+        if x > 1700:
             x = win.rect[2] / 2.85
     speed = temp
     sens = 0.7
@@ -371,9 +371,8 @@ def battlego():
     while True:
         if find_ellement(buttons[7], 0):
             time.sleep(0.5)
-            break
-        else:
             find_ellement(buttons[13], 2)
+            break
     set()
 
 
@@ -451,8 +450,8 @@ def group_create():
         time.sleep(1)
         if find_ellement(chekers[1], 2) == True:
             x = win.rect[2] / 1.4
-            y = win.rect[3] / 3.2
-            ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
+            y = win.rect[3] / 2.5  # fix later
+            ahk.mouse_move(x, 440, speed=3)  # Moves the mouse instantly to absolute screen position
             ahk.click()
             time.sleep(1)
             if find_ellement(chekers[0], 1) == True:
@@ -572,8 +571,6 @@ def find_ellement(file, index):
         if file == buttons[7]:
             return True
         if file == Ui_Ellements[3]:
-            time.sleep(0.5)
-            ahk.click()
             group_create()
     else:
         print("Not found  " + file)
