@@ -29,7 +29,7 @@ buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'pla
            'start1', 'submit', 'allready', 'startbattle', 'startbattle1']
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
-           'taken', 'text']
+           'taken', 'text','win']
 # levels
 levels = ['level15']
 # heroes
@@ -250,15 +250,16 @@ def battle():
     raund = 1
     while True:
         speed = 0
-        if find_ellement(chekers[13]):
-            ahk.mouse_move(win.rect[2] / 2, win.rect[2] - 100,speed=3)
+        if find_ellement(chekers[13],1):
+            ahk.mouse_move(win.rect[2] / 2, win.rect[3]-300,speed=3)
             for i in range(4):
                 ahk.click()
                 time.sleep(0.5)
         if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1):
+            print(win.rect)
             herobattle.clear()
             tmp = int(win.rect[3] / 2)
-            ahk.mouse_move(win.rect[2] / 2,win.rect[2]-100, speed=3)  # Moves the mouse instantly to absolute screen position
+            ahk.mouse_move(win.rect[2] / 2,win.rect[3]-300, speed=3)  # Moves the mouse instantly to absolute screen position
             ahk.click()
             tmp = int(win.rect[3] / 2)
             partscreen(2560, tmp, 0, 0)
@@ -579,7 +580,6 @@ def main():
     win.maximize()
     win.to_top()
     win.activate()
-    battle()
     while True:
         if findgame():
             where()
