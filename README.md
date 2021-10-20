@@ -22,11 +22,17 @@ In plans
 4. It is possible to expand the functionality originally conceived.
 
 <h1 align="center">Installation</h1>
-
 <ul>
   <li>Download the project</li>
   <li>Install All Libraries</li>
 </ul>
+<h3 align="left">auto</h3>
+<ul>
+  <li>pip install -r requirements.txt</li>
+</ul>
+<h3 align="left">by yrself</h3>
+
+
 
 ![image](https://user-images.githubusercontent.com/68296704/137736402-fb0e7fae-5f3d-4c8d-b56e-b50ff08db56f.png)
 
