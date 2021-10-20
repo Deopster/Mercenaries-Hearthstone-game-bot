@@ -119,7 +119,7 @@ def partscreen(x, y, top, left):
         monitor = {"top": top, "left": left, "width": x, "height": y}
         output = "sct-{top}x{left}_{width}x{height}.png".format(**monitor)
         sct_img = sct.grab(monitor)
-        mss.tools.to_png(sct_img.rgb, sct_img.size, output=r'files/' + Resolution + '/part.png')
+        mss.tools.to_png(sct_img.rgb, sct_img.size, output='files/' + Resolution + '/part.png')
 
 
 def findgame():
@@ -193,18 +193,20 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
             if not move(enemynoclass):
                 break
 def nextlvl():
+    time.sleep(3)
     tm = int(win.rect[3] / 3)
     partscreen(2560, tm, tm, 0)
     for i in range(4):
-        x,y = find_ellement(Ui_Ellements[13+i], 12)
-        if x!=0:
-            ahk.mouse_move(x, y+win.rect[3] / 2.5, speed=3)
+        x, y = find_ellement(Ui_Ellements[13 + i], 12)
+        if x != 0:
+            ahk.mouse_move(x, y + win.rect[3] / 2.5, speed=3)
             ahk.click()
             break
     find_ellement(buttons[7], 2)
     set()
 
 def Tres():
+    time.sleep(5)
     y = win.rect[3] / 2
     temp = random.randint(0, 2)
     if temp == 0:
@@ -277,7 +279,7 @@ def battle():
         speed = 0
         if find_ellement(chekers[13],1):
             ahk.mouse_move(win.rect[2] / 2, win.rect[3]-300,speed=3)
-            for i in range(4):
+            for i in range(5):
                 ahk.click()
                 time.sleep(0.5)
             Tres()
@@ -338,7 +340,7 @@ def set():
                 ahk.mouse_drag(x, y - 700, relative=False)
                 i += 1
             x += win.rect[2] / 57
-        if x > 1700:
+        if x > win.rect[2] / 1.5:
             x = win.rect[2] / 2.85
     speed = temp
     sens = 0.7
@@ -371,8 +373,9 @@ def battlego():
     while True:
         if find_ellement(buttons[7], 0):
             time.sleep(0.5)
-            find_ellement(buttons[13], 2)
             break
+        else:
+            find_ellement(buttons[13], 2)
     set()
 
 
@@ -450,8 +453,8 @@ def group_create():
         time.sleep(1)
         if find_ellement(chekers[1], 2) == True:
             x = win.rect[2] / 1.4
-            y = win.rect[3] / 2.5  # fix later
-            ahk.mouse_move(x, 440, speed=3)  # Moves the mouse instantly to absolute screen position
+            y = win.rect[3] / 3.2
+            ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
             ahk.click()
             time.sleep(1)
             if find_ellement(chekers[0], 1) == True:
@@ -571,6 +574,8 @@ def find_ellement(file, index):
         if file == buttons[7]:
             return True
         if file == Ui_Ellements[3]:
+            time.sleep(0.5)
+            ahk.click()
             group_create()
     else:
         print("Not found  " + file)
@@ -606,11 +611,10 @@ def main():
     win.maximize()
     win.to_top()
     win.activate()
-    battle()
-    '''''
+
     while True:
         if findgame():
             where()
-    '''''
+
 if __name__ == '__main__':
     main()
