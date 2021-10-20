@@ -457,7 +457,7 @@ def find_ellement(file,index):
     time.sleep(speed)
     if index == 12:
         img = cv2.imread('files/' + Resolution + '/part.png')
-    if index ==7 and file != chekers[8] :
+    elif index ==7 and file != chekers[8] :
         img = cv2.imread('files/'+Resolution+'/part.png')
     else:
         screen()
@@ -536,9 +536,9 @@ def main():
     findgame()
     parslist()
     ahk.show_info_traytip("started", "all files loaded sucsessfuly", slient=False, blocking=True)
+    set()
 
-
-
+'''''
     win.show()
     win.restore()
     win.maximize()
@@ -549,7 +549,7 @@ def main():
     while True:
         if findgame():
             where()
-
+'''''
 if __name__ == '__main__':
     main()
 
