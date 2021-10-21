@@ -23,10 +23,10 @@ sens = 0.75
 # for_future=['','','','','','','','','','','','','','','','','','','',]
 # Ui-ellements
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
-                'noclass','bat1','bat2','bat3','bat4','bat5']#noclass 12
+                'noclass','bat1','bat2','bat3','bat4','bat5','findthis','sombody']#noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
-           'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take'] #last 17
+           'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take','take1'] #last take -17
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text','win']
@@ -113,6 +113,7 @@ def screen():
 
 
 def partscreen(x, y, top, left):
+    print("entered screenpart")
     global Resolution
     import mss.tools
     with mss.mss() as sct:
@@ -193,9 +194,19 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
             if not move(enemynoclass):
                 break
 def nextlvl():
-    time.sleep(3)
-    tm = int(win.rect[3] / 3)
+    global speed
+    tm = int(win.rect[3] / 3.1)
     partscreen(2560, tm, tm, 0)
+    x = win.rect[2] / 3.7
+    y = win.rect[3]/2.5
+    temp = speed
+    speed = 0
+    sens = 0.6
+    for n in range(8):
+        ahk.mouse_position = (x, y)
+        ahk.click()
+        x += win.rect[2] / 25
+    speed = temp
     for i in range(4):
         x, y = find_ellement(Ui_Ellements[13 + i], 12)
         if x != 0:
@@ -203,10 +214,24 @@ def nextlvl():
             ahk.click()
             break
     find_ellement(buttons[7], 2)
+    if find_ellement(Ui_Ellements[19], 1):
+        temp = random.randint(0, 2)
+        if temp == 0:
+            x = win.rect[2] / 2.3
+            ahk.mouse_move(x, y, speed=3)
+        if temp == 1:
+            x = win.rect[2] / 1.7
+            ahk.mouse_move(x, y, speed=3)
+        if temp == 2:
+            x = win.rect[2] / 1.4
+            ahk.mouse_move(x, y, speed=3)
+        ahk.click()
+        find_ellement(buttons[18], 9)
+        time.sleep(1)
+        find_ellement(buttons[7], 2)
     set()
 
 def Tres():
-    time.sleep(5)
     y = win.rect[3] / 2
     temp = random.randint(0, 2)
     if temp == 0:
@@ -220,6 +245,7 @@ def Tres():
         ahk.mouse_move(x, y, speed=3)
     ahk.click()
     find_ellement(buttons[17], 9)
+    time.sleep(2)
     nextlvl()
 def abilicks(index):
     heroTEMP.clear()
@@ -279,7 +305,7 @@ def battle():
         speed = 0
         if find_ellement(chekers[13],1):
             ahk.mouse_move(win.rect[2] / 2, win.rect[3]-300,speed=3)
-            for i in range(5):
+            while not find_ellement(Ui_Ellements[18],1):
                 ahk.click()
                 time.sleep(0.5)
             Tres()
@@ -312,9 +338,15 @@ def battle():
                 atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol)
             sens = 0.75
             speed = temp
+            i=0
             while True:
                 if not find_ellement(buttons[14], 2):
                     break
+                if i>10:
+                    ahk.show_warning_traytip("Battle", "Battle error,please write what happend on github issue")
+                    find_ellement(buttons[15], 2)
+                    break
+                i += 1
             time.sleep(3)
             raund += 1
 
@@ -332,16 +364,17 @@ def set():
     i = 0
     temp = speed
     speed = 0
-    sens = 0.6
-    while i < 3:
+    sens = 0.9
+    while not find_ellement(buttons[14], 1):
+        print('вход')
         ahk.mouse_position = (x, y)
         for n in range(3):
             if find_ellement(hero[n] + '/set.png', 6):
                 ahk.mouse_drag(x, y - 700, relative=False)
-                i += 1
             x += win.rect[2] / 57
         if x > win.rect[2] / 1.5:
             x = win.rect[2] / 2.85
+    print('выход')
     speed = temp
     sens = 0.7
     ahk.mouse_move(200, 200, speed=3)
@@ -359,9 +392,9 @@ def battlego():
         if not find_ellement(buttons[7], 2):
                 set()
         if not  find_ellement(buttons[10], 2):
+            time.sleep(2)
+            find_ellement(buttons[9], 2)
             break
-    time.sleep(1)
-    find_ellement(buttons[9], 2)
     while True:
         if not find_ellement(levels[0], 2):
             if not find_ellement(buttons[11], 2):
@@ -611,7 +644,6 @@ def main():
     win.maximize()
     win.to_top()
     win.activate()
-
     while True:
         if findgame():
             where()
