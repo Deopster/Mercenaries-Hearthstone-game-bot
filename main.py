@@ -204,9 +204,10 @@ def nextlvl():
     time.sleep(1)
     if open==True:
         while not find_ellement(buttons[19], 14):
-            find_ellement(buttons[20], 14)
+            Ui_Ellements(buttons[20], 14)
         open = False
     if find_ellement(buttons[7], 14):
+        print('start battle 210')
         open=True
         set()
     tm = int(win.rect[3] / 3.1)
@@ -683,11 +684,10 @@ def main():
     win.maximize()
     win.to_top()
     win.activate()
-    battle()
-    '''''
+
     while True:
         if findgame():
             where()
-    '''''
+
 if __name__ == '__main__':
     main()
