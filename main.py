@@ -197,18 +197,17 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
         if a == 3:
             if not move(enemynoclass):
                 break
-def nextlvl():
-    global speed
-    global open
-    global sens
-    time.sleep(1)
+def collect():
     if open==True:
         while not find_ellement(buttons[19], 14):
             Ui_Ellements(buttons[20], 14)
         open = False
+def nextlvl():
+    global speed
+    global sens
+    time.sleep(1)
     if find_ellement(buttons[7], 14):
         print('start battle 210')
-        open=True
         set()
     tm = int(win.rect[3] / 3.1)
     partscreen(2560, tm, tm, 0)
@@ -400,17 +399,21 @@ def set():
     temp = speed
     speed = 0
     sens = 0.9
+    i=0
     while not find_ellement(buttons[14], 1):
         print('вход')
         sens = 0.6
         ahk.mouse_position = (x, y)
         for n in range(3):
+            if i>=3:
+                ahk.mouse_drag(x, y - 600, speed=3, relative=False)
             if find_ellement(hero[n] + '/set.png', 6):
                 time.sleep(0.2)
                 ahk.mouse_drag(x, y - 600, speed=3, relative=False)
             x += win.rect[2] / 57
         if x > win.rect[2] / 1.5:
             x = win.rect[2] / 2.85
+        i+=1
     print('выход')
     speed = temp
     sens = 0.7
@@ -422,6 +425,7 @@ def set():
 
 
 def battlego():
+    global sens
     print("Битва")
     time.sleep(1)
     find_ellement(Ui_Ellements[0], 0)
@@ -520,11 +524,11 @@ def group_create():
         find_ellement(Ui_Ellements[6], 2)
         group_create()
     else:
-        time.sleep(1.5)
+        time.sleep(1)
         if find_ellement(chekers[1], 2) == True:
             x = win.rect[2] / 1.4
-            y = win.rect[3] / 3.2
-            ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
+            y = win.rect[3] / 2.5  # fix later
+            ahk.mouse_move(x, 440, speed=3)  # Moves the mouse instantly to absolute screen position
             ahk.click()
             time.sleep(1)
             if find_ellement(chekers[0], 1) == True:
