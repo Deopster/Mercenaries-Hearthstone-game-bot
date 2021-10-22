@@ -1,7 +1,85 @@
 # Hearthstone-Mercenaries-game-bot
 ```diff
-- prevention: Bot is not ready and now on the development stage estimated release date - 21.10.21
+- prevention: Bot is not ready and now on the development stage estimated release date - works as fast as possible シ
 ```
+<h3 align="center">Dev progress</h3>
+<table>
+  <tr>
+    <td width=500vw>2560x1440</td>
+     <td width=500vw>1920x1080</td>
+  </tr>
+  <tr>
+    <td>
+<ol>
+<li>auto assembly of the group - ✓ </li>
+<li>Checking and regrouping if the heroes have reached level 30 - ✓</li>
+<li>Transition to level selection - ✓</li>
+<li>transition between sublevels - ✓, ✗ (stranger don't work)</li>
+<li>Choosing a reward after passing a level - ✓</li> 
+<li>Putting heroes on the board - ✓</li>
+<li>searching for suitable opponents - ✓</li>
+<li>choosing abilities - ✓</li>
+<li>attacking opponents - ✓</li>
+<li>collecting rewards for reaching the last level-  ✗</li>
+<li>repeat from 1 point - ✗</li>
+</ol>
+      <br><br>
+    </td>
+    <td><ol>
+<li>auto assembly of the group - ✓ </li>
+<li>Checking and regrouping if the heroes have reached level 30 - ✓</li>
+<li>Transition to level selection - ✓</li>
+<li>transition between sublevels - ✗ </li>
+<li>Choosing a reward after passing a level - ✗</li> 
+<li>Putting heroes on the board - ✓</li>
+<li>searching for suitable opponents - ✓,✗(not finding green and blue)</li>
+<li>choosing abilities - ✗</li>
+<li>attacking opponents - ✗</li>
+<li>collecting rewards for reaching the last level-  ✗</li>
+<li>repeat from 1 point - ✗</li>
+</ol>
+      P.S.special thanks to https://github.com/kiiiiiingdom
+    </td>
+  </tr>
+ </table>
+ 
+ <h3 align="center">Supported game language</h3>
+<table>
+  <tr>
+    <td width=100vw></td>
+    <td width=300vw>Russian</td>
+     <td width=300vw>English</td>
+    <td  width=300vw>Chinese</td>
+  </tr>
+  <tr>
+    <td>
+      2560x1440
+    </td>
+    <td background>
+      ✅
+    </td>
+    <td>
+      ❌
+    </td>
+    <td>
+      ❌
+    </td>
+  </tr>
+  <tr>
+    <td>
+      1920x1080
+    </td>
+    <td>
+      ❌
+    </td>
+    <td>
+      ✅
+    </td>
+    <td>
+      In progress
+    </td>
+  </tr>
+ </table>
 
 <h3 align="center">PvP system work preview</h3>
 
