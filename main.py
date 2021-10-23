@@ -7,6 +7,7 @@ import mss
 import configparser
 import random
 import PySimpleGUI as sg
+import threading
 
 ahk = AHK()
 global xm
@@ -571,17 +572,12 @@ def change(index):
     time.sleep(1)
 
 def inter():
-    layout = [[sg.Text('My one-shot window.')],
-              [sg.InputText()],
-              [sg.Submit(), sg.Cancel()]]
-
-    window = sg.Window('Window Title', layout)
-
-    event, values = window.read()
-    window.close()
-
-    text_input = values[0]
-    sg.popup('You entered', text_input)
+    layout = [[sg.Text("Test")], [sg.Button("OK")]]
+    window = sg.Window("Demo", layout)
+    while True:
+        event, values = window.read()
+        if event == "OK" or event == sg.WIN_CLOSED:
+            break
 def group_create():
     global speed
     global left
@@ -779,7 +775,8 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-        inter()
+        thr1 = threading.Thread(target=inter)
+        thr1.start()
         while True:
             if findgame():
                 # print("Game window found")
