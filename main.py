@@ -348,12 +348,16 @@ def battle():
             partscreen(2560, tmp, 0, 0)
             temp = speed
 
-            sens = 0.75
+            sens = 0.8
             # поиск врага
             enemyred = find_ellement(Ui_Ellements[9], 12)
             enemygreen = find_ellement(Ui_Ellements[2], 12)
             enemyblue = find_ellement(Ui_Ellements[1], 12)
             enemynoclass = find_ellement(Ui_Ellements[12], 12)
+            print("red: ",enemyred)
+            print("green: ", enemygreen)
+            print("blue: ", enemyblue)
+            print("noclass: ", enemynoclass)
             mol = find_ellement(Ui_Ellements[11], 12)
             partscreen(2560, tmp, tmp, 0)
             if 'Red' in hero_colour:
@@ -363,7 +367,7 @@ def battle():
             if 'Blue' in hero_colour:
                 battlefind(Ui_Ellements[1], 'Blue')
             for i in herobattle:
-                print(i)
+                print("print index",i)
                 atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol)
             sens = 0.75
             speed = temp
@@ -688,7 +692,7 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-        battlego()
+        battle()
         while True:
             if findgame():
                 # print("Game window found")
