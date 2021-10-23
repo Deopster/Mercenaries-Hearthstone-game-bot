@@ -81,28 +81,21 @@ def configread():
     print(monik, speed, hero)
 
 
+def filepp(name,strname):
+    try:
+        i = 0
+        while i<len(name):
+            name[i] = strname + "/" + name[i] + ".png"
+            i+=1
+    except:
+        print(strname, "file list got error")
+
 def parslist():
+    filepp(Ui_Ellements,"Ui_Ellements")
+    filepp(buttons,"Buttons")
+    filepp(chekers,"Chekers")
+    filepp(levels,"Levels")
     i = 0
-    while i < len(Ui_Ellements):
-        Ui_Ellements[i] = "UI_ellements/" + Ui_Ellements[i] + ".png"
-        i += 1
-    print("1 блок")
-    i = 0
-    while i < len(buttons):
-        buttons[i] = "buttons/" + buttons[i] + ".png"
-        i += 1
-    print("2 блок")
-    i = 0
-    while i < len(chekers):
-        chekers[i] = "chekers/" + chekers[i] + ".png"
-        i += 1
-    i = 0
-    print("3 блок")
-    while i < len(levels):
-        levels[i] = "levels/" + levels[i] + ".png"
-        i += 1
-    i = 0
-    print("4 блок")
     while i < len(hero):
         hero[i] = "heroes/" + hero[i]
         i += 1
@@ -128,12 +121,13 @@ def partscreen(x, y, top, left):
 
 def findgame():
     global win
-    win = ahk.win_get(title='Hearthstone')
+    try:
+        win = ahk.win_get(title='Hearthstone')
+    except:
+        print("Not found game.")
     if win.exist:
-        print("Игра найдена")
         return True
     else:
-        print("Игра не найдена")
         return False
 
 
@@ -675,23 +669,30 @@ def find_ellement(file, index):
             where()
 
 
+
 def main():
-    ahk.show_info_traytip("Starting", "loading files", slient=False, blocking=True)
-    configread()
-    findgame()
-    parslist()
-    ahk.show_info_traytip("started", "all files loaded successfully", slient=False, blocking=True)
-    win.show()
-    win.restore()
-    win.maximize()
-    win.to_top()
-    win.maximize()
-    win.to_top()
-    win.activate()
-    battle()
-    while True:
-        if findgame():
-            where()
+    try:
+        ahk.show_info_traytip("Starting", "loading files", slient=False, blocking=True)
+        configread()
+        findgame()
+        parslist()
+        ahk.show_info_traytip("started", "all files loaded successfully", slient=False, blocking=True)
+        win.show()
+        win.restore()
+        win.maximize()
+        win.to_top()
+        win.maximize()
+        win.to_top()
+        win.activate()
+
+        while True:
+            if findgame():
+                # print("Game window found")
+                where()
+            else:
+                print("Not found Game window.")
+    except Exception as E:
+        print("Error", E)
 
 if __name__ == '__main__':
     main()
