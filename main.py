@@ -31,7 +31,7 @@ buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'pla
            'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take','take1','yes','onedie','reveal','done'] #last take -17
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
-           'taken', 'text','win','ifrename','levelstarted']
+           'taken', 'text','win','ifrename','levelstarted','nextlvlcheck']
 # levels
 levels = ['level15']
 # heroes
@@ -148,7 +148,7 @@ def battlefind(file, coll):
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)`
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
 
-    loc = np.where(result >= 0.65)
+    loc = np.where(result >= 0.75)
     num = 0
     if len(loc[0]) != 0:
         j = 0
@@ -209,7 +209,7 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
             if not move(enemynoclass):
                 break
 def backtomenu():
-    
+    where()
 def collect():
     while not find_ellement(buttons[22], 14):
         ahk.mouse_move(win.rect[2] / 2.5,win.rect[3] / 3.5, speed=3)
@@ -241,12 +241,14 @@ def nextlvl():
         ahk.click()
         x += win.rect[2] / 25
     speed = temp
+    sens = 0.65
     for i in range(4):
         x, y = find_ellement(Ui_Ellements[13 + i], 12)
         if x != 0:
             ahk.mouse_move(x, y + win.rect[3] / 2.5, speed=3)
             ahk.click()
             break
+    sens = 0.7
     if find_ellement(buttons[21], 14):
         time.sleep(1)
         ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
@@ -439,14 +441,14 @@ def seth():
     i = 0
     temp = speed
     speed = 0
-    sens = 0.9
+    sens = 0.95
     i=0
     while not find_ellement(buttons[14], 1):
         print('вход')
-        sens = 0.6
+        sens = 0.75
         ahk.mouse_position = (x, y)
         for n in range(3):
-            if i>=3:
+            if i>=12:
                 ahk.mouse_drag(x, y - 600, speed=3, relative=False)
             if find_ellement(hero[n] + '/set.png', 6):
                 time.sleep(0.2)
@@ -471,8 +473,10 @@ def battlego():
     time.sleep(1)
     find_ellement(Ui_Ellements[0], 0)
     while True:
-        if find_ellement(chekers[15], 2):
-            nextlvl()
+        if find_ellement(chekers[15], 14):
+            time.sleep(2)
+            if not find_ellement(chekers[16],2):
+                nextlvl()
         if find_ellement(buttons[7], 14):
             find_ellement(buttons[7], 14)
             seth()
@@ -736,7 +740,7 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-        collect()
+        battle()
         while True:
             if findgame():
                 # print("Game window found")
