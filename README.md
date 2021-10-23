@@ -54,6 +54,20 @@
   </tr>
   <tr>
     <td>
+      3840x2160
+    </td>
+    <td background>
+      ❌
+    </td>
+    <td>
+      ❌
+    </td>
+    <td>
+      ❌
+    </td>
+  </tr>
+  <tr>
+    <td>
       2560x1440
     </td>
     <td background>
