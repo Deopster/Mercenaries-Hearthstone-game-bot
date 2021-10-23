@@ -194,20 +194,34 @@ def move(index):
 
 
 def rand(enemyred, enemygreen, enemyblue, enemynoclass):
+    count=0
     while True:
         a = random.randint(0, 3)
         if a == 0:
             if not move(enemygreen):
                 break
+        else:
+            count+=1
         if a == 1:
             if not move(enemyred):
                 break
+        else:
+            count+=1
         if a == 2:
             if not move(enemyblue):
                 break
+        else:
+            count+=1
         if a == 3:
             if not move(enemynoclass):
                 break
+        else:
+            count+=1
+        if count>3:
+            x = int(win.rect[2] / 2)
+            y = int(win.rect[2] / 6)
+            ahk.mouse_drag(x, y, speed=3, relative=False)
+            ahk.click()
 def backtomenu():
     where()
 def collect():
@@ -292,12 +306,9 @@ def Tres():
             time.sleep(1)
             nextlvl()
 def test():
-    while True:
-        if find_ellement(Ui_Ellements[21], 1):
-            ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
-            x = int(win.rect[2] / 2.5)
-            y = int(win.rect[2] / 4)
-            ahk.mouse_move(x, y, speed=3)
+    x = int(win.rect[2] / 2)
+    y = int(win.rect[2] / 6)
+    ahk.mouse_move(x, y, speed=3)
 def abilicks(index):
     heroTEMP.clear()
     for i in range(3):
@@ -557,15 +568,16 @@ def group_create():
         print(win.rect)
         x=int(win.rect[2] /1.3)
         y=int(win.rect[3] / 9)
-        while not find_ellement(chekers[14], 14):
-            ahk.mouse_move(x,y, speed=3)
-            time.sleep(0.5)
-            ahk.click()
-            temp = speed
-            speed = 0
-            ahk.send_input('Botwork', 0)
-            find_ellement(Ui_Ellements[10], 0)
-            time.sleep(1)
+        #while not find_ellement(chekers[14], 14):
+        ahk.mouse_move(x, y, speed=3)
+        time.sleep(0.5)
+        ahk.click()
+        temp = speed
+        speed = 0
+        ahk.send_input('Botwork', 0)
+        find_ellement(Ui_Ellements[10], 0)
+        time.sleep(1)
+
         find(0)
         find(1)
         find(2)
@@ -740,7 +752,7 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-        battle()
+        test()
         while True:
             if findgame():
                 # print("Game window found")
