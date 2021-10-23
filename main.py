@@ -31,7 +31,7 @@ buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'pla
            'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take','take1','yes','onedie'] #last take -17
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
-           'taken', 'text','win']
+           'taken', 'text','win','ifrename']
 # levels
 levels = ['level15']
 # heroes
@@ -329,8 +329,9 @@ def battle():
     raund = 1
     while True:
         speed = 0
-        if find_ellement(buttons[20], 14):
-            time.sleep(3)
+        time.sleep(1)
+        sens = 0.85
+        find_ellement(buttons[20], 14)
         if find_ellement(chekers[13],1):
             ahk.mouse_move(win.rect[2] / 2, win.rect[3]-win.rect[3]/4.8,speed=3)
             while not find_ellement(Ui_Ellements[18],1):
@@ -424,9 +425,10 @@ def battlego():
     time.sleep(1)
     find_ellement(Ui_Ellements[0], 0)
     while True:
-        if not find_ellement(buttons[7], 2):
-                set()
-        if not  find_ellement(buttons[10], 2):
+        if find_ellement(buttons[7], 14):
+            find_ellement(buttons[7], 14)
+            set()
+        if not find_ellement(buttons[10], 2):
             time.sleep(2)
             find_ellement(buttons[9], 2)
             break
@@ -503,13 +505,15 @@ def group_create():
         print(win.rect)
         x=int(win.rect[2] /1.3)
         y=int(win.rect[3] / 9)
-        ahk.mouse_move(x,y, speed=3)
-        time.sleep(0.5)
-        ahk.click()
-        temp = speed
-        speed = 0
-        ahk.send_input('Botwork', 0)
-        find_ellement(Ui_Ellements[10], 0)
+        while not find_ellement(chekers[14], 14):
+            ahk.mouse_move(x,y, speed=3)
+            time.sleep(0.5)
+            ahk.click()
+            temp = speed
+            speed = 0
+            ahk.send_input('Botwork', 0)
+            find_ellement(Ui_Ellements[10], 0)
+            time.sleep(1)
         find(0)
         find(1)
         find(2)
@@ -521,8 +525,8 @@ def group_create():
         time.sleep(1)
         if find_ellement(chekers[1], 2) == True:
             x = win.rect[2] / 1.4
-            y = win.rect[3] / 2.5  # fix later
-            ahk.mouse_move(x, 440, speed=3)  # Moves the mouse instantly to absolute screen position
+            y = win.rect[3] / 2.5
+            ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
             ahk.click()
             time.sleep(1)
             if find_ellement(chekers[0], 1) == True:
@@ -684,7 +688,7 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-
+        battlego()
         while True:
             if findgame():
                 # print("Game window found")
