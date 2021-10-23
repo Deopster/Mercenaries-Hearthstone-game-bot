@@ -688,7 +688,7 @@ def main():
     win.maximize()
     win.to_top()
     win.activate()
-
+    battle()
     while True:
         if findgame():
             where()
