@@ -28,10 +28,10 @@ Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'pa
                 'noclass','bat1','bat2','bat3','bat4','bat5','findthis','sombody','pack_open']#noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
-           'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take','take1','yes','onedie'] #last take -17
+           'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take','take1','yes','onedie','reveal'] #last take -17
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
-           'taken', 'text','win','ifrename']
+           'taken', 'text','win','ifrename','levelstarted']
 # levels
 levels = ['level15']
 # heroes
@@ -41,8 +41,9 @@ pages = ['', '', '']
 heroNUM = ['', '', '']
 # for battle
 herobattle = []
+herobattlefin=[]
 # damp
-enemywiz = [0, 0, 0]
+enemywiz = [0, 0, 0, 0, 0, 0]
 heroTEMP = []
 # img list
 picparser = ['/1.png', '/2.png', '/3.png', '/4.png']
@@ -139,6 +140,7 @@ def battlefind(file, coll):
     global top
     global left
     global Resolution
+    herobattle.clear()
     img = cv2.imread('files/' + Resolution + '/part.png')
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
     template = cv2.imread('files/' + Resolution + '/' + file,
@@ -146,25 +148,29 @@ def battlefind(file, coll):
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)`
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
 
-    loc = np.where(result >= sens)
+    loc = np.where(result >= 0.75)
     if len(loc[0]) != 0:
         j = 0
         for pt in zip(*loc[::-1]):
-            Flag = False
-            for num in range(3):
-                if pt[0] < enemywiz[num] + 10 and pt[0] > enemywiz[num] - 10:
-                    Flag = True
-                    pass
-            if not Flag:
-                for num in range(3):
-                    if enemywiz[num] == 0:
-                        enemywiz[num] = pt[0]
-                        x = ((pt[0] * 2 + w) / 2) + 60
-                        y = (((pt[1] * 2 + h) / 2) + (win.rect[3] / 2))
-                        herobattle.append([coll, x, y])
-                        j += 1
+            x = int(((pt[0] * 2 + w) / 2) + 60)
+            y = int((((pt[1] * 2 + h) / 2) + (win.rect[3] / 2)))
+
+            herobattle.append([coll, x, y])
+        print("Unsort Data of our heroes", herobattle)
+        for i in herobattle:
+            print("Enter - first num:",i)
+            for n in range(6):
+                if i[1]< enemywiz[n]+20 and i[1]>enemywiz[n]-20:
+                    if enemywiz[n]!=0:
                         break
-        for i in range(2):
+                else:
+                    enemywiz[n]=i[1]
+                    print("second num:", enemywiz[n])
+                    herobattlefin.append(i)
+                    break
+        print(enemywiz)
+        print("Sort Data of our heroes",herobattlefin)
+        for i in range(6):
             enemywiz[i] = 0
         return 0
 
@@ -205,11 +211,11 @@ def nextlvl():
     time.sleep(1)
     if find_ellement(buttons[7], 14):
         print('start battle 210')
-        set()
+        seth()
     tm = int(win.rect[3] / 3.1)
     partscreen(2560, tm, tm, 0)
     x = win.rect[2] / 3.7
-    y = win.rect[3]/2.6
+    y = win.rect[3]/2.2
     temp = speed
     speed = 0
     sens = 0.7
@@ -224,6 +230,11 @@ def nextlvl():
             ahk.mouse_move(x, y + win.rect[3] / 2.5, speed=3)
             ahk.click()
             break
+    if find_ellement(buttons[21], 14):
+        time.sleep(1)
+        ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
+        ahk.click()
+        nextlvl()
     find_ellement(buttons[7], 2)
     if find_ellement(Ui_Ellements[19], 1):
         temp = random.randint(0, 2)
@@ -242,7 +253,7 @@ def nextlvl():
         find_ellement(buttons[7], 2)
     while True:
         if not find_ellement(Ui_Ellements[7], 14):
-            set()
+            seth()
 
 def Tres():
     y = win.rect[3] / 2
@@ -257,9 +268,10 @@ def Tres():
         x = win.rect[2] / 1.4
         ahk.mouse_move(x, y, speed=3)
     ahk.click()
-    find_ellement(buttons[17], 9)
-    time.sleep(2)
-    nextlvl()
+    while True:
+        if find_ellement(buttons[17], 14):
+            time.sleep(1)
+            nextlvl()
 def test():
     x = int(win.rect[2] / 2.5)
     y = int(win.rect[2] / 4)
@@ -341,11 +353,11 @@ def battle():
                 ahk.click()
                 time.sleep(0.5)
             Tres()
-        if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1):
+        if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1): #finds startbattle.png
             print(win.rect)
-            herobattle.clear()
+            herobattlefin.clear()
             tmp = int(win.rect[3] / 2)
-            ahk.mouse_move(win.rect[2] / 2,win.rect[3]-win.rect[3]/4.8, speed=3)  # Moves the mouse instantly to absolute screen position
+            ahk.mouse_move(win.rect[2] / 2,win.rect[3]-win.rect[3]/4.8, speed=3)
             ahk.click()
             tmp = int(win.rect[3] / 2)
             partscreen(2560, tmp, 0, 0)
@@ -363,18 +375,21 @@ def battle():
             print("noclass: ", enemynoclass)
             mol = find_ellement(Ui_Ellements[11], 12)
             partscreen(2560, tmp, tmp, 0)
-            if 'Red' in hero_colour:
-                battlefind(Ui_Ellements[9], 'Red')
-            if 'Green' in hero_colour:
-                battlefind(Ui_Ellements[2], 'Green')
-            if 'Blue' in hero_colour:
-                battlefind(Ui_Ellements[1], 'Blue')
-            for i in herobattle:
+            print("enter serch Red")
+            battlefind(Ui_Ellements[9], 'Red') #find all yr Red
+            if len(herobattlefin)!=3:
+                print("enter serch Green")
+                battlefind(Ui_Ellements[2], 'Green') #find all yr Green
+            if len(herobattlefin) != 3:
+                print("enter serch Blue")
+                battlefind(Ui_Ellements[1], 'Blue') #find all yr Blue
+            for i in herobattlefin:
                 print("print index",i)
                 atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol)
             sens = 0.75
             speed = temp
             i=0
+            ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
             while True:
                 if not find_ellement(buttons[14], 2):
                     break
@@ -388,7 +403,7 @@ def battle():
 
 
 
-def set():
+def seth():
     global speed
     global sens
     while True:
@@ -432,9 +447,11 @@ def battlego():
     time.sleep(1)
     find_ellement(Ui_Ellements[0], 0)
     while True:
+        if find_ellement(chekers[15], 2):
+            nextlvl()
         if find_ellement(buttons[7], 14):
             find_ellement(buttons[7], 14)
-            set()
+            seth()
         if not find_ellement(buttons[10], 2):
             time.sleep(2)
             find_ellement(buttons[9], 2)
@@ -453,7 +470,7 @@ def battlego():
             break
         else:
             find_ellement(buttons[13], 2)
-    set()
+    seth()
 
 
 def where():
