@@ -33,10 +33,10 @@
 <li>transition between sublevels - ✓ </li>
 <li>Choosing a reward after passing a level - ✓</li> 
 <li>Putting heroes on the board - ✓</li>
-<li>searching for suitable opponents - ✓,✗(not finding green and blue)</li>
+<li>searching for suitable opponents - ✓</li>
 <li>choosing abilities - ✓</li>
 <li>attacking opponents - ✓</li>
-<li>collecting rewards for reaching the last level-  ✗</li>
+<li>collecting rewards for reaching the last level-  ✓</li>
 <li>repeat from 1 point - ✗</li>
 </ol>
       P.S.special thanks to https://github.com/kiiiiiingdom
