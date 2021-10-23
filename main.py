@@ -25,10 +25,10 @@ sens = 0.75
 # for_future=['','','','','','','','','','','','','','','','','','','',]
 # Ui-ellements
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
-                'noclass','bat1','bat2','bat3','bat4','bat5','findthis','sombody','pack_open']#noclass 12, bat5-17
+                'noclass','bat1','bat2','bat3','bat4','bat5','findthis','sombody','pack_open','presents']#noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
-           'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take','take1','yes','onedie','reveal'] #last take -17
+           'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take','take1','yes','onedie','reveal','done'] #last take -17
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text','win','ifrename','levelstarted']
@@ -148,7 +148,8 @@ def battlefind(file, coll):
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)`
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
 
-    loc = np.where(result >= 0.75)
+    loc = np.where(result >= 0.65)
+    num = 0
     if len(loc[0]) != 0:
         j = 0
         for pt in zip(*loc[::-1]):
@@ -157,20 +158,27 @@ def battlefind(file, coll):
 
             herobattle.append([coll, x, y])
         print("Unsort Data of our heroes", herobattle)
+
         for i in herobattle:
-            print("Enter - first num:",i)
+            print(i)
             for n in range(6):
                 if i[1]< enemywiz[n]+20 and i[1]>enemywiz[n]-20:
+                    print("first num:", i[1],"second num:", enemywiz[n])
                     if enemywiz[n]!=0:
+                        print('then stoped')
                         break
                 else:
-                    enemywiz[n]=i[1]
-                    print("second num:", enemywiz[n])
-                    herobattlefin.append(i)
-                    break
+                    if enemywiz[n] == 0:
+                        print("it wrote ", i[1], "in ", enemywiz[num])
+                        enemywiz[num] = i[1]
+                        print("enemiwiz now",enemywiz)
+                        num+=1
+                        herobattlefin.append(i)
+                        print("herobattle now", herobattlefin)
+                        break
         print(enemywiz)
         print("Sort Data of our heroes",herobattlefin)
-        for i in range(6):
+        for i in range(2):
             enemywiz[i] = 0
         return 0
 
@@ -200,11 +208,20 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
         if a == 3:
             if not move(enemynoclass):
                 break
+def backtomenu():
+    
 def collect():
-    if open==True:
-        while not find_ellement(buttons[19], 14):
-            Ui_Ellements(buttons[20], 14)
-        open = False
+    while not find_ellement(buttons[22], 14):
+        ahk.mouse_move(win.rect[2] / 2.5,win.rect[3] / 3.5, speed=3)
+        ahk.click()
+        ahk.mouse_move(win.rect[2] / 1.5,win.rect[3] / 3.5, speed=3)
+        ahk.click()
+        ahk.mouse_move(win.rect[2] / 2.7,win.rect[3] / 1.4, speed=3)
+        ahk.click()
+        ahk.mouse_move(win.rect[2] / 1.7,win.rect[3] / 1.3, speed=3)
+        ahk.click()
+        time.sleep(1)
+    backtomenu()
 def nextlvl():
     global speed
     global sens
@@ -273,9 +290,12 @@ def Tres():
             time.sleep(1)
             nextlvl()
 def test():
-    x = int(win.rect[2] / 2.5)
-    y = int(win.rect[2] / 4)
-    ahk.mouse_move(x, y, speed=3)
+    while True:
+        if find_ellement(Ui_Ellements[21], 1):
+            ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
+            x = int(win.rect[2] / 2.5)
+            y = int(win.rect[2] / 4)
+            ahk.mouse_move(x, y, speed=3)
 def abilicks(index):
     heroTEMP.clear()
     for i in range(3):
@@ -349,10 +369,14 @@ def battle():
         find_ellement(buttons[20], 14)
         if find_ellement(chekers[13],1):
             ahk.mouse_move(win.rect[2] / 2, win.rect[3]-win.rect[3]/4.8,speed=3)
-            while not find_ellement(Ui_Ellements[18],1):
-                ahk.click()
-                time.sleep(0.5)
-            Tres()
+            while True:
+                if not find_ellement(Ui_Ellements[18],1):
+                    ahk.click()
+                    time.sleep(0.5)
+                else:
+                    Tres()
+                if find_ellement(Ui_Ellements[21],1):
+                    collect()
         if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1): #finds startbattle.png
             print(win.rect)
             herobattlefin.clear()
@@ -712,7 +736,7 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-        battle()
+        collect()
         while True:
             if findgame():
                 # print("Game window found")
