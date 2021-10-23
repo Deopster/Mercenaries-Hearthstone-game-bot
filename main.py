@@ -6,6 +6,7 @@ from mss import mss
 import mss
 import configparser
 import random
+import PySimpleGUI as sg
 
 ahk = AHK()
 global xm
@@ -24,11 +25,18 @@ open=False
 sens = 0.75
 # for_future=['','','','','','','','','','','','','','','','','','','',]
 # Ui-ellements
+
+
+
+
+
+
+
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
                 'noclass','bat1','bat2','bat3','bat4','bat5','findthis','sombody','pack_open','presents']#noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
-           'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take','take1','yes','onedie','reveal','done'] #last take -17
+           'start1', 'submit', 'allready', 'startbattle', 'startbattle1','take','take1','yes','onedie','reveal','done','finishok'] #last take -17
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text','win','ifrename','levelstarted','nextlvlcheck']
@@ -223,19 +231,25 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
             ahk.mouse_drag(x, y, speed=3, relative=False)
             ahk.click()
 def backtomenu():
+    time.sleep(1)
+    find_ellement(buttons[23],0)
+    while not find_ellement(Ui_Ellements[0],14):
+        find_ellement(buttons[0], 14)
     where()
 def collect():
-    while not find_ellement(buttons[22], 14):
-        ahk.mouse_move(win.rect[2] / 2.5,win.rect[3] / 3.5, speed=3)
-        ahk.click()
-        ahk.mouse_move(win.rect[2] / 1.5,win.rect[3] / 3.5, speed=3)
-        ahk.click()
-        ahk.mouse_move(win.rect[2] / 2.7,win.rect[3] / 1.4, speed=3)
-        ahk.click()
-        ahk.mouse_move(win.rect[2] / 1.7,win.rect[3] / 1.3, speed=3)
-        ahk.click()
-        time.sleep(1)
-    backtomenu()
+    while True:
+        if not find_ellement(buttons[22], 14):
+            ahk.mouse_move(win.rect[2] / 2.5,win.rect[3] / 3.5, speed=3)
+            ahk.click()
+            ahk.mouse_move(win.rect[2] / 1.5,win.rect[3] / 3.5, speed=3)
+            ahk.click()
+            ahk.mouse_move(win.rect[2] / 2.7,win.rect[3] / 1.4, speed=3)
+            ahk.click()
+            ahk.mouse_move(win.rect[2] / 1.7,win.rect[3] / 1.3, speed=3)
+            ahk.click()
+            time.sleep(1)
+        else:
+            backtomenu()
 def nextlvl():
     global speed
     global sens
@@ -556,7 +570,18 @@ def change(index):
         find_ellement(Ui_Ellements[8], 9)
     time.sleep(1)
 
+def inter():
+    layout = [[sg.Text('My one-shot window.')],
+              [sg.InputText()],
+              [sg.Submit(), sg.Cancel()]]
 
+    window = sg.Window('Window Title', layout)
+
+    event, values = window.read()
+    window.close()
+
+    text_input = values[0]
+    sg.popup('You entered', text_input)
 def group_create():
     global speed
     global left
@@ -705,7 +730,9 @@ def find_ellement(file, index):
             xm = x
             ym = y
             return True
-        ahk.mouse_move(x, y, speed=5)  # Moves the mouse instantly to absolute screen position
+        p=random.randint(-2, 2)
+        s = random.randint(-2, 2)
+        ahk.mouse_move(x+p, y+s, speed=5)  # Moves the mouse instantly to absolute screen position
         ahk.click()  # Click the primary mouse button
         if file == buttons[7]:
             return True
@@ -752,7 +779,7 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-        test()
+        inter()
         while True:
             if findgame():
                 # print("Game window found")
@@ -761,6 +788,5 @@ def main():
                 print("Not found Game window.")
     except Exception as E:
         print("Error", E)
-
 if __name__ == '__main__':
     main()
