@@ -74,6 +74,9 @@ def configread():
         Resolution = '2560x1440'
     if Resolution == '1920*1080':
         Resolution = '1920x1080'
+    if Resolution == '3840*2160':
+        Resolution = '3840x2160'
+
 
     print(pages[0], pages[1], pages[2])
 
