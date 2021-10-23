@@ -7,7 +7,7 @@
 <table>
   <tr>
     <td width=500vw>2560x1440</td>
-     <td width=500vw>1920x1080</td>
+    <td width=500vw>1920x1080</td>
   </tr>
   <tr>
     <td>
@@ -42,6 +42,28 @@
       P.S.special thanks to https://github.com/kiiiiiingdom
     </td>
   </tr>
+  
+  <tr>
+    <td width=500vw>3840x2160</td>
+  </tr>
+  <tr>
+    <td>
+<ol>
+<li>auto assembly of the group - ✗ </li>
+<li>Checking and regrouping if the heroes have reached level 30 - ✗</li>
+<li>Transition to level selection - ✗</li>
+<li>transition between sublevels -  ✗ </li>
+<li>Choosing a reward after passing a level - ✗</li> 
+<li>Putting heroes on the board - ✗</li>
+<li>searching for suitable opponents - ✗</li>
+<li>choosing abilities - ✗</li>
+<li>attacking opponents - ✗</li>
+<li>collecting rewards for reaching the last level-  ✗</li>
+<li>repeat from 1 point - ✗</li>
+</ol>
+      <br><br>
+    </td>
+    </tr>
  </table>
  
  <h3 align="center">Supported game language</h3>
