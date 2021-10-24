@@ -762,6 +762,8 @@ def find_ellement(file, index):
 
 
 def main():
+    print("start")
+    time.sleep(20)
     try:
         ahk.show_info_traytip("Starting", "loading files", slient=False, blocking=True)
         configread()
@@ -779,7 +781,6 @@ def main():
         thr1.start()
         while True:
             if findgame():
-                # print("Game window found")
                 where()
             else:
                 print("Not found Game window.")

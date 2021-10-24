@@ -1,0 +1,1 @@
+pyinstaller --add-data "settings.ini;." sec.py

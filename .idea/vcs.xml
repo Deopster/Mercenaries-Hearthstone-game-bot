@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/dist/main/Mercenaries-Hearthstone-game-bot" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/output/main/Mercenaries-Hearthstone-game-bot" vcs="Git" />
   </component>
 </project>
