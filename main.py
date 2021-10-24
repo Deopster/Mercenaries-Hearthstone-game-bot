@@ -752,7 +752,22 @@ def find_ellement(file, index):
 
 
 def inter():
-    return 0
+    window = Tk()
+    label = Label(
+        text="Resolution",
+        fg="white",
+        bg="black",
+        width=20,
+        height=20
+    )
+    combo = Combobox(window)
+    window.title("HsBot v1.0")
+    combo['values'] = ("1920x1080", "2560x1440", "not ready")
+    combo.current(1)  # set the selected item
+    combo.grid(column=0, row=0)
+    label.pack()
+    window.mainloop()
+
 def main():
     print("start")
     try:
@@ -768,8 +783,8 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-        thr1 = threading.Thread(target=inter)
-        thr1.start()
+        #thr1 = threading.Thread(target=inter)
+        #thr1.start()
         while True:
             if findgame():
                 where()
