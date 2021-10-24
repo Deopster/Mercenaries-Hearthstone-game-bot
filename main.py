@@ -8,6 +8,9 @@ import configparser
 import random
 from tkinter import *
 import threading
+import keyboard
+from tkinter.ttk import *
+
 
 ahk = AHK()
 global xm
@@ -565,10 +568,7 @@ def change(index):
         find_ellement(Ui_Ellements[8], 9)
     time.sleep(1)
 
-def inter():
-    window = Tk()
-    window.title("Добро пожаловать в приложение PythonRu")
-    window.mainloop()
+
 def group_create():
     global speed
     global left
@@ -751,7 +751,8 @@ def find_ellement(file, index):
             where()
 
 
-
+def inter():
+    return 0
 def main():
     print("start")
     try:
