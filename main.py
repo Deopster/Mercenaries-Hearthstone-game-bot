@@ -6,7 +6,7 @@ from mss import mss
 import mss
 import configparser
 import random
-import PySimpleGUI as sg
+from tkinter import *
 import threading
 
 ahk = AHK()
@@ -26,12 +26,6 @@ open=False
 sens = 0.75
 # for_future=['','','','','','','','','','','','','','','','','','','',]
 # Ui-ellements
-
-
-
-
-
-
 
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
                 'noclass','bat1','bat2','bat3','bat4','bat5','findthis','sombody','pack_open','presents']#noclass 12, bat5-17
@@ -572,12 +566,9 @@ def change(index):
     time.sleep(1)
 
 def inter():
-    layout = [[sg.Text("Test")], [sg.Button("OK")]]
-    window = sg.Window("Demo", layout)
-    while True:
-        event, values = window.read()
-        if event == "OK" or event == sg.WIN_CLOSED:
-            break
+    window = Tk()
+    window.title("Добро пожаловать в приложение PythonRu")
+    window.mainloop()
 def group_create():
     global speed
     global left
@@ -763,7 +754,6 @@ def find_ellement(file, index):
 
 def main():
     print("start")
-    time.sleep(20)
     try:
         ahk.show_info_traytip("Starting", "loading files", slient=False, blocking=True)
         configread()
