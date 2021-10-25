@@ -302,6 +302,7 @@ def nextlvl():
     while True:
         if not find_ellement(Ui_Ellements[7], 14):
             seth()
+            break
 
 
 def Tres():
@@ -412,6 +413,8 @@ def battle():
                     time.sleep(0.5)
                 else:
                     Tres()
+                    flag = True
+                    break
                 if find_ellement(Ui_Ellements[21], 1):
                     collect()
                     flag=True
@@ -517,6 +520,7 @@ def battlego():
             time.sleep(2)
             if not find_ellement(chekers[16], 2):
                 nextlvl()
+                break
         if find_ellement(buttons[7], 14):
             find_ellement(buttons[7], 14)
             seth()
@@ -533,6 +537,7 @@ def battlego():
             find_ellement(buttons[12], 2)
             break
     while True:
+        time.sleep(0.2)
         if find_ellement(buttons[7], 0):
             time.sleep(0.5)
             break
@@ -633,6 +638,7 @@ def group_create():
                             time.sleep(0.5)
                             find_ellement(buttons[24], 14)
                             group_create()
+                            break
             else:
                 find_ellement(buttons[8], 0)
                 time.sleep(1)
