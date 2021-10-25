@@ -798,7 +798,6 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-        collect()
         # thr1 = threading.Thread(target=inter)
         # thr1.start()
         while True:
