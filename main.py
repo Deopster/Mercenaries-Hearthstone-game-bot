@@ -31,7 +31,7 @@ sens = 0.75
 
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
                 'noclass', 'bat1', 'bat2', 'bat3', 'bat4', 'bat5', 'findthis', 'sombody', 'pack_open',
-                'presents']  # noclass 12, bat5-17
+                'presents','travel']  # noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
            'start1', 'submit', 'allready', 'startbattle', 'startbattle1', 'take', 'take1', 'yes', 'onedie', 'reveal',
@@ -516,6 +516,7 @@ def battlego():
     time.sleep(1)
     find_ellement(Ui_Ellements[0], 0)
     while True:
+        find_ellement(Ui_Ellements[22], 14)
         if find_ellement(chekers[15], 14):
             time.sleep(2)
             if not find_ellement(chekers[16], 2):
