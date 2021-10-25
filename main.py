@@ -10,6 +10,7 @@ from tkinter import *
 import threading
 import keyboard
 from tkinter.ttk import *
+from PIL import Image
 
 ahk = AHK()
 global xm
@@ -33,14 +34,15 @@ sens = 0.75
 
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
                 'noclass', 'bat1', 'bat2', 'bat3', 'bat4', 'bat5', 'findthis', 'sombody', 'pack_open',
-                'presents', 'travel','startbat']  # noclass 12, bat5-17
+                'presents', 'travel', 'startbat']  # noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
            'start1', 'submit', 'allready', 'startbattle', 'startbattle1', 'take', 'take1', 'yes', 'onedie', 'reveal',
            'done', 'finishok', 'confirm']  # last take -17
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
-           'taken', 'text', 'win', 'ifrename', 'levelstarted', 'nextlvlcheck']
+           'taken', 'text', 'win', 'ifrename', 'levelstarted', 'nextlvlcheck', 'cords-search', '303', '30lvl1',
+           '30lvl2']
 # levels
 levels = ['level15']
 # heroes
@@ -317,7 +319,6 @@ def nextlvl():
             return
 
 
-
 def Tres():
     y = win.rect[3] / 2
     temp = random.randint(0, 2)
@@ -337,10 +338,16 @@ def Tres():
             nextlvl()
 
 
-def test():
-    x = int(win.rect[2] / 2)
-    y = int(win.rect[2] / 6)
-    ahk.mouse_move(x, y, speed=3)
+def resize():
+    for i in range(3):
+        image_path = './files/' + Resolution + '/' + hero[i] + '/set.png'
+        img = Image.open(image_path)
+        # получаем ширину и высоту
+        width, height = img.size
+        print(width, height)
+        # открываем картинку в окне
+        new_image = img.resize((int(width * 0.75), int(height * 0.75)))
+        new_image.save('./files/' + Resolution + '/' + hero[i] + '/set2.png')
 
 
 def abilicks(index):
@@ -604,6 +611,10 @@ def change(index):
     time.sleep(1)
 
 
+def test():
+    pass
+
+
 def group_create():
     if road == True:
         return
@@ -638,32 +649,86 @@ def group_create():
     else:
         time.sleep(1)
         if find_ellement(chekers[1], 2) == True:
-            x = win.rect[2] / 1.4
-            y = win.rect[3] / 2.5
-            ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
-            ahk.click()
+            x, y = find_ellement(chekers[17], 15)
+            x = x - int(win.rect[2] / 9)
+            y = y + int(win.rect[3] / 18.5)
+            add = 0
+            for i in range(6):
+                temp = sens
+                sens = 0.65
+                ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
+                ahk.click()
+                if i < 3:
+                    bool_check = False
+                    time.sleep(0.5)
+                    if find_ellement(hero[i] + "/set2.png", 1):
+                        bool_check = True
+                    if bool_check is False:
+                        sens = temp
+                        find_ellement(buttons[8], 0)
+                        time.sleep(0.1)
+                        ahk.click()
+                        while True:
+                            time.sleep(0.2)
+                            if find_ellement(chekers[3], 1):
+                                time.sleep(0.5)
+                                if find_ellement(buttons[3], 14):
+                                    time.sleep(0.5)
+                                    find_ellement(buttons[24], 14)
+                                    group_create()
+                                    break
+                    y = y + int(win.rect[3] / 19)
+                    sens = temp
+                if i >= 3:
+                    temp = sens
+                    sens = 0.85
+                    time.sleep(0.5)
+                    if find_ellement(chekers[0], 1) or find_ellement(chekers[19], 1) or find_ellement(chekers[20], 1):
+                        ahk.mouse_drag(x - 600, y, speed=3, relative=False)
+                        add += 1
+                    else:
+                        y = y + int(win.rect[3] / 17.2)
+            sens = 0.75
+            while True:
+                if find_ellement(buttons[8], 14):
+                    break
+            time.sleep(0.5)
+            find_ellement(Ui_Ellements[6], 14)
+            time.sleep(0.5)
+            if add != 0:
+                print("Add heroes")
+                while i < 2:
+                    x = int(win.rect[2] / 7.5)
+                    y = int(win.rect[3] / 3.5)
+                    top = int(win.rect[3] / 5.76)
+                    left = int(win.rect[2] / 5.2)
+                    h = 0
+                    while h < 2:
+                        left = int(win.rect[2] / 5.2)
+                        j = 0
+                        while j < 3:
+                            partscreen(x, y, top, left)
+                            if find_ellement(chekers[12], 7):
+                                print(xm, ym)
+                                a = find_ellement(chekers[9], 7)
+                                b = find_ellement(chekers[10], 7)
+                                if a is False and b is False:
+                                    if not find_ellement(chekers[11], 7):
+                                        find_ellement(chekers[8], 7)
+                                        i += 1
+                            j += 1
+                            left += 365
+                        top += 480
+                        h += 1
+                    find_ellement(Ui_Ellements[4], 0)
+            sens = temp
+            time.sleep(15)
+            find_ellement(buttons[8], 0)
             time.sleep(1)
-            if find_ellement(chekers[0], 1) == True:
-                find_ellement(buttons[8], 0)
-                find_ellement(buttons[8], 0)
-                while True:
-                    time.sleep(0.2)
-                    if find_ellement(chekers[3], 1):
-                        time.sleep(0.5)
-                        if find_ellement(buttons[3], 14):
-                            time.sleep(0.5)
-                            find_ellement(buttons[24], 14)
-                            group_create()
-                            break
-            else:
-                find_ellement(buttons[8], 0)
-                time.sleep(1)
-                find_ellement(buttons[8], 0)
-                ahk.mouse_move(1000, 1000, speed=3)
-                find_ellement(buttons[0], 0)
-                battlego()
-
-
+            find_ellement(buttons[8], 0)
+            ahk.mouse_move(1000, 1000, speed=3)
+            find_ellement(buttons[0], 0)
+            battlego()
         else:
             i = 0
             temp = speed
@@ -701,6 +766,39 @@ def group_create():
         battlego()
 
 
+
+def find_merc(n):
+    global speed
+    global sens
+    i = 0
+    temp = speed
+    speed = 0.2
+    while i < 3:
+        x = int(win.rect[2] / 7.5)
+        y = int(win.rect[3] / 3.5)
+        top = int(win.rect[3] / 5.76)
+        left = int(win.rect[2] / 5.2)
+        h = 0
+        while h < 2:
+            left = int(win.rect[2] / 5.2)
+            j = 0
+            while j < 3:
+                partscreen(x, y, top, left)
+                if find_ellement(chekers[12], 7):
+                    print(xm, ym)
+                    a = find_ellement(chekers[9], 7)
+                    b = find_ellement(chekers[10], 7)
+                    if a is False and b is False:
+                        if not find_ellement(chekers[11], 7):
+                            find_ellement(chekers[8], 7)
+                            i += 1
+                j += 1
+                left += 365
+            top += 480
+            h += 1
+        find_ellement(Ui_Ellements[4], 0)
+    speed = temp
+
 def find_ellement(file, index):
     if road == True:
         return
@@ -730,7 +828,7 @@ def find_ellement(file, index):
         x = int((pt[0] * 2 + w) / 2)
         y = int((pt[1] * 2 + h) / 2)
         print("Found " + file, x, y)
-        if index == 12:
+        if index == 12 or index == 15:
             return (x, y)
         if (index == 6 or file == Ui_Ellements[5] or file == chekers[7]):
             global xm
@@ -777,7 +875,7 @@ def find_ellement(file, index):
         print("Not found  " + file)
         if index == 14:
             return False
-        if index == 12:
+        if index == 12 or index == 15:
             return 0, 0
         if index == 6:
             return False
@@ -829,6 +927,7 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
+        resize()
         # thr1 = threading.Thread(target=inter)
         # thr1.start()
         while True:
