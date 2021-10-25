@@ -1,7 +1,7 @@
 # Hearthstone-Mercenaries-game-bot
 ```diff
 - prevention: Bot is not ready and now on the development stage
-- estimated release date - works as fast as possible シ
+- estimated release date - 25.10.21
 ```
 <h3 align="center">Dev progress</h3>
 <table>
