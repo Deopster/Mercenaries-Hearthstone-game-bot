@@ -21,6 +21,8 @@ global speed
 global sens
 global zipp
 global zipchek
+global road
+road = False
 zipp = False
 zipchek = False
 global open
@@ -31,7 +33,7 @@ sens = 0.75
 
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
                 'noclass', 'bat1', 'bat2', 'bat3', 'bat4', 'bat5', 'findthis', 'sombody', 'pack_open',
-                'presents','travel']  # noclass 12, bat5-17
+                'presents', 'travel','startbat']  # noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
            'start1', 'submit', 'allready', 'startbattle', 'startbattle1', 'take', 'take1', 'yes', 'onedie', 'reveal',
@@ -142,6 +144,8 @@ def findgame():
 
 
 def battlefind(file, coll):
+    if road == True:
+        return
     global sens
     global top
     global left
@@ -227,8 +231,10 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
 
 
 def collect():
-    flag = False
+    global road
     while True:
+        if road == True:
+            break
         if not find_ellement(buttons[22], 14):
             ahk.mouse_move(win.rect[2] / 2.5, win.rect[3] / 3.5, speed=3)
             ahk.click()
@@ -245,13 +251,13 @@ def collect():
                     for i in range(2):
                         time.sleep(0.5)
                         find_ellement(buttons[0], 0)
-                        flag = True
+                        road = True
                     break
-        if flag == True:
-            break
 
 
 def nextlvl():
+    if road == True:
+        return
     global speed
     global sens
     time.sleep(1)
@@ -300,9 +306,16 @@ def nextlvl():
         time.sleep(1)
         find_ellement(buttons[7], 2)
     while True:
-        if not find_ellement(Ui_Ellements[7], 14):
+        if find_ellement(Ui_Ellements[23], 14):
             seth()
             break
+        else:
+            ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
+            ahk.click()
+            find_ellement(buttons[7], 14)
+        if road == True:
+            return
+
 
 
 def Tres():
@@ -364,7 +377,6 @@ def atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol):
     if i[0] == 'Red':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
-        ahk.mouse_move(x, y + int(i[2] / 4.8), speed=3)
         time.sleep(0.2)
         abilicks('Red')
         if move(enemygreen):
@@ -374,7 +386,6 @@ def atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol):
     if i[0] == 'Green':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
-        ahk.mouse_move(x, y + int(i[2] / 4.8), speed=3)
         time.sleep(0.2)
         abilicks('Green')
         if move(enemyblue):
@@ -384,7 +395,6 @@ def atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol):
     if i[0] == 'Blue':
         ahk.mouse_move(x, y, speed=3)
         ahk.click()
-        ahk.mouse_move(x, y + int(i[2] / 4.8), speed=3)
         time.sleep(0.2)
         abilicks('Blue')
         if move(enemyred):
@@ -398,7 +408,8 @@ def battle():
     global sens
     global zipchek
     global speed
-    flag=False
+    if road == True:
+        return
     raund = 1
     while True:
         ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.6, speed=3)
@@ -413,14 +424,10 @@ def battle():
                     time.sleep(0.5)
                 else:
                     Tres()
-                    flag = True
                     break
                 if find_ellement(Ui_Ellements[21], 1):
                     collect()
-                    flag=True
                     break
-        if flag is True:
-            break
 
         if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1):  # finds startbattle.png
             print(win.rect)
@@ -473,6 +480,8 @@ def battle():
 
 
 def seth():
+    if road == True:
+        return
     global speed
     global sens
     while True:
@@ -511,6 +520,8 @@ def seth():
 
 
 def battlego():
+    if road == True:
+        return
     global sens
     print("Битва")
     time.sleep(1)
@@ -548,10 +559,11 @@ def battlego():
 
 
 def where():
+    if road == True:
+        return True
     find_ellement(buttons[4], 0)
     find_ellement(Ui_Ellements[3], 0)
     find_ellement(buttons[0], 0)
-
     return True
 
 
@@ -593,9 +605,12 @@ def change(index):
 
 
 def group_create():
+    if road == True:
+        return
     global speed
     global left
     global top
+    global sens
     time.sleep(1)
     if find_ellement(chekers[4], 3) == 6:
         find_ellement(buttons[2], 0)
@@ -687,6 +702,8 @@ def group_create():
 
 
 def find_ellement(file, index):
+    if road == True:
+        return
     global sens
     global top
     global left
@@ -797,6 +814,7 @@ def inter():
 
 
 def main():
+    global road
     print("start")
     try:
         ahk.show_info_traytip("Starting", "loading files", slient=False, blocking=True)
@@ -815,6 +833,7 @@ def main():
         # thr1.start()
         while True:
             if findgame():
+                road = False
                 where()
             else:
                 print("Not found Game window.")
