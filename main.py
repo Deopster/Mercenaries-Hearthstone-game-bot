@@ -192,7 +192,7 @@ def battlefind(file, coll):
 def move(index):
     if index != (0, 0):
         time.sleep(0.1)
-        ahk.mouse_drag(index[0] + 60, index[1] - 30, speed=3, relative=False)
+        ahk.mouse_drag(index[0] + 40, index[1] - 30, speed=3, relative=False)
         ahk.click()
         return False
     else:
@@ -397,6 +397,7 @@ def battle():
     global sens
     global zipchek
     global speed
+    flag=False
     raund = 1
     while True:
         ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.6, speed=3)
@@ -413,6 +414,11 @@ def battle():
                     Tres()
                 if find_ellement(Ui_Ellements[21], 1):
                     collect()
+                    flag=True
+                    break
+        if flag is True:
+            break
+
         if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1):  # finds startbattle.png
             print(win.rect)
             herobattlefin.clear()
