@@ -144,12 +144,16 @@ In plans
 
 ![image](https://user-images.githubusercontent.com/68296704/138607261-d743018d-4c50-4482-a4e7-81091cb0f963.png)
 
-
-
 <ul>
   <li>then open Settings.ini and set yr settings</li>
   <li>Start the game</li>
 </ul>
+
+[![Watch the video](https://user-images.githubusercontent.com/68296704/138687982-0f6d971d-783d-4f35-a3a5-4f5d5a3e59af.png)](https://www.youtube.com/watch?v=nOZXCkrQ5fk)
+
+
+
+
 
 
 <h1 align="center">Specification, Settings.ini file:</h1>
