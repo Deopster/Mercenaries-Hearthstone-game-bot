@@ -2,8 +2,8 @@
 ```diff
 - prevention: Bot is not ready and now on the development stage
 ```
-<h3 align="center">Version 0.1.1-beta</h3>
-https://github.com/Deopster/Mercenaries-Hearthstone-game-bot/releases/tag/v0.1.1-beta
+<h3 align="center">Version 0.1.2-beta</h3>
+https://github.com/Deopster/Mercenaries-Hearthstone-game-bot/releases/tag/v0.1.2-beta
 <h3 align="center">Dev progress</h3>
 <table>
   <tr>
