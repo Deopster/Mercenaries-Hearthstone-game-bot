@@ -42,7 +42,7 @@ buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'pla
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text', 'win', 'ifrename', 'levelstarted', 'nextlvlcheck', 'cords-search', '303', '30lvl1',
-           '30lvl2','menu']
+           '30lvl2','menu','party']
 # levels
 levels = ['level15']
 # heroes
@@ -147,6 +147,7 @@ def findgame():
 
 def battlefind(file, coll):
     if road == True:
+        print("back battlefind")
         return
     global sens
     global top
@@ -236,6 +237,7 @@ def collect():
     global road
     while True:
         if road == True:
+            print("back collect")
             break
         if not find_ellement(buttons[22], 14):
             ahk.mouse_move(win.rect[2] / 2.5, win.rect[3] / 3.5, speed=3)
@@ -259,16 +261,14 @@ def collect():
 
 def nextlvl():
     if road == True:
+        print("back nextlevel")
         return
     global speed
     global sens
-    time.sleep(1)
+    time.sleep(1.5)
     if find_ellement(buttons[7], 14):
         seth()
-    if find_ellement(Ui_Ellements[24],14):
-        time.sleep(0.5)
-        ahk.click()
-        nextlvl()
+        print("back nextlevel1")
         return 0
     tm = int(win.rect[3] / 3.1)
     partscreen(2560, tm, tm, 0)
@@ -295,6 +295,8 @@ def nextlvl():
         ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
         ahk.click()
         nextlvl()
+        print("back nextlevel2")
+        return 0
     find_ellement(buttons[7], 2)
     if find_ellement(Ui_Ellements[19], 1):
         temp = random.randint(0, 2)
@@ -312,14 +314,23 @@ def nextlvl():
         time.sleep(1)
         find_ellement(buttons[7], 2)
     while True:
+        if find_ellement(Ui_Ellements[24], 14):
+            time.sleep(0.5)
+            ahk.click()
+
+            nextlvl()
+            print("back nextlevel3")
+            return 0
         if find_ellement(Ui_Ellements[23], 14):
             seth()
+            print("back nextlevel4")
             break
         else:
             ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
             ahk.click()
             find_ellement(buttons[7], 14)
         if road == True:
+            print("back nextlevel5")
             return
 
 
@@ -340,6 +351,8 @@ def Tres():
         if find_ellement(buttons[17], 14):
             time.sleep(1)
             nextlvl()
+            print("back Tres")
+            return
 
 
 def resize():
@@ -443,9 +456,12 @@ def battle():
     global zipchek
     global speed
     if road == True:
+        print("back battle1")
         return
     raund = 1
     while True:
+        if road == True:
+            break
         ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.6, speed=3)
         speed = 0
         sens = 0.85
@@ -518,6 +534,7 @@ def battle():
 
 def seth():
     if road == True:
+        print("back set1")
         return
     global speed
     global sens
@@ -554,10 +571,12 @@ def seth():
     find_ellement(buttons[14], 9)
     time.sleep(5)
     battle()
+    return
 
 
 def battlego():
     if road == True:
+        print("back battlgo")
         return
     global sens
     print("Битва")
@@ -566,10 +585,9 @@ def battlego():
     while True:
         find_ellement(Ui_Ellements[22], 14)
         if find_ellement(chekers[15], 14):
-            time.sleep(2)
-            if not find_ellement(chekers[16], 2):
-                nextlvl()
-                break
+            time.sleep(1)
+            nextlvl()
+            break
         if find_ellement(buttons[7], 14):
             find_ellement(buttons[7], 14)
             seth()
@@ -593,10 +611,13 @@ def battlego():
         else:
             find_ellement(buttons[13], 2)
     seth()
+    print("back set2")
+    return
 
 
 def where():
     if road == True:
+        print("back where")
         return True
     find_ellement(buttons[4], 0)
     find_ellement(Ui_Ellements[3], 0)
@@ -652,12 +673,15 @@ def test(n):
 
 def group_create():
     if road == True:
+        print("back group")
         return
     global speed
     global left
     global top
     global sens
     time.sleep(1)
+    while not find_ellement(chekers[4], 1):
+        where()
     if find_ellement(chekers[4], 3) == 6:
         find_ellement(buttons[2], 0)
         time.sleep(1.5)
@@ -742,6 +766,9 @@ def group_create():
         else:
             find_merc(3)
         while True:
+            if road == True:
+                print("back group menu")
+                return
             if find_ellement(chekers[21], 1):
                 break
             find_ellement(buttons[8], 14)
@@ -759,6 +786,9 @@ def group_create():
             if find_ellement(chekers[21], 1):
                 break
         battlego()
+        print("back group3")
+        return
+
 
 
 
@@ -937,6 +967,7 @@ def main():
         # thr1 = threading.Thread(target=inter)
         # thr1.start()
         while True:
+            print("Loop start")
             if findgame():
                 road = False
                 where()
