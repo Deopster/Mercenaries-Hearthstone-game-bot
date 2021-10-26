@@ -616,8 +616,10 @@ def change(index):
     time.sleep(1)
 
 
-def test():
-    if find_ellement(hero[0] + "/main.png", 6):
+def test(n):
+    global sens
+    sens=0.65
+    if find_ellement(hero[n] + "/group.png", 6):
         print('нашёл')
 
 def group_create():
@@ -648,6 +650,9 @@ def group_create():
                 find(i)
         speed = temp
         find_ellement(buttons[8], 0)
+        time.sleep(0.2)
+        find_ellement(buttons[1], 0)
+        time.sleep(0.2)
         find_ellement(Ui_Ellements[6], 2)
         group_create()
     else:
@@ -670,8 +675,10 @@ def group_create():
                     if bool_check is False:
                         sens = temp
                         find_ellement(buttons[8], 0)
-                        time.sleep(0.1)
-                        ahk.click()
+                        time.sleep(0.2)
+                        find_ellement(buttons[1], 0)
+                        time.sleep(0.2)
+                        find_ellement(buttons[8], 0)
                         while True:
                             time.sleep(0.2)
                             if find_ellement(chekers[3], 1):
@@ -705,15 +712,20 @@ def group_create():
             sens = temp
             time.sleep(0.5)
             find_ellement(buttons[8], 0)
-            time.sleep(1)
+            time.sleep(0.2)
+            find_ellement(buttons[1], 0)
+            time.sleep(0.2)
             find_ellement(buttons[8], 0)
+            time.sleep(0.2)
             find_ellement(buttons[0], 0)
             battlego()
         else:
             find_merc(3)
         find_ellement(buttons[8], 0)
+        time.sleep(0.2)
+        find_ellement(buttons[1], 0)
+        time.sleep(0.2)
         ahk.mouse_move(100, 100, speed=3)
-        time.sleep(1)
         find_ellement(buttons[0], 0)
         time.sleep(2)
         battlego()
@@ -721,7 +733,7 @@ def group_create():
 
 
 def find_merc(n):
-    time.sleep(1)
+    time.sleep(0.5)
     global left
     global top
     global speed
