@@ -2,6 +2,8 @@
 ```diff
 - prevention: Bot is not ready and now on the development stage
 ```
+<h3 align="center">Version 0.1.1-beta</h3>
+https://github.com/Deopster/Mercenaries-Hearthstone-game-bot/releases/tag/v0.1.1-beta
 <h3 align="center">Dev progress</h3>
 <table>
   <tr>
@@ -36,7 +38,7 @@
 <li>choosing abilities - ✓</li>
 <li>attacking opponents - ✓</li>
 <li>collecting rewards for reaching the last level-  ✓</li>
-<li>repeat from 1 point - ✗</li>
+<li>repeat from 1 point - ✓</li>
 </ol>
       P.S.special thanks to https://github.com/kiiiiiingdom
     </td>
