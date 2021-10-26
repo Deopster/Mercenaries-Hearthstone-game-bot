@@ -680,7 +680,7 @@ def group_create():
     global top
     global sens
     time.sleep(1)
-    while not find_ellement(chekers[4], 1):
+    while not find_ellement(chekers[22], 1):
         where()
     if find_ellement(chekers[4], 3) == 6:
         find_ellement(buttons[2], 0)
