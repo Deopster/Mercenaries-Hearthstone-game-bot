@@ -42,7 +42,7 @@ buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'pla
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text', 'win', 'ifrename', 'levelstarted', 'nextlvlcheck', 'cords-search', '303', '30lvl1',
-           '30lvl2']
+           '30lvl2','menu']
 # levels
 levels = ['level15']
 # heroes
@@ -367,7 +367,7 @@ def abilicks(index):
                 ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
                 ahk.click()
         elif obj == 'heroes/3':
-            if find_ellement(obj + '/abilics/2.png', 14):
+            if find_ellement(obj + '/abilics/1.png', 14):
                 pass
             else:
                 ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
@@ -711,23 +711,25 @@ def group_create():
                 find_merc(add)
             sens = temp
             time.sleep(0.5)
-            find_ellement(buttons[8], 0)
-            time.sleep(0.2)
-            find_ellement(buttons[1], 0)
-            time.sleep(0.2)
-            find_ellement(buttons[8], 0)
-            time.sleep(0.2)
-            find_ellement(buttons[0], 0)
-            battlego()
         else:
             find_merc(3)
-        find_ellement(buttons[8], 0)
-        time.sleep(0.2)
-        find_ellement(buttons[1], 0)
-        time.sleep(0.2)
-        ahk.mouse_move(100, 100, speed=3)
-        find_ellement(buttons[0], 0)
-        time.sleep(2)
+        while True:
+            if find_ellement(chekers[21], 1):
+                break
+            find_ellement(buttons[8], 14)
+            time.sleep(0.5)
+            ahk.click()
+            time.sleep(0.2)
+            if find_ellement(buttons[1], 14):
+                pass
+            else:
+                ahk.mouse_move(100, 100, speed=3)  # Moves the mouse instantly to absolute screen position
+                time.sleep(0.2)
+            find_ellement(buttons[0], 14)
+            ahk.mouse_move(100, 100, speed=3)
+            time.sleep(1.5)
+            if find_ellement(chekers[21], 1):
+                break
         battlego()
 
 
