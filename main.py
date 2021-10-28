@@ -18,8 +18,6 @@ global xm
 xm = 0
 global ym
 ym = 0
-global monik
-global speed
 global sens
 global zipp
 global zipchek
@@ -44,10 +42,10 @@ buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'pla
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text', 'win', 'ifrename', 'levelstarted', 'nextlvlcheck', 'cords-search', '303', '30lvl1',
            '30lvl2', 'menu', 'party']
-# levels
-levels = ['level15']
+# Settings
+setings = []
 # heroes
-hero = ['', '', '']
+hero = []
 hero_colour = ['', '', '']
 pages = ['', '', '']
 heroNUM = ['', '', '']
@@ -64,36 +62,36 @@ picparser = ['/1.png', '/2.png', '/3.png', '/4.png']
 def configread():
     global Resolution
     global speed
-    global monik
     config = configparser.ConfigParser()
     config.read("settings.ini")
-    monik = int((config["BotSettings"]["monitor"]).split("#")[0])
     speed = float((config["BotSettings"]["bot_speed"]).split("#")[0])
-    hero[0] = (config["Hero1"]["number"]).split("#")[0]
-    hero[1] = (config["Hero2"]["number"]).split("#")[0]
-    hero[2] = (config["Hero3"]["number"]).split("#")[0]
+    for n in range(6):
+        hero.append((config["Heroes"]["hero"+str(n+1)+"_Number"]).split("#")[0])
 
     pages[0] = int((config["NumberOfPages"]["Red"]).split("#")[0])
     pages[1] = int((config["NumberOfPages"]["Green"]).split("#")[0])
     pages[2] = int((config["NumberOfPages"]["Blue"]).split("#")[0])
 
-    Resolution = (config["Resolution"]["Monitor Resolution"]).split("#")[0]
-    if Resolution == '2560*1440':
-        Resolution = '2560x1440'
-    if Resolution == '1920*1080':
-        Resolution = '1920x1080'
-    if Resolution == '3840*2160':
-        Resolution = '3840x2160'
+    setings.append(config["BotSettings"]["Monitor Resolution"].replace('*','x'))
+    setings.append(config["BotSettings"]["level"])
+    setings.append(config["BotSettings"]["location"])
+    setings.append(config["BotSettings"]["mode"])
+    setings.append(config["BotSettings"]["GroupCreate"])
+    setings.append(config["BotSettings"]["heroesSet"])
+    setings.append(int(config["BotSettings"]["monitor"]))
+
+    print(setings)
     files = os.listdir('./files/1920x1080/heroes')
     for obj in files:
         print(obj)
-        for i in range(3):
+        for i in range(6):
             if hero[i] == obj.split(".")[0] or hero[i] in obj.split(".")[1] :
                 hero[i] = obj
                 hero_colour[i] = obj.split(".")[2]
+            elif hero[i] =='auto':
+                break
 
     print(pages[0], pages[1], pages[2])
-    print(monik, speed)
     print(hero_colour)
     print(hero)
 
@@ -112,7 +110,6 @@ def parslist():
     filepp(Ui_Ellements, "Ui_Ellements")
     filepp(buttons, "Buttons")
     filepp(chekers, "Chekers")
-    filepp(levels, "Levels")
     i = 0
     while i < len(hero):
         hero[i] = "heroes/" + hero[i]
@@ -121,20 +118,18 @@ def parslist():
 
 
 def screen():
-    global Resolution
     sct = mss.mss()
-    filename = sct.shot(mon=monik, output='files/' + Resolution + '/screen.png')
+    filename = sct.shot(mon=setings[6], output='files/' + setings[0] + '/screen.png')
 
 
 def partscreen(x, y, top, left):
     print("entered screenpart")
-    global Resolution
     import mss.tools
     with mss.mss() as sct:
         monitor = {"top": top, "left": left, "width": x, "height": y}
         output = "sct-{top}x{left}_{width}x{height}.png".format(**monitor)
         sct_img = sct.grab(monitor)
-        mss.tools.to_png(sct_img.rgb, sct_img.size, output='files/' + Resolution + '/part.png')
+        mss.tools.to_png(sct_img.rgb, sct_img.size, output='files/' + setings[0]  + '/part.png')
 
 
 def findgame():
@@ -156,11 +151,10 @@ def battlefind(file, coll):
     global sens
     global top
     global left
-    global Resolution
     herobattle.clear()
-    img = cv2.imread('files/' + Resolution + '/part.png')
+    img = cv2.imread('files/' + setings[0] + '/part.png')
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
-    template = cv2.imread('files/' + Resolution + '/' + file,
+    template = cv2.imread('files/' + setings[0]  + '/' + file,
                           cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)`
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
@@ -361,7 +355,7 @@ def Tres():
 
 def resize():
     for i in range(3):
-        image_path = './files/' + Resolution + '/' + hero[i] + '/set.png'
+        image_path = './files/' + setings[0]  + '/' + hero[i] + '/set.png'
         img = Image.open(image_path)
         # получаем ширину и высоту
         width, height = img.size
@@ -369,8 +363,8 @@ def resize():
         # открываем картинку в окне
         new_image = img.resize((int(width * 0.65), int(height * 0.65)))
         new_image1 = img.resize((int(width * 0.75), int(height * 0.75)))
-        new_image.save('./files/' + Resolution + '/' + hero[i] + '/main.png')
-        new_image1.save('./files/' + Resolution + '/' + hero[i] + '/group.png')
+        new_image.save('./files/' + setings[0] + '/' + hero[i] + '/main.png')
+        new_image1.save('./files/' + setings[0] + '/' + hero[i] + '/group.png')
 
 
 def abilicks(index):
@@ -592,20 +586,21 @@ def seth():
     speed = 0
     sens = 0.85
     i = 0
-    while not find_ellement(buttons[14], 1):
-        print('вход')
-        sens = 0.75
-        ahk.mouse_position = (x, y)
-        for n in range(3):
-            if i >= 7:
-                ahk.mouse_drag(x, y - 600, speed=3, relative=False)
-            if find_ellement(hero[n] + '/set.png', 6):
-                time.sleep(0.2)
-                ahk.mouse_drag(x, y - 600, speed=3, relative=False)
-            x += win.rect[2] / 57
-        if x > win.rect[2] / 1.5:
-            x = win.rect[2] / 2.85
-        i += 1
+    if setings[5] =="True":
+        while not find_ellement(buttons[14], 1):
+            print('вход')
+            sens = 0.75
+            ahk.mouse_position = (x, y)
+            for n in range(3):
+                if i >= 7:
+                    ahk.mouse_drag(x, y - 600, speed=3, relative=False)
+                if find_ellement(hero[n] + '/set.png', 6):
+                    time.sleep(0.2)
+                    ahk.mouse_drag(x, y - 600, speed=3, relative=False)
+                x += win.rect[2] / 57
+            if x > win.rect[2] / 1.5:
+                x = win.rect[2] / 2.85
+            i += 1
     print('выход')
     speed = temp
     sens = 0.7
@@ -616,7 +611,8 @@ def seth():
     battle()
     return
 
-
+def levelchoice():
+    pass
 def battlego():
     if road == True:
         print("back battlgo")
@@ -662,11 +658,17 @@ def where():
     if road == True:
         print("back where")
         return True
-    find_ellement(buttons[4], 0)
-    find_ellement(Ui_Ellements[3], 0)
-    find_ellement(buttons[0], 0)
+    if setings[4] == 'False':
+        find_ellement(buttons[4],0 )
+        time.sleep(1.5)
+        if find_ellement(chekers[21], 1):
+            battlego()
+        find_ellement(buttons[0], 0)
+    else:
+        find_ellement(buttons[4], )
+        find_ellement(Ui_Ellements[3], 0)
+        find_ellement(buttons[0], 0)
     return True
-
 
 def pagech(page, coll):
     if int(pages[coll]) > 1:
@@ -886,17 +888,16 @@ def find_ellement(file, index):
     global sens
     global top
     global left
-    global Resolution
     time.sleep(speed)
     if index == 12:
-        img = cv2.imread('files/' + Resolution + '/part.png')
+        img = cv2.imread('files/' + setings[0] + '/part.png')
     elif index == 7 and file != chekers[8]:
-        img = cv2.imread('files/' + Resolution + '/part.png')
+        img = cv2.imread('files/' + setings[0] + '/part.png')
     else:
         screen()
-        img = cv2.imread('files/' + Resolution + '/screen.png')  # картинка, на которой ищем объект
+        img = cv2.imread('files/' + setings[0] + '/screen.png')  # картинка, на которой ищем объект
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
-    template = cv2.imread('files/' + Resolution + '/' + file,
+    template = cv2.imread('files/' + setings[0] + '/' + file,
                           cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)`
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
