@@ -11,6 +11,7 @@ import threading
 import keyboard
 from tkinter.ttk import *
 from PIL import Image
+import os
 
 ahk = AHK()
 global xm
@@ -34,7 +35,7 @@ sens = 0.75
 
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
                 'noclass', 'bat1', 'bat2', 'bat3', 'bat4', 'bat5', 'findthis', 'sombody', 'pack_open',
-                'presents', 'travel', 'startbat','pick']  # noclass 12, bat5-17
+                'presents', 'travel', 'startbat', 'pick']  # noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
            'start1', 'submit', 'allready', 'startbattle', 'startbattle1', 'take', 'take1', 'yes', 'onedie', 'reveal',
@@ -42,7 +43,7 @@ buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'pla
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text', 'win', 'ifrename', 'levelstarted', 'nextlvlcheck', 'cords-search', '303', '30lvl1',
-           '30lvl2','menu','party']
+           '30lvl2', 'menu', 'party']
 # levels
 levels = ['level15']
 # heroes
@@ -69,13 +70,8 @@ def configread():
     monik = int((config["BotSettings"]["monitor"]).split("#")[0])
     speed = float((config["BotSettings"]["bot_speed"]).split("#")[0])
     hero[0] = (config["Hero1"]["number"]).split("#")[0]
-    hero_colour[0] = (config["Hero1"]["colour"]).split("#")[0]
-
     hero[1] = (config["Hero2"]["number"]).split("#")[0]
-    hero_colour[1] = (config["Hero2"]["colour"]).split("#")[0]
-
     hero[2] = (config["Hero3"]["number"]).split("#")[0]
-    hero_colour[2] = (config["Hero3"]["colour"]).split("#")[0]
 
     pages[0] = int((config["NumberOfPages"]["Red"]).split("#")[0])
     pages[1] = int((config["NumberOfPages"]["Green"]).split("#")[0])
@@ -88,10 +84,18 @@ def configread():
         Resolution = '1920x1080'
     if Resolution == '3840*2160':
         Resolution = '3840x2160'
+    files = os.listdir('./files/1920x1080/heroes')
+    for obj in files:
+        print(obj)
+        for i in range(3):
+            if hero[i] == obj.split(".")[0] or hero[i] in obj.split(".")[1] :
+                hero[i] = obj
+                hero_colour[i] = obj.split(".")[2]
 
     print(pages[0], pages[1], pages[2])
-
-    print(monik, speed, hero)
+    print(monik, speed)
+    print(hero_colour)
+    print(hero)
 
 
 def filepp(name, strname):
@@ -377,38 +381,77 @@ def abilicks(index):
     print(index)
     print(heroTEMP)
     for obj in heroTEMP:
-        if obj == 'heroes/1':
-            if raund >1 and raund %2==0:
+        if obj == 'heroes/1.Cariel Roame.Red':
+            if raund > 1 and raund % 2 == 0:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return False
-            if raund ==1:
+            if raund == 1:
                 if find_ellement(obj + '/abilics/1.png', 14):
                     return True
             ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
             ahk.click()
             return True
 
-        elif obj == 'heroes/3':
-            if raund==1:
+        elif obj == 'heroes/3.Milhous Manashtorm.Blue':
+            if raund == 1:
                 if find_ellement(obj + '/abilics/1.png', 14):
                     return False
-            if raund==3:
+            if raund == 3:
                 if find_ellement(obj + '/abilics/3.png', 14):
                     return False
-            if raund>1:
+            if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
             ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
             ahk.click()
             return True
 
-        elif obj == 'heroes/2':
-            if raund %2==1:
+        elif obj == 'heroes/2.Tirande.Green':
+            if raund % 2 == 1:
                 if find_ellement(obj + '/abilics/1.png', 14):
                     return True
-            if raund %2==0:
+            if raund % 2 == 0:
                 if find_ellement(obj + '/abilics/3.png', 14):
                     return False
+            ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+            ahk.click()
+            return True
+        elif obj == 'heroes/38':
+            if raund == 1:
+                if find_ellement(obj + '/abilics/1.png', 14):
+                    return False
+            if raund == 3:
+                if find_ellement(obj + '/abilics/3.png', 14):
+                    return False
+            if raund > 1:
+                if find_ellement(obj + '/abilics/2.png', 14):
+                    return True
+            ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+            ahk.click()
+            return True
+        elif obj == 'heroes/40':
+            if raund == 1:
+                if find_ellement(obj + '/abilics/1.png', 14):
+                    return False
+            if raund == 3:
+                if find_ellement(obj + '/abilics/3.png', 14):
+                    return False
+            if raund > 1:
+                if find_ellement(obj + '/abilics/2.png', 14):
+                    return True
+            ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+            ahk.click()
+            return True
+        elif obj == 'heroes/42':
+            if raund == 1:
+                if find_ellement(obj + '/abilics/1.png', 14):
+                    return False
+            if raund == 3:
+                if find_ellement(obj + '/abilics/3.png', 14):
+                    return False
+            if raund > 1:
+                if find_ellement(obj + '/abilics/2.png', 14):
+                    return True
             ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
             ahk.click()
             return True
@@ -641,8 +684,8 @@ def pagech(page, coll):
 
 def find(n):
     global speed
-    temp=speed
-    speed=0
+    temp = speed
+    speed = 0
     change(n)
     page = 1
     while True:
@@ -652,7 +695,7 @@ def find(n):
                 find_ellement(chekers[8], 0)
                 return True
         page = pagech(page, n)
-    speed=temp
+    speed = temp
 
 
 def change(index):
@@ -667,9 +710,10 @@ def change(index):
 
 def test(n):
     global sens
-    sens=0.65
+    sens = 0.65
     if find_ellement(hero[n] + "/group.png", 6):
         print('нашёл')
+
 
 def group_create():
     if road == True:
@@ -790,8 +834,6 @@ def group_create():
         return
 
 
-
-
 def find_merc(n):
     time.sleep(0.5)
     global left
@@ -799,7 +841,7 @@ def find_merc(n):
     global speed
     global sens
     i = 0
-    temp1=sens
+    temp1 = sens
     sens = 0.9
     temp = speed
     speed = 0
@@ -819,7 +861,9 @@ def find_merc(n):
                 partscreen(x, y, top, left)
                 if find_ellement(chekers[12], 7):
                     print(xm, ym)
-                    if find_ellement(chekers[9], 7) is False and find_ellement(chekers[10], 7) is False and find_ellement(chekers[18], 7) is False:
+                    if find_ellement(chekers[9], 7) is False and find_ellement(chekers[10],
+                                                                               7) is False and find_ellement(
+                            chekers[18], 7) is False:
                         print("found object")
                         if not find_ellement(chekers[11], 7):
                             find_ellement(chekers[8], 7)
@@ -833,7 +877,8 @@ def find_merc(n):
             h += 1
         find_ellement(Ui_Ellements[4], 0)
     speed = temp
-    sens=temp1
+    sens = temp1
+
 
 def find_ellement(file, index):
     if road == True:
