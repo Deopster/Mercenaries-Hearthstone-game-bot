@@ -86,11 +86,16 @@ def configread():
                 if rt == obj.split(".")[0] or rt in obj.split(".")[1]:
                     hero.append(obj)
                     hero_colour.append(obj.split(".")[2])
-    for i in range(6):
-        rt = (config["Heroes"]["hero" + str(i + 1) + "_Number"]).split("#")[0]
-        if rt =='-' or rt == 'auto':
-            hero.append(rt)
-            hero_colour.append(rt)
+    for n in range(2):
+        for i in range(6):
+            rt = (config["Heroes"]["hero" + str(i + 1) + "_Number"]).split("#")[0]
+            if rt == 'auto' and n==0:
+                hero.append(rt)
+                hero_colour.append(rt)
+            if rt == '-' and n==1:
+                hero.append(rt)
+                hero_colour.append(rt)
+
     print(hero)
     print(hero_colour)
 
@@ -260,6 +265,8 @@ def collect():
             while True:
                 if find_ellement(buttons[23], 14):
                     for i in range(2):
+                        time.sleep(0.5)
+                        find_ellement(buttons[0], 0)
                         time.sleep(0.5)
                         find_ellement(buttons[0], 0)
                         road = True
@@ -682,7 +689,8 @@ def battlego():
         if find_ellement(chekers[15], 14):
             time.sleep(1)
             nextlvl()
-            print("battlego1")
+            print("yeh here stops")
+            where()
             break
         if find_ellement(buttons[7], 14):
             find_ellement(buttons[7], 14)
@@ -789,7 +797,6 @@ def change(index):
 def test():
     ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
 
-
 def group_create():
     if road == True:
         print("back group")
@@ -816,95 +823,88 @@ def group_create():
         ahk.send_input('Botwork', 0)
         find_ellement(Ui_Ellements[10], 0)
         time.sleep(1)
+        fx=0
         for i in range(6):
-            if hero[i] != '-' and hero[i] != 'auto':
+            if hero[i] != 'heroes/auto' and hero[i] != 'heroes/-':
                 print("Starting adding hero ", i)
                 find(i)
+            if hero[i] == 'heroes/auto':
+                fx += 1
+        print('how many auto',fx)
+        if fx != 0:
+            print("Add heroes")
+            find_ellement(Ui_Ellements[6], 14)
+            time.sleep(0.5)
+            find_merc(fx)
         speed = temp
         find_ellement(buttons[8], 0)
         time.sleep(0.2)
         find_ellement(buttons[1], 0)
         time.sleep(0.2)
         find_ellement(Ui_Ellements[6], 2)
-        group_create()
+        battlego()
     else:
         time.sleep(1)
-        if find_ellement(chekers[1], 2) == True:
-            x, y = find_ellement(chekers[17], 15)
-            x = x - int(win.rect[2] / 9)
-            y = y + int(win.rect[3] / 18.5)
-            add = 0
-            for i in range(6):
-                temp = sens
-                sens = 0.65
-                ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
-                ahk.click()
-                if i < 3:
-                    bool_check = False
-                    time.sleep(0.5)
-                    if find_ellement(hero[i] + "/group.png", 1):
-                        bool_check = True
-                    if bool_check is False:
-                        sens = temp
-                        find_ellement(buttons[8], 0)
-                        time.sleep(0.2)
-                        find_ellement(buttons[1], 0)
-                        time.sleep(0.2)
-                        find_ellement(buttons[8], 0)
-                        while True:
-                            time.sleep(0.2)
-                            if find_ellement(chekers[3], 1):
-                                time.sleep(0.5)
-                                if find_ellement(buttons[3], 14):
-                                    time.sleep(0.5)
-                                    find_ellement(buttons[24], 14)
-                                    group_create()
-                                    break
-                    y = y + int(win.rect[3] / 19)
-                    sens = temp
-                if i >= 3:
-                    temp = sens
-                    sens = 0.85
-                    time.sleep(0.5)
-                    if find_ellement(chekers[0], 1) or find_ellement(chekers[19], 1) or find_ellement(chekers[20], 1):
-                        ahk.mouse_drag(x - 600, y, speed=5, relative=False)
-                        add += 1
-                    else:
-                        y = y + int(win.rect[3] / 17.2)
-            sens = 0.75
-            while True:
-                if find_ellement(buttons[8], 14):
-                    break
-            time.sleep(0.5)
-            if add != 0:
-                print("Add heroes")
-                find_ellement(Ui_Ellements[6], 14)
-                time.sleep(0.5)
-                find_merc(add)
-            sens = temp
-            time.sleep(0.5)
-        else:
-            find_merc(3)
-        while True:
-            if road == True:
-                print("back group menu")
-                return
-            if find_ellement(chekers[21], 1):
-                break
-            find_ellement(buttons[8], 14)
-            time.sleep(0.5)
+        x, y = find_ellement(chekers[17], 15)
+        x = x - int(win.rect[2] / 9)
+        y = y + int(win.rect[3] / 18.5)
+        add = 0
+        herocust = 0
+        autoadd = 0
+        for i in range(6):
+            if hero[i] != 'heroes/auto' and hero[i] != 'heroes/-':
+                herocust += 1
+            if hero[i] == 'heroes/auto':
+                autoadd += 1
+        for i in range(herocust + autoadd):
+            temp = sens
+            sens = 0.65
+            ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
             ahk.click()
-            time.sleep(0.2)
-            if find_ellement(buttons[1], 14):
-                pass
-            else:
-                ahk.mouse_move(1000, 1000, speed=3)  # Moves the mouse instantly to absolute screen position
-                time.sleep(0.2)
-            find_ellement(buttons[0], 14)
-            ahk.mouse_move(1000, 1000, speed=3)
-            time.sleep(1.5)
-            if find_ellement(chekers[21], 1):
+            if i <= herocust - 1:
+                bool_check = False
+                time.sleep(0.5)
+                if find_ellement(hero[i] + "/group.png", 1):
+                    bool_check = True
+                if bool_check is False:
+                    sens = temp
+                    find_ellement(buttons[8], 0)
+                    time.sleep(0.2)
+                    find_ellement(buttons[1], 0)
+                    time.sleep(0.2)
+                    find_ellement(buttons[8], 0)
+                    while True:
+                        time.sleep(0.2)
+                        if find_ellement(chekers[3], 1):
+                            time.sleep(0.5)
+                            if find_ellement(buttons[3], 14):
+                                time.sleep(0.5)
+                                find_ellement(buttons[24], 14)
+                                group_create()
+                                break
+                y = y + int(win.rect[3] / 19)
+                sens = temp
+            if i > autoadd - 1:
+                temp = sens
+                sens = 0.85
+                time.sleep(0.5)
+                if find_ellement(chekers[0], 1) or find_ellement(chekers[19], 1) or find_ellement(chekers[20], 1):
+                    ahk.mouse_drag(x - 600, y, speed=5, relative=False)
+                    add += 1
+                else:
+                    y = y + int(win.rect[3] / 17.2)
+        sens = 0.75
+        while True:
+            if find_ellement(buttons[8], 14):
                 break
+        time.sleep(0.5)
+        if add != 0:
+            print("Add heroes")
+            find_ellement(Ui_Ellements[6], 14)
+            time.sleep(0.5)
+            find_merc(add)
+        sens = temp
+        time.sleep(0.5)
         battlego()
         print("back group3")
         return
@@ -933,6 +933,8 @@ def find_merc(n):
             left = int(win.rect[2] / 5.2)
             j = 0
             while j < 3:
+                if i >=n:
+                    break
                 print("enter width loop")
                 partscreen(x, y, top, left)
                 if find_ellement(chekers[12], 7):
@@ -943,6 +945,7 @@ def find_merc(n):
                             find_ellement(chekers[8], 7)
                             i += 1
                             print("droped the object")
+
                 j += 1
                 left += int(win.rect[2] / 7)
                 print("go next element on line")
