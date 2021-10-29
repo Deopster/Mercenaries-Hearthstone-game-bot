@@ -34,15 +34,15 @@ sens = 0.75
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
                 'noclass', 'bat1', 'bat2', 'bat3', 'bat4', 'bat5', 'findthis', 'sombody', 'pack_open',
                 'presents', 'travel', 'startbat', 'pick', 'Winterspring', 'Felwood', 'normal',
-                'heroic']  # noclass 12, bat5-17
+                'heroic','replace_grey', 'presents3','presents_thing']  # noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
            'start1', 'submit', 'allready', 'startbattle', 'startbattle1', 'take', 'take1', 'yes', 'onedie', 'reveal',
-           'done', 'finishok', 'confirm', 'visit']  # last take -17
+           'done', 'finishok', 'confirm', 'visit','fir','replace', 'keep']  # last take -17
 # chekers
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text', 'win', 'ifrename', 'levelstarted', 'nextlvlcheck', 'cords-search', '303', '30lvl1',
-           '30lvl2', 'menu', 'party']
+           '30lvl2', 'menu', 'party','lose']
 # Settings
 setings = []
 # heroes
@@ -66,13 +66,13 @@ def configread():
     config = configparser.ConfigParser()
     config.read("settings.ini")
     speed = float((config["BotSettings"]["bot_speed"]).split("#")[0])
-    n=0
-    for i in ['Red','Green','Blue']:
-        pages[n] = [i,int((config["NumberOfPages"][i]).split("#")[0])]
-        n+=1
+    n = 0
+    for i in ['Red', 'Green', 'Blue']:
+        pages[n] = [i, int((config["NumberOfPages"][i]).split("#")[0])]
+        n += 1
 
     setings.append(config["BotSettings"]["Monitor Resolution"].replace('*', 'x'))
-    for i in ["level","location","mode","GroupCreate","heroesSet"]:
+    for i in ["level", "location", "mode", "GroupCreate", "heroesSet"]:
         setings.append(config["BotSettings"][i])
     setings.append(int(config["BotSettings"]["monitor"]))
 
@@ -81,15 +81,19 @@ def configread():
     for obj in files:
         for i in range(6):
             rt = (config["Heroes"]["hero" + str(i + 1) + "_Number"]).split("#")[0]
-            if rt !='auto' and rt!='-':
+            print(rt)
+            if rt != 'auto' and rt != '-':
                 if rt == obj.split(".")[0] or rt in obj.split(".")[1]:
                     hero.append(obj)
                     hero_colour.append(obj.split(".")[2])
-            else:
-                hero.append(rt)
-                hero_colour.append(rt)
+    for i in range(6):
+        rt = (config["Heroes"]["hero" + str(i + 1) + "_Number"]).split("#")[0]
+        if rt =='-' or rt == 'auto':
+            hero.append(rt)
+            hero_colour.append(rt)
     print(hero)
     print(hero_colour)
+
 
 def filepp(name, strname):
     try:
@@ -235,11 +239,21 @@ def collect():
         if not find_ellement(buttons[22], 14):
             ahk.mouse_move(win.rect[2] / 2.5, win.rect[3] / 3.5, speed=3)
             ahk.click()
+            ahk.mouse_move(win.rect[2] / 2, win.rect[3] / 3.5, speed=3)
+            ahk.click()
             ahk.mouse_move(win.rect[2] / 1.5, win.rect[3] / 3.5, speed=3)
             ahk.click()
             ahk.mouse_move(win.rect[2] / 2.7, win.rect[3] / 1.4, speed=3)
             ahk.click()
             ahk.mouse_move(win.rect[2] / 1.7, win.rect[3] / 1.3, speed=3)
+            ahk.click()
+            ahk.mouse_move(win.rect[2] / 1.6, win.rect[3] / 1.3, speed=3)
+            ahk.click()
+            ahk.mouse_move(win.rect[2] / 1.8, win.rect[3] / 1.3, speed=3)
+            ahk.click()
+            ahk.mouse_move(win.rect[2] / 1.9, win.rect[3] / 1.3, speed=3)
+            ahk.click()
+            ahk.mouse_move(win.rect[2] / 1.4, win.rect[3] / 1.3, speed=3)
             ahk.click()
             time.sleep(1)
         else:
@@ -351,11 +365,18 @@ def Tres():
             nextlvl()
             print("back Tres")
             return
+        if find_ellement(buttons[28], 14):
+            time.sleep(1)
+            nextlvl()
+
+        if find_ellement(buttons[27], 14):
+            time.sleep(1)
+            nextlvl()
 
 
 def resize():
     for i in range(6):
-        if hero[i]!='auto' and hero[i] !='-':
+        if hero[i] != 'heroes/auto' and hero[i] != 'heroes/-':
             image_path = './files/' + setings[0] + '/' + hero[i] + '/set.png'
             img = Image.open(image_path)
             # получаем ширину и высоту
@@ -374,7 +395,7 @@ def abilicks(index):
         if hero_colour[i] == index:
             heroTEMP.append(hero[i])
     print(index)
-    print(heroTEMP)
+    print("Hero dump",heroTEMP)
     for obj in heroTEMP:
         if obj == 'heroes/1.Cariel Roame.Red':
             if raund > 1 and raund % 2 == 0:
@@ -447,9 +468,9 @@ def abilicks(index):
             if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
-            ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
-            ahk.click()
-            return True
+    ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+    ahk.click()
+    return True
 
 
 def atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol):
@@ -513,7 +534,13 @@ def battle():
                 else:
                     Tres()
                     break
-                if find_ellement(Ui_Ellements[21], 1):
+                if not find_ellement(Ui_Ellements[29], 1):
+                    ahk.click()
+                    time.sleep(0.5)
+                else:
+                    Tres()
+                    break
+                if find_ellement(Ui_Ellements[31], 1):
                     collect()
                     break
 
@@ -608,17 +635,17 @@ def seth():
     ahk.mouse_move(200, 200, speed=3)
     time.sleep(1)
     find_ellement(buttons[14], 9)
-    time.sleep(5)
+    time.sleep(1)
     battle()
     return
 
 
 def levelchoice():
     global sens
-    temp=sens
-    sens=0.9
-    ahk.mouse_move(win.rect[2] / 2, win.rect[3] / 2, speed=3)
-    for i in range(50):
+    temp = sens
+    sens = 0.9
+    ahk.mouse_move(win.rect[2] / 1.5, win.rect[3] / 2, speed=3)
+    for i in range(70):
         ahk.wheel_up()
     if setings[2] == "Felwood":
         find_ellement(Ui_Ellements[26], 14)
@@ -632,7 +659,8 @@ def levelchoice():
         find_ellement(Ui_Ellements[27], 14)
     if setings[3] == "Heroic":
         find_ellement(Ui_Ellements[28], 14)
-    sens=temp
+    sens = temp
+
 
 def battlego():
     if road == True:
@@ -652,14 +680,18 @@ def battlego():
         if find_ellement(buttons[7], 14):
             find_ellement(buttons[7], 14)
             seth()
-        if not find_ellement(buttons[10], 2):
-            time.sleep(2)
-            find_ellement(buttons[9], 2)
+        if find_ellement(buttons[10], 14):
             break
     while True:
-        if not find_ellement("levels/"+setings[1]+".png", 2):
-            if not find_ellement(buttons[11], 2):
-                break
+        time.sleep(1)
+        if find_ellement("levels/" + setings[1] + ".png", 14):
+            time.sleep(0.5)
+            find_ellement(buttons[11], 14)
+            break
+        if find_ellement(buttons[9], 2):
+            pass
+        else:
+            find_ellement(buttons[26], 2)
     while True:
         if not find_ellement(chekers[2], 2):
             find_ellement(buttons[12], 2)
@@ -694,13 +726,13 @@ def where():
 
 
 def pagech(page, coll):
-    print("hero number is",coll)
+    print("hero number is", coll)
     print(hero_colour[coll])
     print(pages)
     for i in pages:
         if hero_colour[coll] in i:
             print("color found")
-            num=i[1]
+            num = i[1]
             print(num)
     if int(num) > 1:
         if page != num:
@@ -721,10 +753,10 @@ def find(n):
     speed = 0
     change(n)
     page = 1
-    attempt=0
+    attempt = 0
     while True:
-        attempt+=1
-        if attempt>4:
+        attempt += 1
+        if attempt > 4:
             change(n)
         if find_ellement(hero[n] + "/main.png", 6):
             print('нашёл')
@@ -735,7 +767,6 @@ def find(n):
     speed = temp
 
 
-
 def change(index):
     if hero_colour[index] == 'Red':
         find_ellement(Ui_Ellements[6], 9)
@@ -743,13 +774,12 @@ def change(index):
         find_ellement(Ui_Ellements[7], 9)
     if hero_colour[index] == 'Blue':
         find_ellement(Ui_Ellements[8], 9)
-    print("page change for hero",index)
+    print("page change for hero", index)
     time.sleep(1)
 
 
 def test():
-    for i in range(10):
-        ahk.wheel_up()
+    ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
 
 
 def group_create():
@@ -779,8 +809,8 @@ def group_create():
         find_ellement(Ui_Ellements[10], 0)
         time.sleep(1)
         for i in range(6):
-            if hero[i] != '-' and hero[i] != 'auto' :
-                print("Starting adding hero ",i)
+            if hero[i] != '-' and hero[i] != 'auto':
+                print("Starting adding hero ", i)
                 find(i)
         speed = temp
         find_ellement(buttons[8], 0)
@@ -1046,7 +1076,6 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-
         # thr1 = threading.Thread(target=inter)
         # thr1.start()
         while True:
@@ -1058,7 +1087,6 @@ def main():
                 print("Not found Game window.")
     except Exception as E:
         print("Error", E)
-
 
 if __name__ == '__main__':
     main()
