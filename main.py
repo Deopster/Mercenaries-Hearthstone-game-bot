@@ -49,7 +49,7 @@ setings = []
 hero = []
 hero_colour = []
 pages = ['', '', '']
-heroNUM = ['', '', '']
+heroNUM = ['', '', '', '', '', '']
 # for battle
 herobattle = []
 herobattlefin = []
@@ -276,7 +276,7 @@ def nextlvl():
     if find_ellement(buttons[7], 14):
         seth()
         print("back nextlevel1")
-        return 0
+        return
     tm = int(win.rect[3] / 3.1)
     partscreen(2560, tm, tm, 0)
     x = win.rect[2] / 3.7
@@ -303,12 +303,13 @@ def nextlvl():
         ahk.click()
         nextlvl()
         print("back nextlevel2")
-        return 0
+        return
     find_ellement(buttons[7], 2)
     if find_ellement(buttons[25], 14):
         time.sleep(0.5)
         ahk.click()
         nextlvl()
+        print("call1")
         return
     if find_ellement(Ui_Ellements[19], 1):
         temp = random.randint(0, 2)
@@ -368,10 +369,14 @@ def Tres():
         if find_ellement(buttons[28], 14):
             time.sleep(1)
             nextlvl()
+            print("call2")
+            return
 
         if find_ellement(buttons[27], 14):
             time.sleep(1)
             nextlvl()
+            print("call3")
+            return
 
 
 def resize():
@@ -589,6 +594,7 @@ def battle():
                 if not find_ellement(buttons[14], 2):
                     break
                 if i > 10:
+                    ahk.right_click()
                     ahk.show_warning_traytip("Battle", "Battle error,please write what happend on github issue")
                     find_ellement(buttons[15], 2)
                     break
@@ -629,11 +635,11 @@ def seth():
             if x > win.rect[2] / 1.5:
                 x = win.rect[2] / 2.85
             i += 1
-    print('выход')
-    speed = temp
-    sens = 0.7
-    ahk.mouse_move(200, 200, speed=3)
-    time.sleep(1)
+        print('выход')
+        speed = temp
+        sens = 0.7
+        ahk.mouse_move(200, 200, speed=3)
+        time.sleep(1)
     find_ellement(buttons[14], 9)
     time.sleep(1)
     battle()
@@ -676,10 +682,12 @@ def battlego():
         if find_ellement(chekers[15], 14):
             time.sleep(1)
             nextlvl()
+            print("battlego1")
             break
         if find_ellement(buttons[7], 14):
             find_ellement(buttons[7], 14)
             seth()
+            return
         if find_ellement(buttons[10], 14):
             break
     while True:
@@ -929,9 +937,7 @@ def find_merc(n):
                 partscreen(x, y, top, left)
                 if find_ellement(chekers[12], 7):
                     print(xm, ym)
-                    if find_ellement(chekers[9], 7) is False and find_ellement(chekers[10],
-                                                                               7) is False and find_ellement(
-                        chekers[18], 7) is False:
+                    if find_ellement(chekers[9], 7) is False and find_ellement(chekers[10],7) is False and find_ellement(chekers[18], 7) is False:
                         print("found object")
                         if not find_ellement(chekers[11], 7):
                             find_ellement(chekers[8], 7)
