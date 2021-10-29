@@ -864,8 +864,9 @@ def group_create():
             if i <= herocust - 1:
                 bool_check = False
                 time.sleep(0.5)
-                if find_ellement(hero[i] + "/group.png", 1):
-                    bool_check = True
+                for i in range(herocust):
+                    if find_ellement(hero[i] + "/group.png", 1):
+                        bool_check = True
                 if bool_check is False:
                     sens = temp
                     find_ellement(buttons[8], 0)
@@ -905,6 +906,23 @@ def group_create():
             find_merc(add)
         sens = temp
         time.sleep(0.5)
+        while True:
+            if find_ellement(chekers[21], 1):
+                break
+            find_ellement(buttons[8], 14)
+            time.sleep(0.5)
+            ahk.click()
+            time.sleep(0.2)
+            if find_ellement(buttons[1], 14):
+                pass
+            else:
+                ahk.mouse_move(1000, 1000, speed=3)  # Moves the mouse instantly to absolute screen position
+                time.sleep(0.2)
+            find_ellement(buttons[0], 14)
+            ahk.mouse_move(1000, 1000, speed=3)
+            time.sleep(1.5)
+            if find_ellement(chekers[21], 1):
+                break
         battlego()
         print("back group3")
         return
