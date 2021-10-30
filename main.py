@@ -776,7 +776,7 @@ def find(n):
             change(n)
         if find_ellement(hero[n] + "/main.png", 6):
             print('нашёл')
-            find_ellement(chekers[8], 0)
+            find_ellement(chekers[8], 14)
             return True
         else:
             page = pagech(page, n)
@@ -795,7 +795,8 @@ def change(index):
 
 
 def test():
-    ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+    if find_ellement(hero[0] + "/group.png", 1):
+        print("yes")
 
 def group_create():
     if road == True:
@@ -851,6 +852,7 @@ def group_create():
         add = 0
         herocust = 0
         autoadd = 0
+        temphero = []
         for i in range(6):
             if hero[i] != 'heroes/auto' and hero[i] != 'heroes/-':
                 herocust += 1
@@ -863,27 +865,16 @@ def group_create():
             ahk.click()
             if i <= herocust - 1:
                 bool_check = False
-                time.sleep(0.5)
+                time.sleep(0.2)
                 for i in range(herocust):
                     if find_ellement(hero[i] + "/group.png", 1):
                         bool_check = True
+                        temphero.append(i)
+                        y = y + int(win.rect[3] / 19)
+                print("Temphero is ",temphero)
                 if bool_check is False:
-                    sens = temp
-                    find_ellement(buttons[8], 0)
-                    time.sleep(0.2)
-                    find_ellement(buttons[1], 0)
-                    time.sleep(0.2)
-                    find_ellement(buttons[8], 0)
-                    while True:
-                        time.sleep(0.2)
-                        if find_ellement(chekers[3], 1):
-                            time.sleep(0.5)
-                            if find_ellement(buttons[3], 14):
-                                time.sleep(0.5)
-                                find_ellement(buttons[24], 14)
-                                group_create()
-                                break
-                y = y + int(win.rect[3] / 19)
+                    sens = 0.85
+                    ahk.mouse_drag(x - 600, y, speed=5, relative=False)
                 sens = temp
             if i > autoadd - 1:
                 temp = sens
@@ -894,39 +885,29 @@ def group_create():
                     add += 1
                 else:
                     y = y + int(win.rect[3] / 17.2)
-        sens = 0.75
-        while True:
-            if find_ellement(buttons[8], 14):
-                break
+        sens = 0.7
+        find_ellement(buttons[8], 14)
         time.sleep(0.5)
+        for i in range(herocust):
+            if i not in temphero:
+                print("Find hero with index ", i)
+                find(i)
         if add != 0:
             print("Add heroes")
             find_ellement(Ui_Ellements[6], 14)
             time.sleep(0.5)
             find_merc(add)
+        while True:
+            if find_ellement(buttons[8], 14):
+                time.sleep(0.5)
+                find_ellement(buttons[1], 14)
+                break
+        while not chekers[21]:
+            find_ellement(buttons[0],14)
+            time.sleep(0.5)
         sens = temp
         time.sleep(0.5)
-        while True:
-            if find_ellement(chekers[21], 1):
-                break
-            find_ellement(buttons[8], 14)
-            time.sleep(0.5)
-            ahk.click()
-            time.sleep(0.2)
-            if find_ellement(buttons[1], 14):
-                pass
-            else:
-                ahk.mouse_move(1000, 1000, speed=3)  # Moves the mouse instantly to absolute screen position
-                time.sleep(0.2)
-            find_ellement(buttons[0], 14)
-            ahk.mouse_move(1000, 1000, speed=3)
-            time.sleep(1.5)
-            if find_ellement(chekers[21], 1):
-                break
         battlego()
-        print("back group3")
-        return
-
 
 def find_merc(n):
     time.sleep(0.5)
@@ -1017,7 +998,9 @@ def find_ellement(file, index):
                 ym += top
             ahk.mouse_move(xm, ym, speed=2)
             time.sleep(0.5)
-            ahk.mouse_drag(x, y, speed=3, relative=False)
+            if index==14:
+                y=y-win.rect[3]/1.9
+            ahk.mouse_drag(x, y, speed=5, relative=False)
             return True
         if file == chekers[5]:
             ahk.mouse_move(x, y + 70, speed=3)
@@ -1068,23 +1051,6 @@ def find_ellement(file, index):
             where()
 
 
-def inter():
-    window = Tk()
-    label = Label(
-        text="Resolution",
-        fg="white",
-        bg="black",
-        width=20,
-        height=20
-    )
-    combo = Combobox(window)
-    window.title("HsBot v1.0")
-    combo['values'] = ("1920x1080", "2560x1440", "not ready")
-    combo.current(1)  # set the selected item
-    combo.grid(column=0, row=0)
-    label.pack()
-    window.mainloop()
-
 
 def main():
     global road
@@ -1103,8 +1069,6 @@ def main():
         win.maximize()
         win.to_top()
         win.activate()
-        # thr1 = threading.Thread(target=inter)
-        # thr1.start()
         while True:
             print("Loop start")
             if findgame():
