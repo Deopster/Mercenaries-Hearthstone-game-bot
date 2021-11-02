@@ -34,7 +34,7 @@ sens = 0.75
 Ui_Ellements = ['battle', 'blue', 'green', 'group', 'next', 'one', 'page_1', 'page_2', 'page_3', 'red', 'prev', 'sob',
                 'noclass', 'bat1', 'bat2', 'bat3', 'bat4', 'bat5', 'findthis', 'sombody', 'pack_open',
                 'presents', 'travel', 'startbat', 'pick', 'Winterspring', 'Felwood', 'normal',
-                'heroic','replace_grey', 'presents3','presents_thing']  # noclass 12, bat5-17
+                'heroic','replace_grey', 'presents3','presents_thing', 'free_battle']  # noclass 12, bat5-17
 # buttons
 buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'play', 'ready', 'sec', 'sta', 'start',
            'start1', 'submit', 'allready', 'startbattle', 'startbattle1', 'take', 'take1', 'yes', 'onedie', 'reveal',
@@ -682,7 +682,8 @@ def battlego():
     global sens
     print("Битва")
     time.sleep(1)
-    find_ellement(Ui_Ellements[0], 0)
+    #Find PVE adventure payed and free
+    find_ellement(Ui_Ellements[0], 0) or find_ellement(Ui_Ellements[32])
     while True:
         ahk.mouse_move(win.rect[2] / 1.5, win.rect[3] / 2)
         levelchoice()
