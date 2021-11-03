@@ -656,7 +656,8 @@ def seth():
 def levelchoice():
     global sens
     temp = sens
-    sens = 0.9
+    sens = 0.65
+    time.sleep(0.5)
     ahk.mouse_move(win.rect[2] / 1.5, win.rect[3] / 2, speed=3)
     for i in range(70):
         ahk.wheel_up()
@@ -683,7 +684,7 @@ def battlego():
     print("Битва")
     time.sleep(1)
     #Find PVE adventure payed and free
-    find_ellement(Ui_Ellements[0], 0) or find_ellement(Ui_Ellements[32])
+    find_ellement(Ui_Ellements[0], 14) or find_ellement(Ui_Ellements[32],14)
     while True:
         ahk.mouse_move(win.rect[2] / 1.5, win.rect[3] / 2)
         levelchoice()
