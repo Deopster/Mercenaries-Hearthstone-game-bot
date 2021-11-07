@@ -12,8 +12,31 @@ import keyboard
 from tkinter.ttk import *
 from PIL import Image
 import os
+import sys
 
-ahk = AHK()
+## try to detect the OS (Windows, Linux, Mac, ...)
+## to load specific libs
+if sys.platform in ['Windows', 'win32', 'cygwin']:
+    myOS = 'windows'
+    try:
+        from ahk import AHK
+        ahk = AHK()
+    except ImportError:
+        print("ahk not installed")
+elif sys.platform in ['linux', 'linux2']:
+    myOS = 'linux'
+    try:
+        import gi
+        gi.require_version("Wnck", "3.0")
+        from gi.repository import Wnck, Gtk
+    except ImportError:
+        print("gi.repository not installed")
+else:
+    myOS = 'unknown'
+    print("sys.platform='{platform}' is unknown.".format(platform=sys.platform))
+    exit(1)
+
+
 global xm
 xm = 0
 global ym
@@ -138,15 +161,29 @@ def partscreen(x, y, top, left):
 
 def findgame():
     global win
-    try:
-        win = ahk.win_get(title='Hearthstone')
-    except:
-        print("Not found game.")
-    if win.exist:
-        return True
-    else:
-        return False
+    retour = False
 
+    try:
+        if(myOS=='linux'):
+            screenHW = Wnck.Screen.get_default()
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            windows = screenHW.get_windows()
+
+            for w in windows:
+                if(w.get_name() == 'Hearthstone'):
+                    win = w
+                    win.activate(int(time.time()))
+                    win.make_above()
+                    retour = True
+        elif(myOS=='windows'):
+            win = ahk.win_get(title='Hearthstone')
+            retour = True
+        else:
+            print("OS not supported.")
+    except:
+        print("No game found.")
+    return retour
 
 def battlefind(file, coll):
     if road == True:
@@ -1058,19 +1095,21 @@ def main():
     global road
     print("start")
     try:
-        ahk.show_info_traytip("Starting", "loading files", slient=False, blocking=True)
+        #ahk.show_info_traytip("Starting", "loading files", slient=False, blocking=True)
         configread()
         findgame()
         parslist()
         resize()
-        ahk.show_info_traytip("started", "all files loaded successfully", slient=False, blocking=True)
-        win.show()
-        win.restore()
-        win.maximize()
-        win.to_top()
-        win.maximize()
-        win.to_top()
-        win.activate()
+        if(myOS=="windows"):
+            ahk.show_info_traytip("started", "all files loaded successfully", slient=False, blocking=True)
+            win.show()
+            win.restore()
+            win.maximize()
+            win.to_top()
+            win.maximize()
+            win.to_top()
+            win.activate()
+            
         while True:
             print("Loop start")
             if findgame():
