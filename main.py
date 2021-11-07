@@ -111,9 +111,9 @@ def filepp(name, strname):
 
 
 def parslist():
-    filepp(Ui_Ellements, "Ui_Ellements")
-    filepp(buttons, "Buttons")
-    filepp(chekers, "Chekers")
+    filepp(Ui_Ellements, "UI_ellements")
+    filepp(buttons, "buttons")
+    filepp(chekers, "chekers")
     i = 0
     while i < len(hero):
         hero[i] = "heroes/" + hero[i]
