@@ -331,7 +331,7 @@ def nextlvl():
         print("back nextlevel1")
         return
     tm = int(windowMP()[3] / 3.1)
-    partscreen(2560, tm, tm, 0)
+    partscreen(setings[0].split('x')[0], tm, tm, 0)
     x = windowMP()[2] / 3.7
     y = windowMP()[3] / 2.2
     temp = speed
@@ -607,7 +607,7 @@ def battle():
             herobattlefin.clear()
             tmp = int(windowMP()[3] / 2)
             tmp = int(windowMP()[3] / 2)
-            partscreen(2560, tmp, 0, 0)
+            partscreen(setings[0].split('x')[0], tmp, 0, 0)
             temp = speed
             sens = 0.8
             # поиск врага
@@ -623,7 +623,7 @@ def battle():
             ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, speed=3)
             ahk.click()
             time.sleep(1)
-            partscreen(2560, tmp, tmp, 0)
+            partscreen(setings[0].split('x')[0], tmp, tmp, 0)
             print("enter serch Red")
             battlefind(Ui_Ellements[9], 'Red')  # find all yr Red
             if len(herobattlefin) != 3:
