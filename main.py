@@ -92,6 +92,10 @@ def windowMP() :
         retour=None
     return retour
 
+# define function to use mouse on Windows & Linux
+def mouse_random_movement():
+    return random.choices([pyautogui.easeInQuad, pyautogui.easeOutQuad, pyautogui.easeInOutQuad, pyautogui.easeInBounce, pyautogui.easeInElastic])[0]
+
 def configread():
     global Resolution
     global speed
@@ -247,8 +251,8 @@ def battlefind(file, coll):
 def move(index):
     if index != (0, 0):
         time.sleep(0.1)
-        ahk.mouse_drag(index[0] + 40, index[1] - 30, speed=3, relative=False)
-        ahk.click()
+        pyautogui.dragTo(index[0] + 40, index[1] - 30, 1, mouse_random_movement())
+        pyautogui.click()
         return False
     else:
         return True
@@ -276,8 +280,8 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
         if count > 5:
             x = int(windowMP()[2] / 2)
             y = int(windowMP()[2] / 6)
-            ahk.mouse_drag(x, y, speed=3, relative=False)
-            ahk.click()
+            pyautogui.dragTo(x, y, 1, mouse_random_movement())
+            pyautogui.click()
             break
 
 
@@ -288,24 +292,24 @@ def collect():
             print("back collect")
             break
         if not find_ellement(buttons[22], 14):
-            ahk.mouse_move(windowMP()[2] / 2.5, windowMP()[3] / 3.5, speed=3)
-            ahk.click()
-            ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] / 3.5, speed=3)
-            ahk.click()
-            ahk.mouse_move(windowMP()[2] / 1.5, windowMP()[3] / 3.5, speed=3)
-            ahk.click()
-            ahk.mouse_move(windowMP()[2] / 2.7, windowMP()[3] / 1.4, speed=3)
-            ahk.click()
-            ahk.mouse_move(windowMP()[2] / 1.7, windowMP()[3] / 1.3, speed=3)
-            ahk.click()
-            ahk.mouse_move(windowMP()[2] / 1.6, windowMP()[3] / 1.3, speed=3)
-            ahk.click()
-            ahk.mouse_move(windowMP()[2] / 1.8, windowMP()[3] / 1.3, speed=3)
-            ahk.click()
-            ahk.mouse_move(windowMP()[2] / 1.9, windowMP()[3] / 1.3, speed=3)
-            ahk.click()
-            ahk.mouse_move(windowMP()[2] / 1.4, windowMP()[3] / 1.3, speed=3)
-            ahk.click()
+            pyautogui.moveTo(windowMP()[2] / 2.5, windowMP()[3] / 3.5, 1, mouse_random_movement())
+            pyautogui.click()
+            pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] / 3.5, 1, mouse_random_movement())
+            pyautogui.click()
+            pyautogui.moveTo(windowMP()[2] / 1.5, windowMP()[3] / 3.5, 1, mouse_random_movement())
+            pyautogui.click()
+            pyautogui.moveTo(windowMP()[2] / 2.7, windowMP()[3] / 1.4, 1, mouse_random_movement())
+            pyautogui.click()
+            pyautogui.moveTo(windowMP()[2] / 1.7, windowMP()[3] / 1.3, 1, mouse_random_movement())
+            pyautogui.click()
+            pyautogui.moveTo(windowMP()[2] / 1.6, windowMP()[3] / 1.3, 1, mouse_random_movement())
+            pyautogui.click()
+            pyautogui.moveTo(windowMP()[2] / 1.8, windowMP()[3] / 1.3, 1, mouse_random_movement())
+            pyautogui.click()
+            pyautogui.moveTo(windowMP()[2] / 1.9, windowMP()[3] / 1.3, 1, mouse_random_movement())
+            pyautogui.click()
+            pyautogui.moveTo(windowMP()[2] / 1.4, windowMP()[3] / 1.3, 1, mouse_random_movement())
+            pyautogui.click()
             time.sleep(1)
         else:
             while True:
@@ -331,36 +335,37 @@ def nextlvl():
         print("back nextlevel1")
         return
     tm = int(windowMP()[3] / 3.1)
-    partscreen(setings[0].split('x')[0], tm, tm, 0)
+    partscreen(int(setings[0].split('x')[0]), tm, tm, 0)
     x = windowMP()[2] / 3.7
     y = windowMP()[3] / 2.2
     temp = speed
     speed = 0
     sens = 0.7
     for n in range(8):
-        ahk.mouse_position = (x, y)
-        ahk.click()
+        pyautogui.moveTo(x, y, 0)
+        #ahk.mouse_position = (x, y)
+        pyautogui.click()
         x += windowMP()[2] / 25
     speed = temp
     sens = 0.65
     for i in range(4):
         x, y = find_ellement(Ui_Ellements[13 + i], 12)
         if x != 0:
-            ahk.mouse_move(x, y + windowMP()[3] / 2.5, speed=3)
-            ahk.click()
+            pyautogui.moveTo(x, y + windowMP()[3] / 2.5, 1, mouse_random_movement())
+            pyautogui.click()
             break
     sens = 0.7
     if find_ellement(buttons[21], 14):
         time.sleep(1)
-        ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, speed=3)
-        ahk.click()
+        pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, 1, mouse_random_movement())
+        pyautogui.click()
         nextlvl()
         print("back nextlevel2")
         return
     find_ellement(buttons[7], 2)
     if find_ellement(buttons[25], 14):
         time.sleep(0.5)
-        ahk.click()
+        pyautogui.click()
         nextlvl()
         print("call1")
         return
@@ -368,21 +373,21 @@ def nextlvl():
         temp = random.randint(0, 2)
         if temp == 0:
             x = windowMP()[2] / 2.3
-            ahk.mouse_move(x, y, speed=3)
+            pyautogui.moveTo(x, y, 1, mouse_random_movement())
         if temp == 1:
             x = windowMP()[2] / 1.7
-            ahk.mouse_move(x, y, speed=3)
+            pyautogui.moveTo(x, y, 1, mouse_random_movement())
         if temp == 2:
             x = windowMP()[2] / 1.4
-            ahk.mouse_move(x, y, speed=3)
-        ahk.click()
+            pyautogui.moveTo(x, y, 1, mouse_random_movement())
+        pyautogui.click()
         find_ellement(buttons[18], 9)
         time.sleep(1)
         find_ellement(buttons[7], 2)
     while True:
         if find_ellement(Ui_Ellements[24], 14):
             time.sleep(0.5)
-            ahk.click()
+            pyautogui.click()
 
             nextlvl()
             print("back nextlevel3")
@@ -392,8 +397,8 @@ def nextlvl():
             print("back nextlevel4")
             break
         else:
-            ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, speed=3)
-            ahk.click()
+            pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, 1, mouse_random_movement())
+            pyautogui.click()
             find_ellement(buttons[7], 14)
         if road == True:
             print("back nextlevel5")
@@ -405,14 +410,14 @@ def Tres():
     temp = random.randint(0, 2)
     if temp == 0:
         x = windowMP()[2] / 2.3
-        ahk.mouse_move(x, y, speed=3)
+        pyautogui.moveTo(x, y, 1, mouse_random_movement())
     if temp == 1:
         x = windowMP()[2] / 1.7
-        ahk.mouse_move(x, y, speed=3)
+        pyautogui.moveTo(x, y, 1, mouse_random_movement())
     if temp == 2:
         x = windowMP()[2] / 1.4
-        ahk.mouse_move(x, y, speed=3)
-    ahk.click()
+        pyautogui.moveTo(x, y, 1, mouse_random_movement())
+    pyautogui.click()
     while True:
         if find_ellement(buttons[17], 14):
             time.sleep(1)
@@ -462,8 +467,8 @@ def abilicks(index):
             if raund == 1:
                 if find_ellement(obj + '/abilics/1.png', 14):
                     return True
-            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
-            ahk.click()
+            pyautogui.moveTo(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), 1, mouse_random_movement())
+            pyautogui.click()
             return True
 
         elif obj == 'heroes/3.Milhous Manashtorm.Blue':
@@ -476,8 +481,8 @@ def abilicks(index):
             if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
-            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
-            ahk.click()
+            pyautogui.moveTo(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), 1, mouse_random_movement())
+            pyautogui.click()
             return True
 
         elif obj == 'heroes/2.Tirande.Green':
@@ -487,8 +492,8 @@ def abilicks(index):
             if raund % 2 == 0:
                 if find_ellement(obj + '/abilics/3.png', 14):
                     return False
-            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
-            ahk.click()
+            pyautogui.moveTo(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), 1, mouse_random_movement())
+            pyautogui.click()
             return True
         elif obj == 'heroes/38':
             if raund == 1:
@@ -500,8 +505,8 @@ def abilicks(index):
             if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
-            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
-            ahk.click()
+            pyautogui.moveTo(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), 1, mouse_random_movement())
+            pyautogui.click()
             return True
         elif obj == 'heroes/40':
             if raund == 1:
@@ -513,8 +518,8 @@ def abilicks(index):
             if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
-            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
-            ahk.click()
+            pyautogui.moveTo(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), 1, mouse_random_movement())
+            pyautogui.click()
             return True
         elif obj == 'heroes/42':
             if raund == 1:
@@ -526,8 +531,8 @@ def abilicks(index):
             if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
-    ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
-    ahk.click()
+    pyautogui.moveTo(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), 1, mouse_random_movement())
+    pyautogui.click()
     return True
 
 
@@ -537,8 +542,8 @@ def atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol):
     print("Attack function")
     if i[0] == 'Red':
         print("open Red")
-        ahk.mouse_move(x, y, speed=3)
-        ahk.click()
+        pyautogui.moveTo(x, y, 1, mouse_random_movement())
+        pyautogui.click()
         time.sleep(0.2)
         if abilicks('Red'):
             if move(enemygreen):
@@ -547,8 +552,8 @@ def atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol):
                         rand(enemyred, enemygreen, enemyblue, enemynoclass)
     if i[0] == 'Green':
         print("open Green")
-        ahk.mouse_move(x, y, speed=3)
-        ahk.click()
+        pyautogui.moveTo(x, y, 1, mouse_random_movement())
+        pyautogui.click()
         time.sleep(0.2)
         if abilicks('Green'):
             if move(enemyblue):
@@ -557,8 +562,8 @@ def atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol):
                         rand(enemyred, enemygreen, enemyblue, enemynoclass)
     if i[0] == 'Blue':
         print("open blue")
-        ahk.mouse_move(x, y, speed=3)
-        ahk.click()
+        pyautogui.moveTo(x, y, 1, mouse_random_movement())
+        pyautogui.click()
         time.sleep(0.2)
         if abilicks('Blue'):
             if move(enemyred):
@@ -579,21 +584,21 @@ def battle():
     while True:
         if road == True:
             break
-        ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.6, speed=3)
+        pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.6, 1, mouse_random_movement())
         speed = 0
         sens = 0.85
         find_ellement(buttons[20], 14)
         if find_ellement(chekers[13], 1):
-            ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.6, speed=3)
+            pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.6, 1, mouse_random_movement())
             while True:
                 if not find_ellement(Ui_Ellements[18], 1):
-                    ahk.click()
+                    pyautogui.click()
                     time.sleep(0.5)
                 else:
                     Tres()
                     break
                 if not find_ellement(Ui_Ellements[29], 1):
-                    ahk.click()
+                    pyautogui.click()
                     time.sleep(0.5)
                 else:
                     Tres()
@@ -607,7 +612,7 @@ def battle():
             herobattlefin.clear()
             tmp = int(windowMP()[3] / 2)
             tmp = int(windowMP()[3] / 2)
-            partscreen(setings[0].split('x')[0], tmp, 0, 0)
+            partscreen(int(setings[0].split('x')[0]), tmp, 0, 0)
             temp = speed
             sens = 0.8
             # поиск врага
@@ -620,10 +625,10 @@ def battle():
             print("blue: ", enemyblue)
             print("noclass: ", enemynoclass)
             mol = find_ellement(Ui_Ellements[11], 12)
-            ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, speed=3)
-            ahk.click()
+            pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, 1, mouse_random_movement())
+            pyautogui.click()
             time.sleep(1)
-            partscreen(setings[0].split('x')[0], tmp, tmp, 0)
+            partscreen(int(setings[0].split('x')[0]), tmp, tmp, 0)
             print("enter serch Red")
             battlefind(Ui_Ellements[9], 'Red')  # find all yr Red
             if len(herobattlefin) != 3:
@@ -635,8 +640,8 @@ def battle():
             print("cords of my heroes ")
             print(herobattlefin)
             for i in herobattlefin:
-                ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, speed=3)
-                ahk.click()
+                pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, 1, mouse_random_movement())
+                pyautogui.click()
                 print("print index", i)
                 atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol)
                 time.sleep(0.1)
@@ -647,8 +652,11 @@ def battle():
                 if not find_ellement(buttons[14], 2):
                     break
                 if i > 10:
-                    ahk.right_click()
-                    ahk.show_warning_traytip("Battle", "Battle error,please write what happend on github issue")
+                    pyautogui.rightClick()
+                    if(myOS=='windows'):
+                        ahk.show_warning_traytip("Battle", "Battle error,please write what happend on github issue")
+                    else :
+                        print("Battle error,please write what happend on github issue")
                     find_ellement(buttons[15], 2)
                     break
                 i += 1
@@ -677,13 +685,14 @@ def seth():
         while not find_ellement(buttons[14], 1):
             print('вход')
             sens = 0.75
-            ahk.mouse_position = (x, y)
+            pyautogui.moveTo(x, y, 0)
+            #ahk.mouse_position = (x, y)
             for n in range(3):
                 if i >= 7:
-                    ahk.mouse_drag(x, y - 600, speed=3, relative=False)
+                    pyautogui.dragTo(x, y - 600, 1, mouse_random_movement())
                 if find_ellement(hero[n] + '/set.png', 6):
                     time.sleep(0.2)
-                    ahk.mouse_drag(x, y - 600, speed=3, relative=False)
+                    pyautogui.dragTo(x, y - 600, 1, mouse_random_movement())
                 x += windowMP()[2] / 57
             if x > windowMP()[2] / 1.5:
                 x = windowMP()[2] / 2.85
@@ -691,7 +700,7 @@ def seth():
         print('выход')
         speed = temp
         sens = 0.7
-        ahk.mouse_move(200, 200, speed=3)
+        pyautogui.moveTo(200, 200, 1, mouse_random_movement())
         time.sleep(1)
     find_ellement(buttons[14], 9)
     time.sleep(1)
@@ -704,16 +713,16 @@ def levelchoice():
     temp = sens
     sens = 0.65
     time.sleep(0.5)
-    ahk.mouse_move(windowMP()[2] / 1.5, windowMP()[3] / 2, speed=3)
+    pyautogui.moveTo(windowMP()[2] / 1.5, windowMP()[3] / 2, 1, mouse_random_movement())
     for i in range(70):
-        ahk.wheel_up()
+        pyautogui.scroll(1)
     if setings[2] == "Felwood":
         find_ellement(Ui_Ellements[26], 14)
     if setings[2] == "Winterspring":
         find_ellement(Ui_Ellements[25], 14)
     if setings[2] == "The Barrens":
         find_ellement(Ui_Ellements[22], 14)
-    ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] / 2, speed=3)
+    pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] / 2, 1, mouse_random_movement())
     time.sleep(0.5)
     if setings[3] == "Normal":
         find_ellement(Ui_Ellements[27], 14)
@@ -732,7 +741,7 @@ def battlego():
     #Find PVE adventure payed and free
     find_ellement(Ui_Ellements[0], 14) or find_ellement(Ui_Ellements[32],14)
     while True:
-        ahk.mouse_move(windowMP()[2] / 1.5, windowMP()[3] / 2)
+        pyautogui.moveTo(windowMP()[2] / 1.5, windowMP()[3] / 2)
         levelchoice()
         if find_ellement(chekers[15], 14):
             time.sleep(1)
@@ -864,12 +873,13 @@ def group_create():
         x = int(windowMP()[2] / 1.3)
         y = int(windowMP()[3] / 9)
         # while not find_ellement(chekers[14], 14):
-        ahk.mouse_move(x, y, speed=3)
+        pyautogui.moveTo(x, y, 1, mouse_random_movement())
         time.sleep(0.5)
-        ahk.click()
+        pyautogui.click()
         temp = speed
         speed = 0
-        ahk.send_input('Botwork', 0)
+        #ahk.send_input('Botwork', 0)
+        pyautogui.write('Botwork', interval=0.25)
         find_ellement(Ui_Ellements[10], 0)
         time.sleep(1)
         fx=0
@@ -909,8 +919,8 @@ def group_create():
         for i in range(herocust + autoadd):
             temp = sens
             sens = 0.65
-            ahk.mouse_move(x, y, speed=3)  # Moves the mouse instantly to absolute screen position
-            ahk.click()
+            pyautogui.moveTo(x, y, 1, mouse_random_movement())  # Moves the mouse instantly to absolute screen position
+            pyautogui.click()
             if i <= herocust - 1:
                 bool_check = False
                 time.sleep(0.2)
@@ -922,14 +932,14 @@ def group_create():
                 print("Temphero is ",temphero)
                 if bool_check is False:
                     sens = 0.85
-                    ahk.mouse_drag(x - 600, y, speed=5, relative=False)
+                    pyautogui.dragTo(x - 600, y, 0.5, mouse_random_movement())
                 sens = temp
             if i > autoadd - 1:
                 temp = sens
                 sens = 0.85
                 time.sleep(0.5)
                 if find_ellement(chekers[0], 1) or find_ellement(chekers[19], 1) or find_ellement(chekers[20], 1):
-                    ahk.mouse_drag(x - 600, y, speed=5, relative=False)
+                    pyautogui.dragTo(x - 600, y, 0.5, mouse_random_movement())
                     add += 1
                 else:
                     y = y + int(windowMP()[3] / 17.2)
@@ -1044,21 +1054,21 @@ def find_ellement(file, index):
             if index == 7:
                 xm += left
                 ym += top
-            ahk.mouse_move(xm, ym, speed=2)
+            pyautogui.moveTo(xm, ym, 0.5, mouse_random_movement())
             time.sleep(0.5)
             if index==14:
                 y=y-windowMP()[3]/1.9
-            ahk.mouse_drag(x, y, speed=5, relative=False)
+            pyautogui.dragTo(x, y, 0.5, mouse_random_movement())
             return True
         if file == chekers[5]:
-            ahk.mouse_move(x, y + 70, speed=3)
-            ahk.click()
+            pyautogui.moveTo(x, y + 70, 1, mouse_random_movement())
+            pyautogui.click()
             return True
         if file == buttons[5]:
-            ahk.mouse_move(x, y, speed=5)
+            pyautogui.moveTo(x, y, 2, mouse_random_movement())
             return True
         if file == chekers[3]:
-            ahk.mouse_move(x, y, speed=5)
+            pyautogui.moveTo(x, y, 2, mouse_random_movement())
         if index == 1:
             return True
         if index == 7:
@@ -1067,13 +1077,13 @@ def find_ellement(file, index):
             return True
         p = random.randint(-2, 2)
         s = random.randint(-2, 2)
-        ahk.mouse_move(x + p, y + s, speed=5)  # Moves the mouse instantly to absolute screen position
-        ahk.click()  # Click the primary mouse button
+        pyautogui.moveTo(x + p, y + s, 2, mouse_random_movement())  # Moves the mouse instantly to absolute screen position
+        pyautogui.click()  # Click the primary mouse button
         if file == buttons[7]:
             return True
         if file == Ui_Ellements[3]:
             time.sleep(0.5)
-            ahk.click()
+            pyautogui.click()
             group_create()
         if index == 14:
             return True
