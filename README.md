@@ -138,17 +138,26 @@ In plans
 4. It is possible to expand the functionality originally conceived.
 
 <h1 align="center">Installation</h1>
+<h2 align="center">Windows</h1>
 <ul>
-  <li>download the project</li>
+  <li>Download the project</li>
+  <li>Open Settings.ini and set your settings</li>
   <li>Run HSbotRunner.bat</li>
 </ul>
 
 ![image](https://user-images.githubusercontent.com/68296704/138607261-d743018d-4c50-4482-a4e7-81091cb0f963.png)
 
 <ul>
-  <li>then open Settings.ini and set yr settings</li>
   <li>Start the game</li>
 </ul>
+
+<h2 align="center">Linux</h1>
+<ul>
+  <li>Download the project</li>
+  <li>Open Settings.ini and set your settings</li>
+  <li>Install gir1.2-wnck-3.0 (sudo apt install gir1.2-wnck-3.0)</li>
+  <li>Run HSbotRunner.sh</li>
+  <li>Start the game</li>
 
 [![Watch the video](https://user-images.githubusercontent.com/68296704/138687982-0f6d971d-783d-4f35-a3a5-4f5d5a3e59af.png)](https://www.youtube.com/watch?v=nOZXCkrQ5fk)
 
