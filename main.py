@@ -12,6 +12,7 @@ from tkinter.ttk import *
 from PIL import Image
 import os
 import sys
+import pyautogui
 
 ## try to detect the OS (Windows, Linux, Mac, ...)
 ## to load specific libs
