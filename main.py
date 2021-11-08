@@ -82,6 +82,15 @@ heroTEMP = []
 # img list
 picparser = ['/1.png', '/2.png', '/3.png', '/4.png']
 
+# window multi-platorm (Windows & Linux support)
+def windowMP() :
+    if(myOS=='windows'):
+        retour=win.rect
+    elif(myOS=='linux'):
+        retour=win.get_client_window_geometry()
+    else:
+        retour=None
+    return retour
 
 def configread():
     global Resolution
@@ -206,7 +215,7 @@ def battlefind(file, coll):
         j = 0
         for pt in zip(*loc[::-1]):
             x = int(((pt[0] * 2 + w) / 2) + 60)
-            y = int((((pt[1] * 2 + h) / 2) + (win.rect[3] / 2)))
+            y = int((((pt[1] * 2 + h) / 2) + (windowMP()[3] / 2)))
 
             herobattle.append([coll, x, y])
         print("Unsort Data of our heroes", herobattle)
@@ -265,8 +274,8 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
             else:
                 count += 1
         if count > 5:
-            x = int(win.rect[2] / 2)
-            y = int(win.rect[2] / 6)
+            x = int(windowMP()[2] / 2)
+            y = int(windowMP()[2] / 6)
             ahk.mouse_drag(x, y, speed=3, relative=False)
             ahk.click()
             break
@@ -279,23 +288,23 @@ def collect():
             print("back collect")
             break
         if not find_ellement(buttons[22], 14):
-            ahk.mouse_move(win.rect[2] / 2.5, win.rect[3] / 3.5, speed=3)
+            ahk.mouse_move(windowMP()[2] / 2.5, windowMP()[3] / 3.5, speed=3)
             ahk.click()
-            ahk.mouse_move(win.rect[2] / 2, win.rect[3] / 3.5, speed=3)
+            ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] / 3.5, speed=3)
             ahk.click()
-            ahk.mouse_move(win.rect[2] / 1.5, win.rect[3] / 3.5, speed=3)
+            ahk.mouse_move(windowMP()[2] / 1.5, windowMP()[3] / 3.5, speed=3)
             ahk.click()
-            ahk.mouse_move(win.rect[2] / 2.7, win.rect[3] / 1.4, speed=3)
+            ahk.mouse_move(windowMP()[2] / 2.7, windowMP()[3] / 1.4, speed=3)
             ahk.click()
-            ahk.mouse_move(win.rect[2] / 1.7, win.rect[3] / 1.3, speed=3)
+            ahk.mouse_move(windowMP()[2] / 1.7, windowMP()[3] / 1.3, speed=3)
             ahk.click()
-            ahk.mouse_move(win.rect[2] / 1.6, win.rect[3] / 1.3, speed=3)
+            ahk.mouse_move(windowMP()[2] / 1.6, windowMP()[3] / 1.3, speed=3)
             ahk.click()
-            ahk.mouse_move(win.rect[2] / 1.8, win.rect[3] / 1.3, speed=3)
+            ahk.mouse_move(windowMP()[2] / 1.8, windowMP()[3] / 1.3, speed=3)
             ahk.click()
-            ahk.mouse_move(win.rect[2] / 1.9, win.rect[3] / 1.3, speed=3)
+            ahk.mouse_move(windowMP()[2] / 1.9, windowMP()[3] / 1.3, speed=3)
             ahk.click()
-            ahk.mouse_move(win.rect[2] / 1.4, win.rect[3] / 1.3, speed=3)
+            ahk.mouse_move(windowMP()[2] / 1.4, windowMP()[3] / 1.3, speed=3)
             ahk.click()
             time.sleep(1)
         else:
@@ -321,29 +330,29 @@ def nextlvl():
         seth()
         print("back nextlevel1")
         return
-    tm = int(win.rect[3] / 3.1)
+    tm = int(windowMP()[3] / 3.1)
     partscreen(2560, tm, tm, 0)
-    x = win.rect[2] / 3.7
-    y = win.rect[3] / 2.2
+    x = windowMP()[2] / 3.7
+    y = windowMP()[3] / 2.2
     temp = speed
     speed = 0
     sens = 0.7
     for n in range(8):
         ahk.mouse_position = (x, y)
         ahk.click()
-        x += win.rect[2] / 25
+        x += windowMP()[2] / 25
     speed = temp
     sens = 0.65
     for i in range(4):
         x, y = find_ellement(Ui_Ellements[13 + i], 12)
         if x != 0:
-            ahk.mouse_move(x, y + win.rect[3] / 2.5, speed=3)
+            ahk.mouse_move(x, y + windowMP()[3] / 2.5, speed=3)
             ahk.click()
             break
     sens = 0.7
     if find_ellement(buttons[21], 14):
         time.sleep(1)
-        ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
+        ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, speed=3)
         ahk.click()
         nextlvl()
         print("back nextlevel2")
@@ -358,13 +367,13 @@ def nextlvl():
     if find_ellement(Ui_Ellements[19], 1):
         temp = random.randint(0, 2)
         if temp == 0:
-            x = win.rect[2] / 2.3
+            x = windowMP()[2] / 2.3
             ahk.mouse_move(x, y, speed=3)
         if temp == 1:
-            x = win.rect[2] / 1.7
+            x = windowMP()[2] / 1.7
             ahk.mouse_move(x, y, speed=3)
         if temp == 2:
-            x = win.rect[2] / 1.4
+            x = windowMP()[2] / 1.4
             ahk.mouse_move(x, y, speed=3)
         ahk.click()
         find_ellement(buttons[18], 9)
@@ -383,7 +392,7 @@ def nextlvl():
             print("back nextlevel4")
             break
         else:
-            ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
+            ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, speed=3)
             ahk.click()
             find_ellement(buttons[7], 14)
         if road == True:
@@ -392,16 +401,16 @@ def nextlvl():
 
 
 def Tres():
-    y = win.rect[3] / 2
+    y = windowMP()[3] / 2
     temp = random.randint(0, 2)
     if temp == 0:
-        x = win.rect[2] / 2.3
+        x = windowMP()[2] / 2.3
         ahk.mouse_move(x, y, speed=3)
     if temp == 1:
-        x = win.rect[2] / 1.7
+        x = windowMP()[2] / 1.7
         ahk.mouse_move(x, y, speed=3)
     if temp == 2:
-        x = win.rect[2] / 1.4
+        x = windowMP()[2] / 1.4
         ahk.mouse_move(x, y, speed=3)
     ahk.click()
     while True:
@@ -453,7 +462,7 @@ def abilicks(index):
             if raund == 1:
                 if find_ellement(obj + '/abilics/1.png', 14):
                     return True
-            ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
             ahk.click()
             return True
 
@@ -467,7 +476,7 @@ def abilicks(index):
             if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
-            ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
             ahk.click()
             return True
 
@@ -478,7 +487,7 @@ def abilicks(index):
             if raund % 2 == 0:
                 if find_ellement(obj + '/abilics/3.png', 14):
                     return False
-            ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
             ahk.click()
             return True
         elif obj == 'heroes/38':
@@ -491,7 +500,7 @@ def abilicks(index):
             if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
-            ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
             ahk.click()
             return True
         elif obj == 'heroes/40':
@@ -504,7 +513,7 @@ def abilicks(index):
             if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
-            ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+            ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
             ahk.click()
             return True
         elif obj == 'heroes/42':
@@ -517,7 +526,7 @@ def abilicks(index):
             if raund > 1:
                 if find_ellement(obj + '/abilics/2.png', 14):
                     return True
-    ahk.mouse_move(int(win.rect[2] / 2.5), int(win.rect[2] / 4), speed=3)
+    ahk.mouse_move(int(windowMP()[2] / 2.5), int(windowMP()[2] / 4), speed=3)
     ahk.click()
     return True
 
@@ -570,12 +579,12 @@ def battle():
     while True:
         if road == True:
             break
-        ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.6, speed=3)
+        ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.6, speed=3)
         speed = 0
         sens = 0.85
         find_ellement(buttons[20], 14)
         if find_ellement(chekers[13], 1):
-            ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.6, speed=3)
+            ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.6, speed=3)
             while True:
                 if not find_ellement(Ui_Ellements[18], 1):
                     ahk.click()
@@ -594,10 +603,10 @@ def battle():
                     break
 
         if find_ellement(buttons[15], 1) or find_ellement(buttons[16], 1):  # finds startbattle.png
-            print(win.rect)
+            print(windowMP())
             herobattlefin.clear()
-            tmp = int(win.rect[3] / 2)
-            tmp = int(win.rect[3] / 2)
+            tmp = int(windowMP()[3] / 2)
+            tmp = int(windowMP()[3] / 2)
             partscreen(2560, tmp, 0, 0)
             temp = speed
             sens = 0.8
@@ -611,7 +620,7 @@ def battle():
             print("blue: ", enemyblue)
             print("noclass: ", enemynoclass)
             mol = find_ellement(Ui_Ellements[11], 12)
-            ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
+            ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, speed=3)
             ahk.click()
             time.sleep(1)
             partscreen(2560, tmp, tmp, 0)
@@ -626,7 +635,7 @@ def battle():
             print("cords of my heroes ")
             print(herobattlefin)
             for i in herobattlefin:
-                ahk.mouse_move(win.rect[2] / 2, win.rect[3] - win.rect[3] / 4.8, speed=3)
+                ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, speed=3)
                 ahk.click()
                 print("print index", i)
                 atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol)
@@ -656,9 +665,9 @@ def seth():
     while True:
         if find_ellement(buttons[5], 1):
             break
-    print(win.rect)
-    x = win.rect[2] / 2.85
-    y = win.rect[3] - win.rect[3] / 10
+    print(windowMP())
+    x = windowMP()[2] / 2.85
+    y = windowMP()[3] - windowMP()[3] / 10
     i = 0
     temp = speed
     speed = 0
@@ -675,9 +684,9 @@ def seth():
                 if find_ellement(hero[n] + '/set.png', 6):
                     time.sleep(0.2)
                     ahk.mouse_drag(x, y - 600, speed=3, relative=False)
-                x += win.rect[2] / 57
-            if x > win.rect[2] / 1.5:
-                x = win.rect[2] / 2.85
+                x += windowMP()[2] / 57
+            if x > windowMP()[2] / 1.5:
+                x = windowMP()[2] / 2.85
             i += 1
         print('выход')
         speed = temp
@@ -695,7 +704,7 @@ def levelchoice():
     temp = sens
     sens = 0.65
     time.sleep(0.5)
-    ahk.mouse_move(win.rect[2] / 1.5, win.rect[3] / 2, speed=3)
+    ahk.mouse_move(windowMP()[2] / 1.5, windowMP()[3] / 2, speed=3)
     for i in range(70):
         ahk.wheel_up()
     if setings[2] == "Felwood":
@@ -704,7 +713,7 @@ def levelchoice():
         find_ellement(Ui_Ellements[25], 14)
     if setings[2] == "The Barrens":
         find_ellement(Ui_Ellements[22], 14)
-    ahk.mouse_move(win.rect[2] / 2, win.rect[3] / 2, speed=3)
+    ahk.mouse_move(windowMP()[2] / 2, windowMP()[3] / 2, speed=3)
     time.sleep(0.5)
     if setings[3] == "Normal":
         find_ellement(Ui_Ellements[27], 14)
@@ -723,7 +732,7 @@ def battlego():
     #Find PVE adventure payed and free
     find_ellement(Ui_Ellements[0], 14) or find_ellement(Ui_Ellements[32],14)
     while True:
-        ahk.mouse_move(win.rect[2] / 1.5, win.rect[3] / 2)
+        ahk.mouse_move(windowMP()[2] / 1.5, windowMP()[3] / 2)
         levelchoice()
         if find_ellement(chekers[15], 14):
             time.sleep(1)
@@ -851,9 +860,9 @@ def group_create():
     if find_ellement(chekers[4], 3) == 6:
         find_ellement(buttons[2], 0)
         time.sleep(1.5)
-        print(win.rect)
-        x = int(win.rect[2] / 1.3)
-        y = int(win.rect[3] / 9)
+        print(windowMP())
+        x = int(windowMP()[2] / 1.3)
+        y = int(windowMP()[3] / 9)
         # while not find_ellement(chekers[14], 14):
         ahk.mouse_move(x, y, speed=3)
         time.sleep(0.5)
@@ -886,8 +895,8 @@ def group_create():
     else:
         time.sleep(1)
         x, y = find_ellement(chekers[17], 15)
-        x = x - int(win.rect[2] / 9)
-        y = y + int(win.rect[3] / 18.5)
+        x = x - int(windowMP()[2] / 9)
+        y = y + int(windowMP()[3] / 18.5)
         add = 0
         herocust = 0
         autoadd = 0
@@ -909,7 +918,7 @@ def group_create():
                     if find_ellement(hero[i] + "/group.png", 1):
                         bool_check = True
                         temphero.append(i)
-                        y = y + int(win.rect[3] / 19)
+                        y = y + int(windowMP()[3] / 19)
                 print("Temphero is ",temphero)
                 if bool_check is False:
                     sens = 0.85
@@ -923,7 +932,7 @@ def group_create():
                     ahk.mouse_drag(x - 600, y, speed=5, relative=False)
                     add += 1
                 else:
-                    y = y + int(win.rect[3] / 17.2)
+                    y = y + int(windowMP()[3] / 17.2)
         sens = 0.7
         find_ellement(buttons[8], 14)
         time.sleep(0.5)
@@ -961,14 +970,14 @@ def find_merc(n):
     speed = 0
     while i < n:
         print("enter iteration loop")
-        x = int(win.rect[2] / 7.5)
-        y = int(win.rect[3] / 3.5)
-        top = int(win.rect[3] / 5.76)
-        left = int(win.rect[2] / 5.2)
+        x = int(windowMP()[2] / 7.5)
+        y = int(windowMP()[3] / 3.5)
+        top = int(windowMP()[3] / 5.76)
+        left = int(windowMP()[2] / 5.2)
         h = 0
         while h < 2:
             print("enter height loop")
-            left = int(win.rect[2] / 5.2)
+            left = int(windowMP()[2] / 5.2)
             j = 0
             while j < 3:
                 if i >=n:
@@ -985,9 +994,9 @@ def find_merc(n):
                             print("droped the object")
 
                 j += 1
-                left += int(win.rect[2] / 7)
+                left += int(windowMP()[2] / 7)
                 print("go next element on line")
-            top += int(win.rect[3] / 3)
+            top += int(windowMP()[3] / 3)
             print("go next line")
             h += 1
         find_ellement(Ui_Ellements[4], 0)
@@ -1038,7 +1047,7 @@ def find_ellement(file, index):
             ahk.mouse_move(xm, ym, speed=2)
             time.sleep(0.5)
             if index==14:
-                y=y-win.rect[3]/1.9
+                y=y-windowMP()[3]/1.9
             ahk.mouse_drag(x, y, speed=5, relative=False)
             return True
         if file == chekers[5]:
