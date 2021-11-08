@@ -1127,7 +1127,6 @@ def main():
             win.maximize()
             win.to_top()
             win.activate()
-        battlego()
         while True:
             print("Loop start")
             if findgame():
