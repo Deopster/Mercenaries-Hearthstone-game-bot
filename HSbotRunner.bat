@@ -1,2 +1,2 @@
 pip install -r requirements.txt
-main.py
+python main.py
