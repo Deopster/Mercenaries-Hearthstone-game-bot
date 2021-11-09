@@ -94,7 +94,7 @@ def windowMP() :
 
 # define function to use mouse on Windows & Linux
 def mouse_random_movement():
-    return random.choices([pyautogui.easeInQuad, pyautogui.easeOutQuad, pyautogui.easeInOutQuad, pyautogui.easeInBounce, pyautogui.easeInElastic])[0]
+    return random.choices([pyautogui.easeInQuad, pyautogui.easeOutQuad, pyautogui.easeInOutQuad])[0]
 
 def configread():
     global Resolution
