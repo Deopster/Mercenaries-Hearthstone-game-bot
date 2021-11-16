@@ -286,8 +286,13 @@ def rand(enemyred, enemygreen, enemyblue, enemynoclass):
             else:
                 count += 1
         if count > 5:
-            x = int(windowMP()[2] / 2)
-            y = int(windowMP()[2] / 6)
+            # sometimes there is one central enemy but sometimes you have two enemies
+            # in this case, there is no minion in the middle so you have to move the mouse to a position
+            # which can touch one central minion or one on the left
+            x = int(windowMP()[0] + (windowMP()[2] / 2) - (windowMP()[2] / 68))
+            y = int(windowMP()[1] + (windowMP()[3] / 4))
+#            x = int(windowMP()[2] / 2)
+#            y = int(windowMP()[3] / 6)
             pyautogui.dragTo(x, y, 0.6, mouse_random_movement())
             pyautogui.click()
             break
