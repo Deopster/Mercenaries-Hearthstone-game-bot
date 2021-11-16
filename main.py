@@ -82,6 +82,11 @@ heroTEMP = []
 # img list
 picparser = ['/1.png', '/2.png', '/3.png', '/4.png']
 
+debug_mode=False
+def debug(*message):
+    if debug_mode :
+        print("[DEBUG] ", message)
+
 # window multi-platorm (Windows & Linux support)
 def windowMP() :
     if(myOS=='windows'):
@@ -708,51 +713,62 @@ def battle():
 
 
 def seth():
+    debug("[ SETH - START]")
     if road == True:
         print("back set1")
         return
     global speed
     global sens
     while True:
-	# buttons 5: 'num'
+        time.sleep(0.5)
+        # buttons 5: 'num'
+    # buttons 5: 'num'
         if find_ellement(buttons[5], 1):
             break
-    print(windowMP())
-    x = windowMP()[2] / 2.85
-    y = windowMP()[3] - windowMP()[3] / 10
+    debug("windowsMP() : ", windowMP())
+    x = windowMP()[0] + (windowMP()[2] / 2.6)
+    y = windowMP()[1] + (windowMP()[3] * 0.92)
     i = 0
     temp = speed
     speed = 0
     sens = 0.85
     i = 0
-	# setings 5: 'heroSet(ex:True)'
+    # setings 5: 'heroSet(ex:True)'
     if setings[5] == "True":
-	# buttons 14: 'allready'
+    # buttons 14: 'allready'
         while not find_ellement(buttons[14], 1):
-            print('вход')
+            print('Entrance')
             sens = 0.75
             pyautogui.moveTo(x, y, setings[7])
-            #ahk.mouse_position = (x, y)
+            #debug("mouse move to : ", x, y, setings[7])
             for n in range(3):
                 if i >= 7:
-                    pyautogui.dragTo(x, y - 600, 0.6, mouse_random_movement())
+                    pyautogui.moveTo(windowMP()[0] + (windowMP()[2] / 2), windowMP()[1] + (windowMP()[3] * 0.92), setings[7], mouse_random_movement())
+                    pyautogui.dragTo(windowMP()[0] + (windowMP()[2] / 2), (windowMP()[1] + (windowMP()[3] * 0.92)) - windowMP()[3] / 3, 0.6, mouse_random_movement())
+                    break
                 if find_ellement(hero[n] + '/set.png', 6):
                     time.sleep(0.2)
-                    pyautogui.dragTo(x, y - 600, 0.6, mouse_random_movement())
-                x += windowMP()[2] / 57
-            if x > windowMP()[2] / 1.5:
-                x = windowMP()[2] / 2.85
+                    pyautogui.dragTo(x, y - windowMP()[3] / 3, 0.6, mouse_random_movement())
+                    time.sleep(0.5)
+                    break
+            else :
+                x += windowMP()[2] / 22.5
+                if x > windowMP()[2] / 1.5:
+                    x = windowMP()[0] + (windowMP()[2] / 2.85)
             i += 1
-        print('выход')
+        print('Optout')
         speed = temp
         sens = 0.7
-        pyautogui.moveTo(200, 200, setings[7], mouse_random_movement())
+        pyautogui.moveTo(windowMP()[0] + (windowMP()[2]*0.1), windowMP()[1] + (windowMP()[3]*0.1), setings[7], mouse_random_movement())
         time.sleep(1)
-	# buttons 14: 'allready'
+    # buttons 14: 'allready'
     find_ellement(buttons[14], 9)
     time.sleep(1)
     battle()
+    debug("[ SETH - END]")
     return
+
+
 
 
 def levelchoice():
