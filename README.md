@@ -140,9 +140,10 @@ In plans
 <h1 align="center">Installation</h1>
 <h2 align="center">Windows</h1>
 <ul>
+  <li>Download and install AutoHotKey (AHK) : https://www.autohotkey.com/</li>
   <li>Download the project</li>
   <li>Open Settings.ini and set your settings</li>
-  <li>Run HSbotRunner.bat</li>
+  <li>Start Hearthstone</li>
 </ul>
 
 ![image](https://user-images.githubusercontent.com/68296704/138607261-d743018d-4c50-4482-a4e7-81091cb0f963.png)
@@ -153,12 +154,13 @@ In plans
 
 <h2 align="center">Linux</h1>
 <ul>
+  <li>Install gir1.2-wnck-3.0 (sudo apt install gir1.2-wnck-3.0)</li>
   <li>Download the project</li>
   <li>Open Settings.ini and set your settings</li>
-  <li>Install gir1.2-wnck-3.0 (sudo apt install gir1.2-wnck-3.0)</li>
+  <li>Start Hearthstone</li>
   <li>Run HSbotRunner.sh</li>
-  <li>Start the game</li>
 
+<h2 align="center">Demo</h1>
 [![Watch the video](https://user-images.githubusercontent.com/68296704/138687982-0f6d971d-783d-4f35-a3a5-4f5d5a3e59af.png)](https://www.youtube.com/watch?v=nOZXCkrQ5fk)
 
 
