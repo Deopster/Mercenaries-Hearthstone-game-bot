@@ -37,6 +37,8 @@ else:
     exit(1)
 
 
+global screenImg
+global partImg
 global xm
 xm = 0
 global ym
@@ -66,7 +68,7 @@ buttons = ['back', 'continue', 'create', 'del', 'join_button', 'num', 'ok', 'pla
 chekers = ['30lvl', 'empty_check', 'find', 'goto', 'group_find', 'level_check', 'rename', 'shab', 'drop', '301', '302',
            'taken', 'text', 'win', 'ifrename', 'levelstarted', 'nextlvlcheck', 'cords-search', '303', '30lvl1',
            '30lvl2', 'menu', 'party','lose']
-# Settings
+# Settings - 0: MonitorResolution (1920x1080), 1: level (20), 2: location (The Barrens), 3: mode (Heroic), 4: GroupCreate (True), 5: heroSet (True)
 setings = []
 # heroes
 hero = []
@@ -162,20 +164,27 @@ def parslist():
 
 
 def screen():
+    global screenImg
     sct = mss.mss()
-	# setings 0: 'MonitorResolution(ex:1920x1080)'
-    filename = sct.shot(mon=setings[6], output='files/' + setings[0] + '/screen.png')
+    if debug_mode :
+        # setings 0: 'MonitorResolution(ex:1920x1080)'
+        filename = sct.shot(mon=setings[6], output='files/' + setings[0] + '/screen.png')
+    screenImg = np.array(sct.grab(sct.monitors[setings[6]]))
 
 
 def partscreen(x, y, top, left):
+    global partImg
     print("entered screenpart")
     import mss.tools
     with mss.mss() as sct:
         monitor = {"top": top, "left": left, "width": x, "height": y}
         output = "sct-{top}x{left}_{width}x{height}.png".format(**monitor)
         sct_img = sct.grab(monitor)
-	# setings 0: 'MonitorResolution(ex:1920x1080)'
-        mss.tools.to_png(sct_img.rgb, sct_img.size, output='files/' + setings[0] + '/part.png')
+        if debug_mode :
+            # setings 0: 'MonitorResolution(ex:1920x1080)'
+            mss.tools.to_png(sct_img.rgb, sct_img.size, output='files/' + setings[0] + '/part.png')
+        partImg = np.array(sct_img)
+        #partImg = np.array(sct.grab(monitor))
 
 
 def findgame():
@@ -208,16 +217,15 @@ def battlefind(file, coll):
     if road == True:
         print("back battlefind")
         return
+    global partImg
     global sens
     global top
     global left
     herobattle.clear()
-	# setings 0: 'MonitorResolution(ex:1920x1080)'
-    img = cv2.imread('files/' + setings[0] + '/part.png')
-    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
-	# setings 0: 'MonitorResolution(ex:1920x1080)'
-    template = cv2.imread('files/' + setings[0] + '/' + file,
-                          cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
+    img = partImg                                                                                      
+    #img = cv2.imread('files/' + setings[0] + '/part.png')
+    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш                        
+    template = cv2.imread('files/' + setings[0] + '/' + file, cv2.IMREAD_GRAYSCALE) # объект, который преобразуем в серый, и ищем его на gray_img
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)`
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
 
@@ -313,7 +321,11 @@ def collect():
             pyautogui.click()
             pyautogui.moveTo(windowMP()[0] + windowMP()[2] / 1.5, windowMP()[1] + windowMP()[3] / 3.5, setings[7], mouse_random_movement())
             pyautogui.click()
+            pyautogui.moveTo(windowMP()[0] + windowMP()[2] / 1.5, windowMP()[1] + windowMP()[3] / 2.4, setings[7], mouse_random_movement())
+            pyautogui.click()
             pyautogui.moveTo(windowMP()[0] + windowMP()[2] / 2.7, windowMP()[1] + windowMP()[3] / 1.4, setings[7], mouse_random_movement())
+            pyautogui.click()
+            pyautogui.moveTo(windowMP()[0] + windowMP()[2] / 3, windowMP()[1] + windowMP()[3] / 2.7, setings[7], mouse_random_movement())
             pyautogui.click()
             pyautogui.moveTo(windowMP()[0] + windowMP()[2] / 1.7, windowMP()[1] + windowMP()[3] / 1.3, setings[7], mouse_random_movement())
             pyautogui.click()
@@ -386,6 +398,7 @@ def nextlvl():
         nextlvl()
         print("back nextlevel2")
         return
+    time.sleep(1.5)
 	# buttons 7: 'play'
     find_ellement(buttons[7], 2)
 	# buttons 25: 'visit'
@@ -410,7 +423,7 @@ def nextlvl():
         pyautogui.click()
 	# buttons 18: 'take1'
         find_ellement(buttons[18], 9)
-        time.sleep(1)
+        time.sleep(1.5)
 	# buttons 7: 'play'
         find_ellement(buttons[7], 2)
     while True:
@@ -430,6 +443,7 @@ def nextlvl():
         else:
             pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.8, setings[7], mouse_random_movement())
             pyautogui.click()
+            time.sleep(1.5)
 	# buttons 7: 'play'
             find_ellement(buttons[7], 14)
         if road == True:
@@ -611,6 +625,7 @@ def atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol):
 
 
 def battle():
+    global road
     global raund
     global sens
     global zipchek
@@ -650,6 +665,19 @@ def battle():
                 if find_ellement(Ui_Ellements[31], 1):
                     collect()
                     break
+
+        # chekers 23: 'lose'
+        if find_ellement(chekers[23], 1):
+            pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.6, setings[7], mouse_random_movement())
+            while True:
+                # buttons 0: 'back'
+                if not find_ellement(buttons[0], 14) :
+                    pyautogui.click()
+                    time.sleep(0.5)
+                else:
+                    road = True
+                    break
+
 
 	# buttons 15: 'startbattle'
 	# buttons 16: 'startbattle1'
@@ -841,10 +869,11 @@ def battlego():
             print("yeh here stops")
             where()
             break
+        time.sleep(1.5)
 	# buttons 7: 'play'
         if find_ellement(buttons[7], 14):
 	# buttons 7: 'play'
-            find_ellement(buttons[7], 14)
+            #find_ellement(buttons[7], 14)
             seth()
             return
 	# buttons 10: 'sta'
@@ -871,7 +900,7 @@ def battlego():
             find_ellement(buttons[12], 2)
             break
     while True:
-        time.sleep(0.2)
+        time.sleep(1.5)
 	# buttons 7: 'play'
         if find_ellement(buttons[7], 0):
             time.sleep(0.5)
@@ -1162,22 +1191,26 @@ def find_ellement(file, index):
     global sens
     global top
     global left
+    global screenImg
+    global partImg
     time.sleep(speed)
     if index == 12:
 	# setings 0: 'MonitorResolution(ex:1920x1080)'
-        img = cv2.imread('files/' + setings[0] + '/part.png')
+        #img = cv2.imread('files/' + setings[0] + '/part.png')
+        img = partImg 
 	# chekers 8: 'drop'
     elif index == 7 and file != chekers[8]:
 	# setings 0: 'MonitorResolution(ex:1920x1080)'
-        img = cv2.imread('files/' + setings[0] + '/part.png')
+        #img = cv2.imread('files/' + setings[0] + '/part.png')
+        img = partImg 
     else:
         screen()
 	# setings 0: 'MonitorResolution(ex:1920x1080)'
-        img = cv2.imread('files/' + setings[0] + '/screen.png')  # картинка, на которой ищем объект
+        #img = cv2.imread('files/' + setings[0] + '/screen.png')  # картинка, на которой ищем объект
+        img = screenImg # картинка, на которой ищем объект
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # преобразуем её в серуюш
 	# setings 0: 'MonitorResolution(ex:1920x1080)'
-    template = cv2.imread('files/' + setings[0] + '/' + file,
-                          cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
+    template = cv2.imread('files/' + setings[0] + '/' + file, cv2.IMREAD_GRAYSCALE)  # объект, который преобразуем в серый, и ищем его на gray_img
     w, h = template.shape[::-1]  # инвертируем из (y,x) в (x,y)`
     result = cv2.matchTemplate(gray_img, template, cv2.TM_CCOEFF_NORMED)
 
