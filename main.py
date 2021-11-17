@@ -611,6 +611,7 @@ def atack(i, enemyred, enemygreen, enemyblue, enemynoclass, mol):
 
 
 def battle():
+    global road
     global raund
     global sens
     global zipchek
@@ -649,6 +650,18 @@ def battle():
 	# Ui_Ellements 31: 'presents_thing'
                 if find_ellement(Ui_Ellements[31], 1):
                     collect()
+                    break
+
+        # chekers 23: 'lose'
+        if find_ellement(chekers[23], 1):
+            pyautogui.moveTo(windowMP()[2] / 2, windowMP()[3] - windowMP()[3] / 4.6, setings[7], mouse_random_movement())
+            while True:
+                # buttons 0: 'back'
+                if not find_ellement(buttons[0], 14) :
+                    pyautogui.click()
+                    time.sleep(0.5)
+                else:
+                    road = True
                     break
 
 	# buttons 15: 'startbattle'
