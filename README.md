@@ -1,6 +1,6 @@
 # Hearthstone-Mercenaries-game-bot
 ```diff
-- prevention: Bot is not ready and now on the development stage
+- prevention: I stopped the development,check out the branches.
 ```
 <h3 align="center">Version 0.1.2-beta</h3>
 https://github.com/Deopster/Mercenaries-Hearthstone-game-bot/releases/tag/v0.1.2-beta
